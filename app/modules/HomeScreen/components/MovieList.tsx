@@ -1,16 +1,14 @@
 //import liraries
 import {useNavigation} from '@react-navigation/native';
-import React, {Component, useRef} from 'react';
-import {View, Text, FlatList, StyleSheet} from 'react-native';
+import React, {useRef} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  fetchPopular,
-  fetchPopularTV,
-} from '../../../../features/content/popularSlice';
-import MovieCard from '../MovieCard';
+import {fetchPopular} from '../../../features/content/popularSlice';
+import {setFocusDetail} from '../../../features/focus/focusSlice';
+import MovieCard from '../components/MovieCard';
 
 // create a component
-const MyComponent = ({data, isTV = false, type, isPopular}) => {
+const MyComponent = ({data, isTV = false, type, isPopular, isRating}) => {
   const flatListRef = useRef();
 
   const popularMedia = useSelector(state => state?.popular?.currentMedia);
@@ -47,6 +45,8 @@ const MyComponent = ({data, isTV = false, type, isPopular}) => {
         return (
           <MovieCard
             item={item}
+            onLongTap={() => dispatch(setFocusDetail(item))}
+            onLongTapRelease={() => console.log('press out')}
             onTap={() => {
               const mediaType = isTV ? 'tv' : 'movie';
               navigation.navigate('Detail', {type: mediaType, id: item?.id});

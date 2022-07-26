@@ -3,34 +3,47 @@ import {
   ActivityIndicator,
   FlatList,
   RefreshControl,
+  Button,
   ScrollView,
+  Pressable,
   StyleSheet,
   Text,
   View,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {BlurView} from '@react-native-community/blur';
 import {
   fetchPopular,
   changePopularMedia,
   fetchPopularTV,
-} from '../features/content/popularSlice';
+} from '../../features/content/popularSlice';
 import {
   changeTrendingMedia,
   fetchTrending,
   fetchTrendingWeekly,
-} from '../features/content/trendingSlice';
-import MovieCard from './HomeScreen/components/MovieCard';
-import MovieList from './HomeScreen/components/MovieList/MovieList';
-import CustomHeader from './movieDetails/components/Header';
+} from '../../features/content/trendingSlice';
+import MovieList from './components/MovieList';
+import CustomHeader from '../movieDetails/components/Header';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import SectionTitle from './HomeScreen/components/SectionTitle';
-import FilterButton from './HomeScreen/components/FilterButton';
-import {AppDispatch} from '../features/store';
+import SectionTitle from './components/SectionTitle';
+import FilterButton from './components/FilterButton';
+import {AppDispatch} from '../../features/store';
+import Modal from 'react-native-modal';
+import AppConstants from '../../constants/AppConstants';
+import {onPressOut} from '../../features/focus/focusSlice';
+import TapAndHoldModal from './components/tapAndHoldModal/TapAndHoldModal';
+import RatingList from './components/RatingList';
 
 const HomeScreen = ({navigation}) => {
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+
+  const handleModal = () => setIsModalVisible(() => !isModalVisible);
+
   const dispatch = useDispatch<AppDispatch>();
+  const focusMovie = useSelector(state => state?.focus?.data);
+  const isHold = useSelector(state => state?.focus?.isFocus);
   const popularLoading = useSelector(state => state?.popular?.loading);
   const popularData = useSelector(state => state?.popular?.popular);
   const nextPage = useSelector(state => state?.popular?.nextPage);
@@ -42,6 +55,10 @@ const HomeScreen = ({navigation}) => {
   const trendingLoading = useSelector(state => state?.trending?.loading);
   const trendingData = useSelector(state => state?.trending?.trending);
   const trendingNextPage = useSelector(state => state?.trending?.nextPage);
+
+  const myRatings = useSelector(state => state?.rating?.movieRatingsSection);
+
+  const [focus, setFocus] = useState();
 
   useEffect(() => {
     dispatch(fetchPopular({page: 1}));
@@ -165,23 +182,23 @@ const HomeScreen = ({navigation}) => {
                 />
               )}
             </View>
-            <BlurView
-              style={StyleSheet.absoluteFill}
-              blurType="light"
-              blurAmount={10}
-              reducedTransparencyFallbackColor="white"
-            />
-            <Text>
-              I'm the non blurred text because I got rendered on top of the
-              BlurView
-            </Text>
-            <View style={{paddingHorizontal: 10}}>
-              <SectionTitle title="Watch Later" />
-              <MovieList type={trendingMedia} data={watchLater} />
-            </View>
+            {watchLater.length > 0 && (
+              <View style={{paddingHorizontal: 10}}>
+                <SectionTitle title="Watch Later" />
+                <MovieList type={trendingMedia} data={watchLater} />
+              </View>
+            )}
+
+            {myRatings.length > 0 && (
+              <View style={{paddingHorizontal: 10}}>
+                <SectionTitle title="Rated by me" />
+                <RatingList data={myRatings} />
+              </View>
+            )}
             <View style={{height: 200}}></View>
           </ScrollView>
         </View>
+        <TapAndHoldModal />
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -195,3 +212,30 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+
+{
+  /* <Modal isVisible={isModalVisible}>
+  <Modal.Container>
+    <Modal.Header title="LogRocket is fab!" />
+    <Modal.Body>
+      <Text style={styles.text}>Agree to continue with this guide</Text>
+      </Modal.Body>
+    <Modal.Footer>
+      <Button title="I agree" onPress={handleModal} />
+    </Modal.Footer>
+  </Modal.Container>
+</Modal> */
+}
+
+{
+  /* <BlurView
+style={StyleSheet.absoluteFill}
+blurType="light"
+blurAmount={55}
+reducedTransparencyFallbackColor="white">
+<Text>
+  I'm the non blurred text because I got rendered on top of the
+  BlurView
+</Text>
+</BlurView> */
+}

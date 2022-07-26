@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Colors, moderateScale} from '../../themes';
+import {Colors, moderateScale} from '../../../themes';
 
 const styles = StyleSheet.create({
   dotContainer: {

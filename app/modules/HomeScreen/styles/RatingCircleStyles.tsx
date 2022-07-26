@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {Colors, moderateScale} from '../../themes';
+import {Colors, moderateScale} from '../../../themes';
 
 export const styles = StyleSheet.create({
   ratingStyle: {flexDirection: 'row', alignItems: 'center'},

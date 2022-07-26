@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import Images from '../../../assets/images';
-import styles from './FilterButtonStyles';
+import styles from '../styles/FilterButtonStyles';
 
 interface Value {
   id: number;

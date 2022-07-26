@@ -7,7 +7,9 @@ import {
   ActivityIndicator,
   TouchableOpacity,
   Image,
+  Button,
 } from 'react-native';
+import {Rating, AirbnbRating} from 'react-native-ratings';
 import {useDispatch, useSelector} from 'react-redux';
 import ReleaseDateAndRuntime from './components/ReleaseDate';
 import Overview from './components/Overview';
@@ -25,22 +27,48 @@ import {
   saveToWatchLater,
   removeFromWatchLater,
 } from '../../features/watchLater/watchLaterSlice';
+import StarRating from './components/StarRating';
+import {
+  addMovieInRatingSection,
+  getRating,
+} from '../../features/rating/ratingSlice';
 
 const DetailScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
-  const [save, setSave] = useState(false);
+  const [save, setSave] = useState(0);
   const isLoading = useSelector(state => state.detail.loading);
   const movies = useSelector(state => state.detail.movieDetails);
   const error = useSelector(state => state.detail.error);
   const watchLaterAll = useSelector(state => state.watchLater.watchLaterID);
+  const ratedMovies = useSelector(state => state.rating.movieRatings);
+  const allRatedMovies = () => {
+    const x = ratedMovies.filter(obj => {
+      return obj.movieID === movies.id;
+    });
+    return x;
+  };
 
   const isMovieWatchListed = () => {
     return watchLaterAll.indexOf(movies.id) !== -1;
   };
 
   useEffect(() => {
+    allRatedMovies();
     dispatch(fetchMovie({type: route.params.type, movieID: route.params.id}));
   }, []);
+
+  const onClickSaveIcon = () => {
+    isMovieWatchListed()
+      ? dispatch(removeFromWatchLater({movie: movies, id: movies.id}))
+      : dispatch(saveToWatchLater({movie: movies, id: movies.id}));
+  };
+
+  function ratingCompleted(rating) {
+    console.log('Rating is: ' + rating);
+    setSave(rating);
+    dispatch(getRating({movieId: movies.id, rating: rating}));
+    dispatch(addMovieInRatingSection({movie: movies, rating: rating}));
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,16 +104,7 @@ const DetailScreen = ({navigation, route}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    isMovieWatchListed()
-                      ? dispatch(
-                          removeFromWatchLater({movie: movies, id: movies.id}),
-                        )
-                      : dispatch(
-                          saveToWatchLater({movie: movies, id: movies.id}),
-                        );
-                  }}>
+                <TouchableOpacity onPress={onClickSaveIcon}>
                   <Image
                     style={{
                       height: 28,
@@ -107,6 +126,20 @@ const DetailScreen = ({navigation, route}) => {
             />
             <GenreList genres={movies?.genres} />
             <View style={styles.itemSeparator} />
+            {/* //************ */}
+            <View style={{marginVertical: 15}}>
+              <AirbnbRating
+                showRating={false}
+                onFinishRating={ratingCompleted}
+                count={5}
+                defaultRating={allRatedMovies()?.rating ?? 0}
+                size={28}
+                reviewSize={0}
+              />
+            </View>
+
+            {/* //************ */}
+            {/* <Button title="i" onPress={() => console.log('=>', save)} /> */}
             <Overview description={movies?.overview} />
           </View>
         </ScrollView>

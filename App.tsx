@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeScreen from './app/modules/HomeScreen';
+import HomeScreen from './app/modules/HomeScreen/HomeScreen';
 import {Provider} from 'react-redux';
 import Store from './app/features/store';
 import Routes from './app/navigation/StackNavigation';

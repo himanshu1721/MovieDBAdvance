@@ -1,13 +1,13 @@
-import React from "react";
-import { Text } from "react-native";
-import styles from './SectionTitleStyles';
+import React from 'react';
+import {Text} from 'react-native';
+import styles from '../styles/SectionTitleStyles';
 
 interface SectionTitleProps {
   isTrailer?: boolean;
   title: string;
 }
 
-const SectionTitle = ({ isTrailer, title }: SectionTitleProps) => {
+const SectionTitle = ({isTrailer, title}: SectionTitleProps) => {
   return (
     <Text style={isTrailer ? styles.titleStyleTrailer : styles.titleStyle}>
       {title}

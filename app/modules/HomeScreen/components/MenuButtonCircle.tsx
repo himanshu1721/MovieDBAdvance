@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, TouchableOpacity} from 'react-native';
-import styles from './MenuButtonCircleStyles';
+import styles from '../styles/MenuButtonCircleStyles';
 
 const MenuCircle = (): JSX.Element => {
   return (

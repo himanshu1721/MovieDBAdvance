@@ -1,17 +1,39 @@
 //import liraries
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import RatingCircle from '../../../components/RatingCircle';
+import RatingCircle from './RatingCircle';
 import AppConstants from '../../../constants/AppConstants';
 import {refactorDate} from '../../../services';
 import {Colors, moderateScale, scale} from '../../../themes';
-import MenuCircle from '../MenuButtonCircle';
-import styles from './MovieCardStyles';
+import MenuCircle from './MenuButtonCircle';
+import styles from '../styles/MovieCardStyles';
+import {AirbnbRating, Rating} from 'react-native-ratings';
 // create a component
-const MovieCard = ({item, onTap}): JSX.Element => {
+
+const RatingCard = ({rating}) => {
+  return (
+    <View style={{paddingVertical: 5, alignSelf: 'center'}}>
+      <AirbnbRating
+        showRating={false}
+        isDisabled
+        count={5}
+        defaultRating={rating ?? 0}
+        size={20}
+      />
+    </View>
+  );
+};
+
+const MovieCard = ({item, onTap, onLongTap, isRating, rating}): JSX.Element => {
+  useEffect(() => {
+    console.log('rating', rating);
+  }, []);
+
   return (
     <TouchableOpacity
+      delayLongPress={200}
+      onLongPress={onLongTap}
       onPress={onTap}
       activeOpacity={0.9}
       style={styles.container}>
@@ -25,7 +47,7 @@ const MovieCard = ({item, onTap}): JSX.Element => {
       </View>
       <MenuCircle />
       <RatingCircle vote_average={item?.vote_average} />
-      <View style={styles.separatorStyles} />
+      {isRating && <RatingCard rating={rating} />}
       <View style={styles.textContainer}>
         <Text style={styles.titleStyles}>
           {item?.title ?? item?.original_name}
