@@ -1,37 +1,36 @@
+import firestore from '@react-native-firebase/firestore';
 import React, {useEffect, useState} from 'react';
 import {
-  View,
+  ActivityIndicator,
+  Button,
+  Image,
+  SafeAreaView,
   ScrollView,
   Text,
-  SafeAreaView,
-  ActivityIndicator,
   TouchableOpacity,
-  Image,
-  Button,
+  View,
 } from 'react-native';
-import {Rating, AirbnbRating} from 'react-native-ratings';
+import {AirbnbRating} from 'react-native-ratings';
 import {useDispatch, useSelector} from 'react-redux';
-import ReleaseDateAndRuntime from './components/ReleaseDate';
-import Overview from './components/Overview';
-import GenreList from './components/GenreList';
-import UserScore from './components/UserScore';
-import PlayTrailer from './components/PlayTrailer';
-import ImageComponent from './components/ImageComponent';
-import MovieTitle from './components/MovieTitle';
-import {Colors} from '../../themes';
 import Strings from '../../constants/Strings';
-import styles from './styles/MovieDetailStyles';
 import {fetchMovie} from '../../features/detail/detailSlice';
-import HeaderComponent from './components/Header';
-import {
-  saveToWatchLater,
-  removeFromWatchLater,
-} from '../../features/watchLater/watchLaterSlice';
-import StarRating from './components/StarRating';
 import {
   addMovieInRatingSection,
   getRating,
 } from '../../features/rating/ratingSlice';
+import {
+  removeFromWatchLater,
+  saveToWatchLater,
+} from '../../features/watchLater/watchLaterSlice';
+import {Colors} from '../../themes';
+import GenreList from './components/GenreList';
+import HeaderComponent from './components/Header';
+import ImageComponent from './components/ImageComponent';
+import MovieTitle from './components/MovieTitle';
+import Overview from './components/Overview';
+import ReleaseDateAndRuntime from './components/ReleaseDate';
+import UserScore from './components/UserScore';
+import styles from './styles/MovieDetailStyles';
 
 const DetailScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
@@ -41,11 +40,15 @@ const DetailScreen = ({navigation, route}) => {
   const error = useSelector(state => state.detail.error);
   const watchLaterAll = useSelector(state => state.watchLater.watchLaterID);
   const ratedMovies = useSelector(state => state.rating.movieRatings);
+  const currentUserUID = useSelector(state => state.auth.userUID);
   const allRatedMovies = () => {
     const x = ratedMovies.filter(obj => {
-      return obj.movieID === movies.id;
+      return obj.movieID === movies?.id;
     });
-    return x;
+    if (x.length > 0) {
+      return x[0].rating;
+    }
+    return 0;
   };
 
   const isMovieWatchListed = () => {
@@ -53,14 +56,63 @@ const DetailScreen = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    allRatedMovies();
     dispatch(fetchMovie({type: route.params.type, movieID: route.params.id}));
   }, []);
+
+  useEffect(() => {
+    allRatedMovies();
+  }, []);
+
+  useEffect(() => {
+    const subscriber = firestore()
+      .collection('MovieRating')
+      .doc(`507086`)
+      .onSnapshot(documentSnapshot => {
+        console.log('User data: ', documentSnapshot.data());
+      });
+
+    return () => subscriber();
+  }, []);
+
+  const [doesMovieExists, setDoesMovieExists] = useState(false);
+
+  useEffect(() => {
+    const m = firestore()
+      .collection('users')
+      .doc(`${currentUserUID}`)
+      .collection('watchLater')
+      .doc(`${movies?.id}`);
+
+    m.onSnapshot(querySnap => {
+      const data = querySnap.exists;
+      if (data) {
+        setDoesMovieExists(true);
+      } else {
+        setDoesMovieExists(false);
+      }
+    });
+  }, [setDoesMovieExists, movies?.id]);
 
   const onClickSaveIcon = () => {
     isMovieWatchListed()
       ? dispatch(removeFromWatchLater({movie: movies, id: movies.id}))
       : dispatch(saveToWatchLater({movie: movies, id: movies.id}));
+  };
+
+  const onSavingMovie = () => {
+    doesMovieExists
+      ? firestore()
+          .collection('users')
+          .doc(currentUserUID)
+          .collection('watchLater')
+          .doc(`${movies?.id}`)
+          .delete()
+      : firestore()
+          .collection('users')
+          .doc(currentUserUID)
+          .collection('watchLater')
+          .doc(`${movies?.id}`)
+          .set(movies);
   };
 
   function ratingCompleted(rating) {
@@ -72,7 +124,7 @@ const DetailScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderComponent onTap={() => navigation.pop()} />
+      <HeaderComponent backButton onTap={() => navigation.pop()} />
       {isLoading && (
         <View style={styles.subContainer}>
           <ActivityIndicator color={Colors.white} />
@@ -104,14 +156,14 @@ const DetailScreen = ({navigation, route}) => {
                   justifyContent: 'center',
                   alignItems: 'center',
                 }}>
-                <TouchableOpacity onPress={onClickSaveIcon}>
+                <TouchableOpacity onPress={onSavingMovie}>
                   <Image
                     style={{
                       height: 28,
                       width: 28,
                     }}
                     source={
-                      isMovieWatchListed()
+                      doesMovieExists
                         ? require('../../assets/images/bookmarkFilled.png')
                         : require('../../assets/images/bookmarkOutline.png')
                     }
@@ -120,26 +172,44 @@ const DetailScreen = ({navigation, route}) => {
               </View>
             </View>
             <View style={styles.itemSeparator} />
+            <Button
+              title="ih"
+              onPress={() => {
+                firestore()
+                  .collection('users')
+                  .doc(currentUserUID)
+                  .collection('watchLater')
+                  .doc(`${movies?.id}`)
+                  .set(movies);
+              }}
+            />
+            <Button
+              title="delete"
+              onPress={() => {
+                firestore()
+                  .collection('users')
+                  .doc(currentUserUID)
+                  .collection('watchLater')
+                  .doc(`${movies?.id}`)
+                  .delete();
+              }}
+            />
             <ReleaseDateAndRuntime
               runTime={movies?.runtime ?? null}
               releaseDate={movies?.release_date ?? movies?.first_air_date}
             />
             <GenreList genres={movies?.genres} />
             <View style={styles.itemSeparator} />
-            {/* //************ */}
             <View style={{marginVertical: 15}}>
               <AirbnbRating
                 showRating={false}
                 onFinishRating={ratingCompleted}
                 count={5}
-                defaultRating={allRatedMovies()?.rating ?? 0}
+                defaultRating={allRatedMovies()}
                 size={28}
                 reviewSize={0}
               />
             </View>
-
-            {/* //************ */}
-            {/* <Button title="i" onPress={() => console.log('=>', save)} /> */}
             <Overview description={movies?.overview} />
           </View>
         </ScrollView>
@@ -147,5 +217,4 @@ const DetailScreen = ({navigation, route}) => {
     </SafeAreaView>
   );
 };
-//make this component available to the app
 export default DetailScreen;

@@ -1,12 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
 import thunkMiddleware from 'redux-thunk';
 
+import authSlice from './auth/authSlice';
 import popularSlice from './content/popularSlice';
-import detailSlice from './detail/detailSlice';
 import trendingSlice from './content/trendingSlice';
-import watchLaterSlice from './watchLater/watchLaterSlice';
+import detailSlice from './detail/detailSlice';
 import focusSlice from './focus/focusSlice';
 import ratingSlice from './rating/ratingSlice';
+import watchLaterSlice from './watchLater/watchLaterSlice';
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     watchLater: watchLaterSlice,
     focus: focusSlice,
     rating: ratingSlice,
+    auth: authSlice,
   },
   middleware: [thunkMiddleware],
   // other options e.g middleware, go here

@@ -1,12 +1,12 @@
 import React from 'react';
-import HomeScreen from './app/modules/HomeScreen/HomeScreen';
+import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import Store from './app/features/store';
-import Routes from './app/navigation/StackNavigation';
+import MainStack from './app/navigation';
 const App = () => {
   return (
     <Provider store={Store}>
-      <Routes />
+      <MainStack />
     </Provider>
   );
 };

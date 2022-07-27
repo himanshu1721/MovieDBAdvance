@@ -1,6 +1,8 @@
 import React from 'react';
-import {View, Image, TouchableOpacity} from 'react-native';
+import {Image, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import Images from '../../../assets/images';
+import {logOutUser} from '../../../features/auth/authSlice';
 import styles from '../styles/HeaderStyles';
 
 interface CustomHeaderProps {
@@ -9,8 +11,11 @@ interface CustomHeaderProps {
 
 const CustomHeader = ({
   onTap,
-  backButton = true,
+  backButton,
+  renderIcon,
 }: CustomHeaderProps): JSX.Element => {
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.container}>
       <View style={styles.subContainer}>
@@ -22,12 +27,17 @@ const CustomHeader = ({
             <Image source={Images.back} style={styles.backIconStyles} />
           </TouchableOpacity>
         ) : (
-          <View style={{flex: 1}}></View>
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            {renderIcon}
+          </View>
         )}
         <View style={styles.titleContainer}>
           <Image style={styles.imageStyles} source={Images.appLogo} />
         </View>
-        <View style={styles.separateContainer} />
+        <TouchableOpacity
+          onPress={() => dispatch(logOutUser())}
+          style={styles.separateContainer}></TouchableOpacity>
       </View>
     </View>
   );

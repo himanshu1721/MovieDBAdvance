@@ -1,40 +1,32 @@
+import firestore from '@react-native-firebase/firestore';
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  Button,
-  ScrollView,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
   Image,
+  ScrollView,
+  StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {BlurView} from '@react-native-community/blur';
 import {
-  fetchPopular,
   changePopularMedia,
-  fetchPopularTV,
+  fetchPopular,
 } from '../../features/content/popularSlice';
+
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {
   changeTrendingMedia,
   fetchTrending,
   fetchTrendingWeekly,
 } from '../../features/content/trendingSlice';
-import MovieList from './components/MovieList';
-import CustomHeader from '../movieDetails/components/Header';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import SectionTitle from './components/SectionTitle';
-import FilterButton from './components/FilterButton';
 import {AppDispatch} from '../../features/store';
-import Modal from 'react-native-modal';
-import AppConstants from '../../constants/AppConstants';
-import {onPressOut} from '../../features/focus/focusSlice';
-import TapAndHoldModal from './components/tapAndHoldModal/TapAndHoldModal';
+import CustomHeader from '../movieDetails/components/Header';
+import FilterButton from './components/FilterButton';
+import MovieList from './components/MovieList';
 import RatingList from './components/RatingList';
+import SectionTitle from './components/SectionTitle';
+import TapAndHoldModal from './components/tapAndHoldModal/TapAndHoldModal';
 
 const HomeScreen = ({navigation}) => {
   const [isModalVisible, setIsModalVisible] = React.useState(false);
@@ -55,6 +47,7 @@ const HomeScreen = ({navigation}) => {
   const trendingLoading = useSelector(state => state?.trending?.loading);
   const trendingData = useSelector(state => state?.trending?.trending);
   const trendingNextPage = useSelector(state => state?.trending?.nextPage);
+  const currentUserUID = useSelector(state => state.auth.userUID);
 
   const myRatings = useSelector(state => state?.rating?.movieRatingsSection);
 
@@ -82,6 +75,21 @@ const HomeScreen = ({navigation}) => {
   //     }
   //   }
   // };
+
+  const getUsers = async () => {
+    const querySnap = await firestore()
+      .collection('users')
+      .doc(`${currentUserUID}`)
+      .collection('watchLater')
+      .get();
+    const allusers = querySnap.docs.map(docSnap => docSnap.data());
+    console.log('all users', allusers);
+    // setThreads(allusers);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const handleEndReached = () => {
     if (!loading) {
@@ -121,7 +129,16 @@ const HomeScreen = ({navigation}) => {
     <SafeAreaProvider>
       <SafeAreaView>
         <View>
-          <CustomHeader backButton={false} />
+          <CustomHeader
+            renderIcon={
+              <TouchableOpacity onPress={() => navigation.openDrawer()}>
+                <Image
+                  style={{height: 35, width: 35}}
+                  source={require('../../assets/images/drawer.png')}
+                />
+              </TouchableOpacity>
+            }
+          />
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{paddingHorizontal: 10}}>
               <View
