@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     fontSize: moderateScale(20),
   },
-  itemSeparator: { width: scale(7) },
+  itemSeparator: { width: scale(25) },
   container: { flex: 6, flexDirection: "row", alignItems: "center" },
 });
 

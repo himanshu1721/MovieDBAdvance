@@ -206,7 +206,7 @@ const DetailScreen = ({navigation, route}) => {
             </View>
             <View style={styles.itemSeparator} />
             <ReleaseDateAndRuntime
-              runTime={movies?.runtime ?? null}
+              runTime={movies?.runtime ?? 1}
               releaseDate={movies?.release_date ?? movies?.first_air_date}
             />
             <GenreList genres={movies?.genres} />

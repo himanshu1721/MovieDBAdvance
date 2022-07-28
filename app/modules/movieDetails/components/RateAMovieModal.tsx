@@ -66,15 +66,18 @@ const RateAMovieModal = ({
             style={{width: 20, height: 20}}
           />
         </Pressable>
-        <AirbnbRating
-          isDisabled={isThisMovieRatedByMeBefore}
-          showRating={false}
-          onFinishRating={ratingCompleted}
-          count={5}
-          defaultRating={myRated}
-          size={30}
-          reviewSize={0}
-        />
+        <View style={isThisMovieRatedByMeBefore ? {opacity: 0.4} : {opacity: 1}}>
+          <AirbnbRating
+            isDisabled={isThisMovieRatedByMeBefore}
+            showRating={false}
+            onFinishRating={ratingCompleted}
+            count={5}
+            defaultRating={myRated}
+            size={30}
+            reviewSize={0}
+          />
+        </View>
+
         <View style={{height: 20}}></View>
         <TouchableOpacity
           disabled={isThisMovieRatedByMeBefore}

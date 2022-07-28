@@ -1,20 +1,18 @@
 //import liraries
 import firestore from '@react-native-firebase/firestore';
 import React, {useEffect, useState} from 'react';
-import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
-import MovieBrief from '../../components/MovieBrief';
-import AppConstants from '../../constants/AppConstants';
+import DrawerIconComponent from '../../components/DrawerIconComponent';
+import HeaderTitle from '../../components/HeaderTitle';
 import {Colors} from '../../themes';
-import MovieList from '../HomeScreen/components/MovieList';
 import CustomHeader from '../movieDetails/components/Header';
 import MyRatingMovieCard from '../ratedByMe/components/MyRatingMovieCard';
-// create a component
+
 const WatchList = ({navigation}) => {
   const currentUserUID = useSelector(state => state.auth.userUID);
-  // const watchList = useSelector(state => state.watchLater.watchLater);
 
   const [threads, setThreads] = useState([]);
 
@@ -48,23 +46,9 @@ const WatchList = ({navigation}) => {
     <SafeAreaProvider>
       <SafeAreaView style={{backgroundColor: '#061422', flex: 1}}>
         <CustomHeader
-          renderMiddle={
-            <Text
-              style={{
-                fontSize: 30,
-                fontWeight: '700',
-                color: Colors.limeGreen,
-              }}>
-              WatchList
-            </Text>
-          }
+          renderMiddle={<HeaderTitle title={'WatchList'} />}
           renderIcon={
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Image
-                style={{height: 35, width: 35}}
-                source={require('../../assets/images/drawer.png')}
-              />
-            </TouchableOpacity>
+            <DrawerIconComponent onTap={() => navigation.openDrawer()} />
           }
           backButton={false}
         />
@@ -102,7 +86,6 @@ const WatchList = ({navigation}) => {
             renderItem={({item}) => {
               return (
                 <MyRatingMovieCard
-                  // rating={item?.rating}
                   data={item}
                   onTap={() =>
                     navigation.navigate('Detail', {
