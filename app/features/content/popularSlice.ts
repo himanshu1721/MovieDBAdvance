@@ -1,5 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
+import App from '../../../App';
+import AppConstants, { API_KEY } from '../../constants/AppConstants';
 
 const initialState = {
   loading: false,
@@ -13,7 +15,7 @@ const fetchPopular = createAsyncThunk(
   'popular/fetchPopular',
   async ({mediaType = 'movie', page}) => {
     const popular = await axios.get(
-      `https://api.themoviedb.org/3/${mediaType}/popular?api_key=75f81ae108c32ef6e09c4adf44096089&language=en-US&page=${page}`,
+      `${AppConstants.BASE_URL}${mediaType}/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
     );
     return popular.data;
   },
@@ -23,7 +25,7 @@ const fetchPopularTV = createAsyncThunk(
   'popular/fetchPopularTV',
   async ({mediaType, page}) => {
     const popular = await axios.get(
-      `https://api.themoviedb.org/3/${mediaType}/popular?api_key=75f81ae108c32ef6e09c4adf44096089&language=en-US&page=${page}`,
+      `${AppConstants.BASE_URL}${mediaType}/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
     );
     return popular.data;
   },

@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
+import AppConstants, {API_KEY} from '../../constants/AppConstants';
 
 const initialState = {
   loading: false,
@@ -13,7 +14,7 @@ const fetchMovie = createAsyncThunk(
   'detail/fetchMovie',
   async ({type, movieID}) => {
     const movie = await axios.get(
-      `https://api.themoviedb.org/3/${type}/${movieID}?api_key=75f81ae108c32ef6e09c4adf44096089&language=en-US`,
+      `${AppConstants.BASE_URL}${type}/${movieID}?api_key=${API_KEY}&language=en-US`,
     );
     return movie.data;
   },
@@ -23,10 +24,10 @@ const detailSlice = createSlice({
   name: 'detail',
   initialState,
   reducers: {
-    setHaveBeenRated: (state, action) => {
+    setHaveBeenRated: state => {
       state.haveBeenRatedBeforeByMe = true;
     },
-    setHaveNotBeenRated: (state, action) => {
+    setHaveNotBeenRated: state => {
       state.haveBeenRatedBeforeByMe = false;
     },
     setMyRating: (state, action) => {

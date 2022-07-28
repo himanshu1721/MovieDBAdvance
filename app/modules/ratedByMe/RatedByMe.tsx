@@ -17,6 +17,7 @@ import {Colors} from '../../themes';
 import MovieBrief from '../../components/MovieBrief';
 import MyRatingMovieCard from './components/MyRatingMovieCard';
 import HeaderTitle from '../../components/HeaderTitle';
+import DrawerIconComponent from '../../components/DrawerIconComponent';
 
 // create a component
 const RatedByMe = ({navigation}) => {
@@ -87,12 +88,7 @@ const RatedByMe = ({navigation}) => {
         <CustomHeader
           renderMiddle={<HeaderTitle title={'My Ratings'} />}
           renderIcon={
-            <TouchableOpacity onPress={() => navigation.openDrawer()}>
-              <Image
-                style={{height: 35, width: 35}}
-                source={require('../../assets/images/drawer.png')}
-              />
-            </TouchableOpacity>
+            <DrawerIconComponent onTap={() => navigation.openDrawer()} />
           }
           backButton={false}
         />

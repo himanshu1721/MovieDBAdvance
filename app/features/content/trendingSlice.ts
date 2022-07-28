@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
+import AppConstants, {API_KEY} from '../../constants/AppConstants';
 
 const initialState = {
   loading: false,
@@ -13,7 +14,7 @@ const fetchTrending = createAsyncThunk(
   'trending/fetchTrending',
   async ({page}) => {
     const popular = await axios.get(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=75f81ae108c32ef6e09c4adf44096089&language=en-US&page=${page}`,
+      `${AppConstants.BASE_URL}trending/movie/day?api_key=${API_KEY}&language=en-US&page=${page}`,
     );
     return popular.data;
   },
@@ -23,7 +24,7 @@ const fetchTrendingWeekly = createAsyncThunk(
   'trending/fetchTrending',
   async ({page}) => {
     const popular = await axios.get(
-      `https://api.themoviedb.org/3/trending/movie/week?api_key=75f81ae108c32ef6e09c4adf44096089&language=en-US&page=${page}`,
+      `${AppConstants.BASE_URL}trending/movie/week?api_key=${API_KEY}&language=en-US&page=${page}`,
     );
     return popular.data;
   },

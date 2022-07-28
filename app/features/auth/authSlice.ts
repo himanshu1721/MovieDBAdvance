@@ -38,10 +38,10 @@ const authSlice = createSlice({
     },
     clearError: state => {
       state.error = false;
-    }
+    },
   },
   extraReducers: builder => {
-    builder.addCase(loginTheUser.pending, (state, action) => {
+    builder.addCase(loginTheUser.pending, state => {
       state.loading = true;
     });
     builder.addCase(loginTheUser.fulfilled, (state, action) => {
@@ -50,7 +50,7 @@ const authSlice = createSlice({
       state.user = true;
       state.loading = false;
     });
-    builder.addCase(loginTheUser.rejected, (state, action) => {
+    builder.addCase(loginTheUser.rejected, state => {
       state.error = true;
       state.loading = false;
     });

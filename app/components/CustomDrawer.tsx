@@ -12,7 +12,7 @@ import {Strings} from '../constants';
 import {logOutUser} from '../features/auth/authSlice';
 // import {dummyEmail, dummyUsername} from '../constants/DummyData';
 // import AuthActions, {userSelectors} from '../redux/AuthRedux';
-import styles from './CustomDrawerStyle';
+import styles from './styles/CustomDrawerStyle';
 
 type PropsType = {
   state: DrawerNavigationState<ParamListBase>;

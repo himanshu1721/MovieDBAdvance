@@ -21,3 +21,4 @@ const AppConstants = {
 };
 
 export default AppConstants;
+export {API_KEY};
