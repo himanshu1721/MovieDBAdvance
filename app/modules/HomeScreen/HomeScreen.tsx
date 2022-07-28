@@ -58,39 +58,6 @@ const HomeScreen = ({navigation}) => {
     dispatch(fetchTrending({page: 1}));
   }, []);
 
-  // const reload = () => {
-  //   {
-  //     if (popularMedia === 'TV') {
-  //       dispatch(fetchPopularTV({page: 1}));
-  //     } else {
-  //       dispatch(fetchPopular({page: 1}));
-  //     }
-  //   }
-
-  //   {
-  //     if (trendingMedia === 'Today') {
-  //       dispatch(fetchTrending({page: 1}));
-  //     } else {
-  //       dispatch(fetchTrendingWeekly({page: 1}));
-  //     }
-  //   }
-  // };
-
-  // const getUsers = async () => {
-  //   const querySnap = await firestore()
-  //     .collection('users')
-  //     .doc(`${currentUserUID}`)
-  //     .collection('watchLater')
-  //     .get();
-  //   const allusers = querySnap.docs.map(docSnap => docSnap.data());
-  //   console.log('all users', allusers);
-  //   // setThreads(allusers);
-  // };
-
-  // useEffect(() => {
-  //   getUsers();
-  // }, []);
-
   const handleEndReached = () => {
     if (!loading) {
       dispatch(fetchPopular({page: nextPage + 1}));
@@ -199,19 +166,6 @@ const HomeScreen = ({navigation}) => {
                 />
               )}
             </View>
-            {watchLater.length > 0 && (
-              <View style={{paddingHorizontal: 10}}>
-                <SectionTitle title="Watch Later" />
-                <MovieList type={trendingMedia} data={watchLater} />
-              </View>
-            )}
-
-            {myRatings.length > 0 && (
-              <View style={{paddingHorizontal: 10}}>
-                <SectionTitle title="Rated by me" />
-                <RatingList data={myRatings} />
-              </View>
-            )}
             <View style={{height: 200}}></View>
           </ScrollView>
         </View>

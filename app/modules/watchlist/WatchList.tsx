@@ -10,6 +10,7 @@ import AppConstants from '../../constants/AppConstants';
 import {Colors} from '../../themes';
 import MovieList from '../HomeScreen/components/MovieList';
 import CustomHeader from '../movieDetails/components/Header';
+import MyRatingMovieCard from '../ratedByMe/components/MyRatingMovieCard';
 // create a component
 const WatchList = ({navigation}) => {
   const currentUserUID = useSelector(state => state.auth.userUID);
@@ -75,14 +76,34 @@ const WatchList = ({navigation}) => {
           }}>
           <FlatList
             ListEmptyComponent={<EmptyWatchList />}
-            ItemSeparatorComponent={() => <View style={{height: 15}}></View>}
+            ItemSeparatorComponent={() => (
+              <View
+                style={{
+                  justifyContent: 'center',
+                  height: 50,
+                }}>
+                <View
+                  style={{
+                    alignSelf: 'center',
+                    width: '40%',
+                    height: 3,
+                    opacity: 0.5,
+                    borderRadius: 5 / 2,
+                    backgroundColor: '#696969',
+                  }}></View>
+              </View>
+            )}
             showsVerticalScrollIndicator={false}
             maxToRenderPerBatch={3}
             data={threads}
+            ListFooterComponent={() => {
+              return <View style={{height: 100}}></View>;
+            }}
             renderItem={({item}) => {
               return (
-                <MovieBrief
-                  item={item}
+                <MyRatingMovieCard
+                  // rating={item?.rating}
+                  data={item}
                   onTap={() =>
                     navigation.navigate('Detail', {
                       type: 'movie',

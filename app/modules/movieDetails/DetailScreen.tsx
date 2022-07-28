@@ -25,6 +25,7 @@ import HeaderComponent from './components/Header';
 import ImageComponent from './components/ImageComponent';
 import MovieTitle from './components/MovieTitle';
 import Overview from './components/Overview';
+import RateAMovieModal from './components/RateAMovieModal';
 import ReleaseDateAndRuntime from './components/ReleaseDate';
 import UserScore from './components/UserScore';
 import styles from './styles/MovieDetailStyles';
@@ -33,12 +34,8 @@ const DetailScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.detail.loading);
   const movies = useSelector(state => state.detail.movieDetails);
-  const ratedMovies = useSelector(state => state.rating.movieRatings);
   const currentUserUID = useSelector(state => state.auth.userUID);
   const [modalVisible, setModalVisible] = useState(false);
-  const isThisMovieRatedByMeBefore = useSelector(
-    state => state?.detail?.haveBeenRatedBeforeByMe,
-  );
 
   const [ifRatedByMeTheRating, setIfRatedByMeTheRating] = useState(0);
 
@@ -130,13 +127,13 @@ const DetailScreen = ({navigation, route}) => {
     }
   };
 
-  function ratingCompleted(rating) {
+  const ratingCompleted = rating => {
     console.log('Rating is: ' + rating);
     setIfRatedByMeTheRating(rating);
     getRating();
     updateTotalRating(rating);
     dispatch(addMovieInRatingSection({movie: movies, rating: rating}));
-  }
+  };
 
   const getRating = () => {
     firestore()
@@ -192,20 +189,12 @@ const DetailScreen = ({navigation, route}) => {
             />
             <View style={styles.itemSeparator} />
             <View style={styles.userScoreAndPlayContainer}>
-              <UserScore vote_average={movies?.vote_average} />
+              <UserScore vote_average={movies?.vote_average ?? 1} />
               <View style={styles.componentSeparator} />
-              <View
-                style={{
-                  flex: 5,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+              <View style={styles.movieSaveIconWrapper}>
                 <TouchableOpacity onPress={onSavingMovie}>
                   <Image
-                    style={{
-                      height: 28,
-                      width: 28,
-                    }}
+                    style={styles.movieSaveIconStyles}
                     source={
                       doesMovieExists
                         ? require('../../assets/images/bookmarkFilled.png')
@@ -222,23 +211,9 @@ const DetailScreen = ({navigation, route}) => {
             />
             <GenreList genres={movies?.genres} />
             <View style={styles.itemSeparator} />
-            <View
-              style={{
-                marginVertical: 15,
-                flexDirection: 'row',
-              }}>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flex: 1,
-                }}></View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            <View style={styles.ratingContainerWrapper}>
+              <View style={styles.flexOne} />
+              <View style={styles.ratingContainer}>
                 <AirbnbRating
                   isDisabled={true}
                   showRating={false}
@@ -254,96 +229,22 @@ const DetailScreen = ({navigation, route}) => {
                   setModalVisible(!modalVisible);
                   checkIfIHaveRatedTheMovieBefore();
                 }}
-                style={{
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={{fontWeight: '500', color: '#2657e0'}}>
-                  Rate Movie
-                </Text>
+                style={styles.rateMovieWrapper}>
+                <Text style={styles.rateMovieTextStyles}>Rate</Text>
+                <Text style={styles.rateMovieTextStyles}>Movie</Text>
               </TouchableOpacity>
             </View>
             <Overview description={movies?.overview} />
           </View>
         </ScrollView>
       )}
-      <Modal
-        animationIn={'fadeIn'}
-        style={{
-          alignSelf: 'center',
-          shadowColor: '#474747',
-          shadowRadius: 5,
-          shadowOffset: {
-            width: 1,
-            height: 1,
-          },
-          shadowOpacity: 1,
-        }}
-        backdropColor="rgba(200, 200, 200, 0.7)"
-        // backdropColor="rgba(0,0,0,0.8)"
-        backdropOpacity={0.7}
-        onBackdropPress={() => setModalVisible(!modalVisible)}
-        isVisible={modalVisible}>
-        <View
-          style={{
-            borderRadius: 10,
-            // height: 200,
-            paddingVertical: 40,
-            paddingHorizontal: 40,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#000',
-          }}>
-          <Pressable
-            hitSlop={5}
-            onPress={() => setModalVisible(!modalVisible)}
-            style={{
-              position: 'absolute',
-              right: 12,
-              top: 12,
-            }}>
-            <Image
-              source={require('../../assets/images/close.png')}
-              style={{width: 20, height: 20}}
-            />
-          </Pressable>
-          <AirbnbRating
-            isDisabled={isThisMovieRatedByMeBefore}
-            showRating={false}
-            onFinishRating={ratingCompleted}
-            count={5}
-            defaultRating={myRated}
-            size={30}
-            reviewSize={0}
-          />
-          <View style={{height: 20}}></View>
-          <TouchableOpacity
-            disabled={isThisMovieRatedByMeBefore}
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              rateMovie();
-            }}
-            style={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              opacity: !isThisMovieRatedByMeBefore ? 1 : 0.4,
-              backgroundColor: Colors.natureGreen,
-              paddingHorizontal: 20,
-              width: null,
-              borderRadius: 5,
-              paddingVertical: 2,
-            }}>
-            <Text style={{fontWeight: '600', fontSize: 20}}>RATE</Text>
-          </TouchableOpacity>
-          <View style={{height: 10}}></View>
-          <View>
-            <Text style={{color: 'gold'}}>
-              You have already rated this movie!
-            </Text>
-          </View>
-        </View>
-      </Modal>
+      <RateAMovieModal
+        modalVisible={modalVisible}
+        setModalVisible={setModalVisible}
+        ratingCompleted={ratingCompleted}
+        myRated={myRated}
+        rateMovie={rateMovie}
+      />
     </SafeAreaView>
   );
 };

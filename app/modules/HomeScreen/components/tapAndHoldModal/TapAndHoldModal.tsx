@@ -13,6 +13,8 @@ import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import AppConstants from '../../../../constants/AppConstants';
 import {onPressOut} from '../../../../features/focus/focusSlice';
+import TapAndHoldModalBackdrop from '../TapAndHoldModalBackdrop';
+import styles from './TapAndHoldModalStyles';
 
 // create a component
 const TapAndHoldModal = () => {
@@ -24,81 +26,38 @@ const TapAndHoldModal = () => {
   return (
     <Modal
       animationIn={'fadeIn'}
-      style={{
-        shadowColor: '#474747',
-        shadowRadius: 5,
-        shadowOffset: {
-          width: 1,
-          height: 1,
-        },
-        shadowOpacity: 1,
-      }}
+      style={styles.modalStyles}
       backdropColor="transparent"
       backdropOpacity={1}
       customBackdrop={
-        <Pressable
-          onPress={() => dispatch(onPressOut())}
-          style={{
-            width: '100%',
-            height: '100%',
-            opacity: 1,
-            // backgroundColor: 'rgba(0,0,0,0.2)',
-          }}>
-          <View
-            style={{
-              backgroundColor: '#252525',
-              position: 'absolute',
-              opacity: 0.8,
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-            }}></View>
-          {/* <BlurView
-            style={StyleSheet.absoluteFill}
-            blurType="dark"
-            blurAmount={12}></BlurView> */}
-        </Pressable>
+        <TapAndHoldModalBackdrop onTap={() => dispatch(onPressOut())} />
       }
       onBackdropPress={() => console.log('backdrop')}
       isVisible={isHold}>
-      <View
-        style={{
-          borderRadius: 10,
-          backgroundColor: 'white',
-          // height: 400,
-        }}>
+      <View style={styles.container}>
         <Image
-          style={{
-            borderTopRightRadius: 10,
-            borderTopLeftRadius: 10,
-            width: '100%',
-            height: 200,
-          }}
+          style={styles.imageStyles}
           source={{
             uri: `${AppConstants.API_IMAGE}${focusMovie.backdrop_path}`,
           }}
         />
-        <View style={{height: 10}}></View>
-        <View style={{paddingHorizontal: 10}}>
-          <Text style={{alignItems: 'center'}}>
-            <Text style={{fontSize: 20, fontWeight: '600'}}>
+        <View style={styles.heightTen} />
+        <View style={styles.titleAndOverviewContainer}>
+          <Text>
+            <Text style={styles.titleStyles}>
               {focusMovie?.original_title ?? focusMovie?.original_name}
             </Text>
-            <Text style={{color: '#474747', fontSize: 17, fontWeight: '500'}}>
+            <Text style={styles.releaseYearStyles}>
               (
               {focusMovie?.release_date?.substring(0, 4) ??
                 focusMovie?.first_air_date?.substring(0, 4)}
               )
             </Text>
           </Text>
-          <TouchableOpacity
-            // onPress={handleModal}
-            style={{height: 10}}></TouchableOpacity>
-          <Text style={{letterSpacing: 0.3, fontSize: 16, fontWeight: '400'}}>
-            {focusMovie.overview}
-          </Text>
-          <View style={{height: 20}}></View>
+          <View style={styles.heightTen} />
+          <Text style={styles.overviewStyles}>{focusMovie.overview}</Text>
+          <View style={styles.heightTen} />
+          <View style={styles.heightTen} />
         </View>
       </View>
     </Modal>
@@ -106,14 +65,6 @@ const TapAndHoldModal = () => {
 };
 
 // define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-});
 
 //make this component available to the app
 export default TapAndHoldModal;

@@ -126,39 +126,11 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
       <View style={styles.container}>
         {loading && (
-          <View
-            style={{
-              zIndex: 20,
-              // opacity: 0.7,
-              backgroundColor: 'rgba(150,150,150,0.5)',
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View style={styles.loadingScreen}>
             {<ActivityIndicator size={'large'} color="black" />}
           </View>
         )}
-        {error && (
-          <View
-            style={{
-              zIndex: 20,
-              // opacity: 0.7,
-              backgroundColor: 'rgba(150,150,150,0.5)',
-              position: 'absolute',
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {showAlert()}
-          </View>
-        )}
+        {error && <View style={styles.loadingScreen}>{showAlert()}</View>}
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoidingViewStyles}>

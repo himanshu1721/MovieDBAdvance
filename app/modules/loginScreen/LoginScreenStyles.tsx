@@ -136,6 +136,18 @@ const styles = StyleSheet.create({
   viewWithHeightThirty: {height: moderateScale(30)},
   viewWithHeightTwenty: {height: moderateScale(20)},
   viewWithHeightTen: {height: moderateScale(10)},
+  loadingScreen: {
+    zIndex: 20,
+    // opacity: 0.7,
+    backgroundColor: 'rgba(150,150,150,0.5)',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default styles;

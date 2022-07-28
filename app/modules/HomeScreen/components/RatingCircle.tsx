@@ -15,23 +15,3 @@ const RatingCircle = ({
 
 export default RatingCircle;
 
-{
-  /* <View
-style={
-  isMovieDetail ? styles.containerMovieDetailScreen : styles.container
-}>
-<CircularProgress
-  duration={0}
-  value={vote_average * 10}
-  activeStrokeColor={returnColor(vote_average).colour}
-  inActiveStrokeColor={returnColor(vote_average).shadow}
-  inActiveStrokeOpacity={1}
-  inActiveStrokeWidth={scale(3)}
-  activeStrokeWidth={scale(3)}
-  textColor={Colors.white}
-  circleBackgroundColor={Colors.black}
-  valueSuffix={'%'}
-  radius={moderateScale(24)}
-/>
-</View> */
-}

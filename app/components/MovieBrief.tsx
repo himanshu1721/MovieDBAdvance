@@ -53,15 +53,21 @@ const MovieBrief = ({item, onTap}) => {
         <TouchableOpacity
           // onPress={handleModal}
           style={{height: 10}}></TouchableOpacity>
-        <Text
-          style={{
-            letterSpacing: 0.3,
-            fontSize: 16,
-            fontWeight: '400',
-          }}>
-          {item.overview}
+        <Text>
+          <Text
+            style={{
+              letterSpacing: 0.3,
+              fontSize: 16,
+              fontWeight: '400',
+            }}>
+            {item?.overview.substring(0, 180)}
+          </Text>
+          <Text style={{letterSpacing: 0.3, fontSize: 16, fontWeight: '400'}}>
+            ...
+          </Text>
         </Text>
-        <View style={{height: 20}}></View>
+
+        <View style={{height: 10}}></View>
       </View>
     </Pressable>
   );
