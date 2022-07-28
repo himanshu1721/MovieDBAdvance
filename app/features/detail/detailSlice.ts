@@ -3,8 +3,10 @@ import axios from 'axios';
 
 const initialState = {
   loading: false,
+  haveBeenRatedBeforeByMe: false,
   error: false,
   movieDetails: {},
+  movieRatingByMe: 0,
 };
 
 const fetchMovie = createAsyncThunk(
@@ -20,6 +22,17 @@ const fetchMovie = createAsyncThunk(
 const detailSlice = createSlice({
   name: 'detail',
   initialState,
+  reducers: {
+    setHaveBeenRated: (state, action) => {
+      state.haveBeenRatedBeforeByMe = true;
+    },
+    setHaveNotBeenRated: (state, action) => {
+      state.haveBeenRatedBeforeByMe = false;
+    },
+    setMyRating: (state, action) => {
+      state.movieRatingByMe = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchMovie.pending, state => {
       state.loading = true;
@@ -27,6 +40,7 @@ const detailSlice = createSlice({
     builder.addCase(fetchMovie.fulfilled, (state, action) => {
       state.loading = false;
       state.movieDetails = action.payload;
+      state.haveBeenRatedBeforeByMe = false;
     });
     builder.addCase(fetchMovie.rejected, state => {
       state.error = true;
@@ -36,4 +50,6 @@ const detailSlice = createSlice({
 
 const {reducer} = detailSlice;
 export default reducer;
+export const {setHaveBeenRated, setMyRating, setHaveNotBeenRated} =
+  detailSlice.actions;
 export {fetchMovie};

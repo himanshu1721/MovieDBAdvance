@@ -76,20 +76,20 @@ const HomeScreen = ({navigation}) => {
   //   }
   // };
 
-  const getUsers = async () => {
-    const querySnap = await firestore()
-      .collection('users')
-      .doc(`${currentUserUID}`)
-      .collection('watchLater')
-      .get();
-    const allusers = querySnap.docs.map(docSnap => docSnap.data());
-    console.log('all users', allusers);
-    // setThreads(allusers);
-  };
+  // const getUsers = async () => {
+  //   const querySnap = await firestore()
+  //     .collection('users')
+  //     .doc(`${currentUserUID}`)
+  //     .collection('watchLater')
+  //     .get();
+  //   const allusers = querySnap.docs.map(docSnap => docSnap.data());
+  //   console.log('all users', allusers);
+  //   // setThreads(allusers);
+  // };
 
-  useEffect(() => {
-    getUsers();
-  }, []);
+  // useEffect(() => {
+  //   getUsers();
+  // }, []);
 
   const handleEndReached = () => {
     if (!loading) {
@@ -229,30 +229,3 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
-
-{
-  /* <Modal isVisible={isModalVisible}>
-  <Modal.Container>
-    <Modal.Header title="LogRocket is fab!" />
-    <Modal.Body>
-      <Text style={styles.text}>Agree to continue with this guide</Text>
-      </Modal.Body>
-    <Modal.Footer>
-      <Button title="I agree" onPress={handleModal} />
-    </Modal.Footer>
-  </Modal.Container>
-</Modal> */
-}
-
-{
-  /* <BlurView
-style={StyleSheet.absoluteFill}
-blurType="light"
-blurAmount={55}
-reducedTransparencyFallbackColor="white">
-<Text>
-  I'm the non blurred text because I got rendered on top of the
-  BlurView
-</Text>
-</BlurView> */
-}

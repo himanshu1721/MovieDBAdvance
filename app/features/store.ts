@@ -8,6 +8,7 @@ import detailSlice from './detail/detailSlice';
 import focusSlice from './focus/focusSlice';
 import ratingSlice from './rating/ratingSlice';
 import watchLaterSlice from './watchLater/watchLaterSlice';
+import topRatedSlice from './topRated/topRatedSlice';
 
 const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
     watchLater: watchLaterSlice,
     focus: focusSlice,
     rating: ratingSlice,
+    topRated: topRatedSlice,
     auth: authSlice,
   },
   middleware: [thunkMiddleware],

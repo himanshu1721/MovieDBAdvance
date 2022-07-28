@@ -11,6 +11,8 @@ export default function TabRoutes() {
   return (
     <Tab.Navigator
       screenOptions={{
+        tabBarActiveTintColor: Colors.green,
+        tabBarInactiveTintColor: Colors.white,
         tabBarStyle: {
           backgroundColor: Colors.prussianBlue,
         },
@@ -18,9 +20,14 @@ export default function TabRoutes() {
       }}>
       <Tab.Screen
         options={{
-          tabBarIcon: () => (
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused}) => (
             <Image
-              source={require('../assets/images/home.png')}
+              source={
+                !focused
+                  ? require('../assets/images/home.png')
+                  : require('../assets/images/homeLime.png')
+              }
               style={{width: 30, height: 30}}
             />
           ),
@@ -28,7 +35,23 @@ export default function TabRoutes() {
         name="HomeStack"
         component={HomeStack}
       />
-      <Tab.Screen name="Top Rated" component={TopRated} />
+      <Tab.Screen
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused}) => (
+            <Image
+              style={{width: 32, height: 32}}
+              source={
+                focused
+                  ? require('../assets/images/topRatedLime.png')
+                  : require('../assets/images/topRated.png')
+              }
+            />
+          ),
+        }}
+        name="TopRated"
+        component={TopRated}
+      />
     </Tab.Navigator>
   );
 }

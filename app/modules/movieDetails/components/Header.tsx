@@ -13,6 +13,7 @@ const CustomHeader = ({
   onTap,
   backButton,
   renderIcon,
+  renderMiddle,
 }: CustomHeaderProps): JSX.Element => {
   const dispatch = useDispatch();
 
@@ -33,7 +34,11 @@ const CustomHeader = ({
           </View>
         )}
         <View style={styles.titleContainer}>
-          <Image style={styles.imageStyles} source={Images.appLogo} />
+          {renderMiddle ? (
+            renderMiddle
+          ) : (
+            <Image style={styles.imageStyles} source={Images.appLogo} />
+          )}
         </View>
         <TouchableOpacity
           onPress={() => dispatch(logOutUser())}

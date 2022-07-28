@@ -26,10 +26,6 @@ const RatingCard = ({rating}) => {
 };
 
 const MovieCard = ({item, onTap, onLongTap, isRating, rating}): JSX.Element => {
-  useEffect(() => {
-    console.log('rating', rating);
-  }, []);
-
   return (
     <TouchableOpacity
       delayLongPress={200}

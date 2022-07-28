@@ -100,7 +100,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
         .collection('users')
         .doc(result.user.uid)
         .collection('myRatings')
-        .add({name: 'Himanshu'});
+        .add({name: 'Himanshu22'});
       setPassword('');
       Alert.alert(AuthStrings.success, AuthStrings.accountSuccessfullyCreated);
       setLoginScreen(true);

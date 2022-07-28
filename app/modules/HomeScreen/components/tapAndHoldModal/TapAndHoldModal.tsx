@@ -44,10 +44,20 @@ const TapAndHoldModal = () => {
             opacity: 1,
             // backgroundColor: 'rgba(0,0,0,0.2)',
           }}>
-          <BlurView
+          <View
+            style={{
+              backgroundColor: '#252525',
+              position: 'absolute',
+              opacity: 0.8,
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}></View>
+          {/* <BlurView
             style={StyleSheet.absoluteFill}
             blurType="dark"
-            blurAmount={12}></BlurView>
+            blurAmount={12}></BlurView> */}
         </Pressable>
       }
       onBackdropPress={() => console.log('backdrop')}

@@ -1,10 +1,13 @@
 //import liraries
 import firestore from '@react-native-firebase/firestore';
 import React, {useEffect, useState} from 'react';
-import {Image, StyleSheet, View} from 'react-native';
+import {FlatList, Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {useSelector} from 'react-redux';
+import MovieBrief from '../../components/MovieBrief';
+import AppConstants from '../../constants/AppConstants';
+import {Colors} from '../../themes';
 import MovieList from '../HomeScreen/components/MovieList';
 import CustomHeader from '../movieDetails/components/Header';
 // create a component
@@ -21,7 +24,6 @@ const WatchList = ({navigation}) => {
       .collection('watchLater')
       .get();
     const allusers = querySnap.docs.map(docSnap => docSnap.data());
-    console.log('all movies', allusers);
     setThreads(allusers);
   };
 
@@ -29,11 +31,32 @@ const WatchList = ({navigation}) => {
     getUsers();
   }, [threads]);
 
+  const EmptyWatchList = () => {
+    return (
+      <View style={{marginTop: 200}}>
+        <Text
+          style={{fontSize: 25, fontWeight: '500', color: Colors.limeGreen}}>
+          WatchList is Empty!
+        </Text>
+      </View>
+    );
+  };
+
   const watchLater = useSelector(state => state.watchLater.watchLater);
   return (
     <SafeAreaProvider>
-      <SafeAreaView>
+      <SafeAreaView style={{backgroundColor: '#061422', flex: 1}}>
         <CustomHeader
+          renderMiddle={
+            <Text
+              style={{
+                fontSize: 30,
+                fontWeight: '700',
+                color: Colors.limeGreen,
+              }}>
+              WatchList
+            </Text>
+          }
           renderIcon={
             <TouchableOpacity onPress={() => navigation.openDrawer()}>
               <Image
@@ -44,8 +67,32 @@ const WatchList = ({navigation}) => {
           }
           backButton={false}
         />
-        <View style={{padding: 10}}>
-          <MovieList data={threads} />
+        <View
+          style={{
+            padding: 10,
+            backgroundColor: '#061422',
+            alignItems: 'center',
+          }}>
+          <FlatList
+            ListEmptyComponent={<EmptyWatchList />}
+            ItemSeparatorComponent={() => <View style={{height: 15}}></View>}
+            showsVerticalScrollIndicator={false}
+            maxToRenderPerBatch={3}
+            data={threads}
+            renderItem={({item}) => {
+              return (
+                <MovieBrief
+                  item={item}
+                  onTap={() =>
+                    navigation.navigate('Detail', {
+                      type: 'movie',
+                      id: item?.id,
+                    })
+                  }
+                />
+              );
+            }}
+          />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
