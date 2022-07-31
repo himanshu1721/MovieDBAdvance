@@ -1,87 +1,64 @@
-//import liraries
-import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import {Image, Pressable, Text, View} from 'react-native';
 import AppConstants from '../constants/AppConstants';
+import { moderateScale } from '../themes';
+import styles from './styles/MovieBriefStyles';
 
-// create a component
-const MovieBrief = ({item, onTap}) => {
+interface ItemProps {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+interface MovieBriefProps {
+  item: ItemProps;
+  onTap: () => void;
+}
+
+const MovieBrief = ({item, onTap}: MovieBriefProps): JSX.Element => {
   return (
-    <Pressable
-      onPress={onTap}
-      style={{
-        padding: 10,
-        borderRadius: 10,
-        backgroundColor: '#fff',
-        width: 340,
-      }}>
+    <Pressable onPress={onTap} style={styles.container}>
       <Image
-        style={{
-          borderTopRightRadius: 10,
-          borderTopLeftRadius: 10,
-          width: '100%',
-          height: 200,
-        }}
+        style={styles.imageStyles}
         source={{
           uri: `${AppConstants.API_IMAGE}${item?.backdrop_path}`,
         }}
       />
-      <View style={{height: 5}}></View>
-      <View style={{}}>
-        <Text style={{alignItems: 'center'}}>
-          <Text style={{fontSize: 20, fontWeight: '600'}}>
+      <View style={styles.heightFive} />
+      <View style={{padding: moderateScale(10)}}>
+        <Text style={styles.titleAndYearWrapper}>
+          <Text style={styles.titleStyles}>
             {item?.original_title ?? item?.original_name}
           </Text>
-          <Text
-            style={{
-              color: '#474747',
-              fontSize: 17,
-              fontWeight: '500',
-            }}>
+          <Text style={styles.movieYear}>
             (
             {item?.release_date?.substring(0, 4) ??
               item?.first_air_date?.substring(0, 4)}
             )
           </Text>
         </Text>
-        <TouchableOpacity
-          // onPress={handleModal}
-          style={{height: 10}}></TouchableOpacity>
+        <View style={styles.heightTen} />
         <Text>
-          <Text
-            style={{
-              letterSpacing: 0.3,
-              fontSize: 16,
-              fontWeight: '400',
-            }}>
+          <Text style={styles.overviewStyles}>
             {item?.overview.substring(0, 180)}
           </Text>
-          <Text style={{letterSpacing: 0.3, fontSize: 16, fontWeight: '400'}}>
-            ...
-          </Text>
+          <Text style={styles.threeDotsStyles}>...</Text>
         </Text>
-
-        <View style={{height: 10}}></View>
+        <View style={styles.heightTen} />
       </View>
     </Pressable>
   );
 };
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-});
-
-//make this component available to the app
 export default MovieBrief;

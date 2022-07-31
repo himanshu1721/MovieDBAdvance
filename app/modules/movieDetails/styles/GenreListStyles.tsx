@@ -4,7 +4,7 @@ import { moderateScale, Colors } from "../../../themes/index";
 const styles = StyleSheet.create({
   genreTextStyles: {
     color: Colors.white,
-    fontWeight: "500",
+    fontWeight: "400",
     fontSize: moderateScale(18),
   },
   container: {

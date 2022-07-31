@@ -3,7 +3,7 @@ import React from 'react';
 import CustomDrawer from '../components/CustomDrawer';
 import RatedByMe from '../modules/ratedByMe/RatedByMe';
 import WatchList from '../modules/watchlist/WatchList';
-import {Colors} from '../themes';
+import {Colors, moderateScale} from '../themes';
 import TabRoutes from './TabRoutes';
 
 const Drawer = createDrawerNavigator();
@@ -13,6 +13,7 @@ const DrawerRoutes = () => {
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
+        swipeEdgeWidth: 0,
         drawerLabelStyle: {
           color: Colors.white,
         },
@@ -24,9 +25,9 @@ const DrawerRoutes = () => {
       <Drawer.Screen
         options={{
           drawerLabelStyle: {
-            fontWeight: '600',
+            fontWeight: '500',
             letterSpacing: 0.2,
-            fontSize: 16,
+            fontSize: moderateScale(15),
             color: 'white',
           },
         }}
@@ -36,21 +37,9 @@ const DrawerRoutes = () => {
       <Drawer.Screen
         options={{
           drawerLabelStyle: {
-            fontWeight: '600',
+            fontWeight: '500',
             letterSpacing: 0.2,
-            fontSize: 16,
-            color: 'white',
-          },
-        }}
-        name="Watchlist"
-        component={WatchList}
-      />
-      <Drawer.Screen
-        options={{
-          drawerLabelStyle: {
-            fontWeight: '600',
-            letterSpacing: 0.2,
-            fontSize: 16,
+            fontSize: moderateScale(15),
             color: 'white',
           },
         }}

@@ -1,18 +1,23 @@
-//import liraries
-import { BlurView } from '@react-native-community/blur';
+import {BlurView} from '@react-native-community/blur';
 import React from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Pressable, View, StyleSheet} from 'react-native';
 import styles from '../styles/TapAndHoldModalBackdropStyles';
 
-const TapAndHoldModalBackdrop = ({onTap}) => {
+interface TapAndHoldModalBackdropProps {
+  onTap: () => void;
+}
+
+const TapAndHoldModalBackdrop = ({onTap}: TapAndHoldModalBackdropProps) => {
   return (
     <Pressable onPress={onTap} style={styles.container}>
       {/* <View style={styles.subContainer} /> */}
       <BlurView
         style={StyleSheet.absoluteFill}
         blurType="dark"
-        blurAmount={12}></BlurView>
+        blurAmount={12}
+      />
     </Pressable>
   );
 };
+
 export default TapAndHoldModalBackdrop;

@@ -1,65 +1,61 @@
-//import liraries
-import React, {Component} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import React from 'react';
+import {Image, Pressable, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {AirbnbRating} from 'react-native-ratings';
+import GenreCard from '../../../components/GenreCard';
 import AppConstants from '../../../constants/AppConstants';
+import {moderateScale} from '../../../themes';
+import styles from '../styles/MyRatingMoviesCardStyles';
 
-// create a component
-const MyRatingMovieCard = ({data, onTap, rating}) => {
+interface ItemProps {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+interface MyRatingMovieCardProps {
+  data: ItemProps;
+  onTap: () => void;
+  rating?: number;
+}
+
+const MyRatingMovieCard = ({data, onTap, rating}: MyRatingMovieCardProps) => {
   return (
-    <Pressable
-      onPress={onTap}
-      style={{
-        padding: 10,
-        borderRadius: 10,
-        // backgroundColor: '#0b253f',
-        width: 370,
-      }}>
+    <Pressable onPress={onTap} style={styles.container}>
       <Image
-        style={{
-          // borderTopRightRadius: 10,
-          // borderTopLeftRadius: 10,
-          width: '100%',
-          height: 200,
-        }}
+        style={styles.imageStyles}
         source={{
           uri: `${AppConstants.API_IMAGE}${data?.backdrop_path}`,
         }}
       />
-      <View style={{height: 10}}></View>
-      <View style={{}}>
-        <Text style={{alignItems: 'center'}}>
-          <Text style={{fontSize: 20, fontWeight: '600', color: 'white'}}>
+      <View style={styles.itemSeparator} />
+      <View style={{padding: moderateScale(10)}}>
+        <Text>
+          <Text style={styles.titleStyles}>
             {data?.original_title ?? data?.original_name}
           </Text>
-          <Text
-            style={{
-              color: '#ccc',
-              fontSize: 17,
-              fontWeight: '500',
-            }}>
+          <Text style={styles.releaseYearStyles}>
             (
             {data?.release_date?.substring(0, 4) ??
               data?.first_air_date?.substring(0, 4)}
             )
           </Text>
         </Text>
-        <TouchableOpacity
-          // onPress={handleModal}
-          style={{height: 10}}></TouchableOpacity>
-
+        <View style={styles.itemSeparator} />
         {rating ? (
-          <View style={{flexDirection: 'row'}}>
-            {/* <View style={{backgroundColor: 'green', flex: 1}}></View> */}
-            <View style={{flex: 1, paddingHorizontal: 0}}>
+          <View style={styles.ratingWrapper}>
+            <View style={styles.ratingContainer}>
               <AirbnbRating
                 starImage={require('../../../assets/images/star.png')}
                 isDisabled={true}
@@ -68,64 +64,23 @@ const MyRatingMovieCard = ({data, onTap, rating}) => {
                 size={28}
               />
             </View>
-
-            <View style={{flex: 1.1}}></View>
+            <View style={styles.extraViewNearRating} />
           </View>
         ) : null}
-        <TouchableOpacity
-          // onPress={handleModal}
-          style={{height: 5}}></TouchableOpacity>
-
-        <View style={{flexDirection: 'row', maxHeight: 300, width: '100%'}}>
+        <View style={styles.itemSeparator} />
+        <View style={styles.genreListContainer}>
           <FlatList
             numColumns={4}
-            style={{flex: 1}}
             data={data?.genres}
             renderItem={({item}) => {
-              return (
-                <View
-                  style={{
-                    marginBottom: 5,
-                    paddingVertical: 3,
-                    marginRight: 5,
-                    paddingHorizontal: 5,
-                    borderRadius: 5,
-                    backgroundColor: '#fb4c93',
-                  }}>
-                  <Text
-                    style={{
-                      fontWeight: '600',
-                      letterSpacing: 0.2,
-                      color: 'white',
-                      fontSize: 15,
-                    }}>
-                    {item?.name}
-                  </Text>
-                </View>
-              );
+              return <GenreCard genreName={item?.name} />;
             }}
           />
         </View>
-
-        <TouchableOpacity
-          // onPress={handleModal}
-          style={{height: 2}}></TouchableOpacity>
-
-        <View style={{height: 10}}></View>
+        <View style={styles.itemSeparator} />
       </View>
     </Pressable>
   );
 };
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-});
-
-//make this component available to the app
 export default MyRatingMovieCard;

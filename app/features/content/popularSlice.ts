@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 import App from '../../../App';
-import AppConstants, { API_KEY } from '../../constants/AppConstants';
+import AppConstants, {API_KEY} from '../../constants/AppConstants';
 
 const initialState = {
   loading: false,
@@ -21,9 +21,14 @@ const fetchPopular = createAsyncThunk(
   },
 );
 
+interface FetchPopularTVProps {
+  mediaType: string;
+  page: number;
+}
+
 const fetchPopularTV = createAsyncThunk(
   'popular/fetchPopularTV',
-  async ({mediaType, page}) => {
+  async ({mediaType, page}: FetchPopularTVProps) => {
     const popular = await axios.get(
       `${AppConstants.BASE_URL}${mediaType}/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
     );

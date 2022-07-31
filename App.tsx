@@ -1,13 +1,15 @@
 import React from 'react';
-import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
-
-import Store from './app/features/store';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistStore} from 'redux-persist';
+import {store, persistor} from './app/features/store';
 import MainStack from './app/navigation';
 const App = () => {
   return (
-    <Provider store={Store}>
-      <MainStack />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <MainStack />
+      </PersistGate>
     </Provider>
   );
 };

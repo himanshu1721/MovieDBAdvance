@@ -10,7 +10,6 @@ import {
 import {
   changeTrendingMedia,
   fetchTrending,
-  fetchTrendingWeekly,
 } from '../../features/content/trendingSlice';
 import {AppDispatch} from '../../features/store';
 import CustomHeader from '../movieDetails/components/Header';
@@ -19,18 +18,25 @@ import MovieList from './components/MovieList';
 import SectionTitle from './components/SectionTitle';
 import TapAndHoldModal from './components/tapAndHoldModal/TapAndHoldModal';
 import styles from './styles/HomeScreenStyles';
-
-const HomeScreen = ({navigation}) => {
+import NavigationProp from '../../types/NavigationTypes';
+import {useGetData} from './hooks/useGetData';
+import {
+  HomeScreenShowSkeleton,
+  SkeletonCard,
+} from '../../components/ShowCardSkeleton';
+const HomeScreen = ({navigation}: NavigationProp) => {
   const dispatch = useDispatch<AppDispatch>();
   const popularLoading = useSelector(state => state?.popular?.loading);
-  const popularData = useSelector(state => state?.popular?.popular);
+  // const popularData = useSelector(state => state?.popular?.popular);
   const nextPage = useSelector(state => state?.popular?.nextPage);
 
   const popularMedia = useSelector(state => state?.popular?.currentMedia);
   const trendingMedia = useSelector(state => state?.trending?.currentMedia);
 
   const trendingLoading = useSelector(state => state?.trending?.loading);
-  const trendingData = useSelector(state => state?.trending?.trending);
+  // const trendingData = useSelector(state => state?.trending?.trending);
+
+  const {popularData, trendingData} = useGetData();
 
   useEffect(() => {
     dispatch(fetchPopular({page: 1}));
@@ -55,6 +61,7 @@ const HomeScreen = ({navigation}) => {
 
   const onSelectPopular = item => {
     dispatch(changePopularMedia(`${item}`));
+
     if (item === 'TV') {
       dispatch(fetchPopular({mediaType: 'tv', page: 1}));
     } else if (item === 'Movie') {
@@ -67,7 +74,7 @@ const HomeScreen = ({navigation}) => {
     if (item === 'Today') {
       dispatch(fetchTrending({page: 1}));
     } else if (item === 'This Week') {
-      dispatch(fetchTrendingWeekly({page: 1}));
+      dispatch(fetchTrending({span: 'week', page: 1}));
     }
   };
 
@@ -92,11 +99,10 @@ const HomeScreen = ({navigation}) => {
               </View>
               {popularLoading ? (
                 <View style={styles.loadingContainer}>
-                  <ActivityIndicator size={'large'} />
+                  <HomeScreenShowSkeleton />
                 </View>
               ) : (
                 <MovieList
-                  type={popularMedia}
                   isPopular={true}
                   isTV={popularMedia === 'TV'}
                   data={popularData}
@@ -117,11 +123,7 @@ const HomeScreen = ({navigation}) => {
                   <ActivityIndicator size={'large'} />
                 </View>
               ) : (
-                <MovieList
-                  isPopular={false}
-                  type={trendingMedia}
-                  data={trendingData}
-                />
+                <MovieList isPopular={false} data={trendingData} />
               )}
             </View>
             <View style={styles.bottomFiller} />

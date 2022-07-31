@@ -1,14 +1,40 @@
-//import liraries
 import {useNavigation} from '@react-navigation/native';
 import React, {useRef} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchPopular} from '../../../features/content/popularSlice';
 import {setFocusDetail} from '../../../features/focus/focusSlice';
 import MovieCard from '../components/MovieCard';
+import styles from '../styles/MovieListStyles';
 
-// create a component
-const MyComponent = ({data, isTV = false, type, isPopular, isRating}) => {
+interface ItemProps {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+interface MovieListProps {
+  data: ItemProps[];
+  isTV?: boolean;
+  isPopular: boolean;
+}
+
+const MovieList = ({
+  data,
+  isTV = false,
+  isPopular,
+}: MovieListProps): JSX.Element => {
   const flatListRef = useRef();
 
   const popularMedia = useSelector(state => state?.popular?.currentMedia);
@@ -34,9 +60,9 @@ const MyComponent = ({data, isTV = false, type, isPopular, isRating}) => {
       showsHorizontalScrollIndicator={false}
       bounces={false}
       horizontal
-      ListFooterComponent={() => <View style={{width: 10}}></View>}
+      ListFooterComponent={() => <View style={styles.listFooterComponent} />}
       ItemSeparatorComponent={() => {
-        return <View style={{width: 26}}></View>;
+        return <View style={styles.itemSeparator} />;
       }}
       keyExtractor={item => `${item?.id}${Math.random()}`}
       data={data}
@@ -46,7 +72,6 @@ const MyComponent = ({data, isTV = false, type, isPopular, isRating}) => {
           <MovieCard
             item={item}
             onLongTap={() => dispatch(setFocusDetail(item))}
-            onLongTapRelease={() => console.log('press out')}
             onTap={() => {
               const mediaType = isTV ? 'tv' : 'movie';
               navigation.navigate('Detail', {type: mediaType, id: item?.id});
@@ -60,15 +85,4 @@ const MyComponent = ({data, isTV = false, type, isPopular, isRating}) => {
   );
 };
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-});
-
-//make this component available to the app
-export default MyComponent;
+export default MovieList;

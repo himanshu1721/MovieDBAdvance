@@ -4,7 +4,10 @@ import Images from '../../../assets/images';
 import styles from '../styles/HeaderStyles';
 
 interface CustomHeaderProps {
-  onTap: () => void;
+  backButton?: boolean;
+  onTap?: () => void;
+  renderIcon?: JSX.Element;
+  renderMiddle?: JSX.Element;
 }
 
 const CustomHeader = ({
@@ -24,10 +27,7 @@ const CustomHeader = ({
             <Image source={Images.back} style={styles.backIconStyles} />
           </TouchableOpacity>
         ) : (
-          <View
-            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-            {renderIcon}
-          </View>
+          <View style={styles.headerLeftContainer}>{renderIcon}</View>
         )}
         <View style={styles.titleContainer}>
           {renderMiddle ? (

@@ -9,9 +9,14 @@ import DrawerIconComponent from '../../components/DrawerIconComponent';
 import HeaderTitle from '../../components/HeaderTitle';
 import {Colors} from '../../themes';
 import CustomHeader from '../movieDetails/components/Header';
+import EmptyWatchList from '../ratedByMe/components/EmptyWatchList';
+import ItemSeparatorMyRatings from '../ratedByMe/components/ItemSeparator';
 import MyRatingMovieCard from '../ratedByMe/components/MyRatingMovieCard';
+import styles from './styles/WatchListStyles';
+import NavigationProp from '../../types/NavigationTypes';
+import {SkeletonCard} from '../../components/ShowCardSkeleton';
 
-const WatchList = ({navigation}) => {
+const WatchList = ({navigation}: NavigationProp) => {
   const currentUserUID = useSelector(state => state.auth.userUID);
 
   const [threads, setThreads] = useState([]);
@@ -30,21 +35,9 @@ const WatchList = ({navigation}) => {
     getUsers();
   }, [threads]);
 
-  const EmptyWatchList = () => {
-    return (
-      <View style={{marginTop: 200}}>
-        <Text
-          style={{fontSize: 25, fontWeight: '500', color: Colors.limeGreen}}>
-          WatchList is Empty!
-        </Text>
-      </View>
-    );
-  };
-
-  const watchLater = useSelector(state => state.watchLater.watchLater);
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{backgroundColor: '#061422', flex: 1}}>
+      <SafeAreaView style={styles.container}>
         <CustomHeader
           renderMiddle={<HeaderTitle title={'WatchList'} />}
           renderIcon={
@@ -52,36 +45,15 @@ const WatchList = ({navigation}) => {
           }
           backButton={false}
         />
-        <View
-          style={{
-            padding: 10,
-            backgroundColor: '#061422',
-            alignItems: 'center',
-          }}>
+        <View style={styles.subContainer}>
           <FlatList
             ListEmptyComponent={<EmptyWatchList />}
-            ItemSeparatorComponent={() => (
-              <View
-                style={{
-                  justifyContent: 'center',
-                  height: 50,
-                }}>
-                <View
-                  style={{
-                    alignSelf: 'center',
-                    width: '40%',
-                    height: 3,
-                    opacity: 0.5,
-                    borderRadius: 5 / 2,
-                    backgroundColor: '#696969',
-                  }}></View>
-              </View>
-            )}
+            ItemSeparatorComponent={() => <ItemSeparatorMyRatings />}
             showsVerticalScrollIndicator={false}
             maxToRenderPerBatch={3}
             data={threads}
             ListFooterComponent={() => {
-              return <View style={{height: 100}}></View>;
+              return <View style={styles.footerStyles} />;
             }}
             renderItem={({item}) => {
               return (
@@ -103,15 +75,4 @@ const WatchList = ({navigation}) => {
   );
 };
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-});
-
-//make this component available to the app
 export default WatchList;

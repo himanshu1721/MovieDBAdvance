@@ -1,25 +1,18 @@
 //import liraries
-import React, {Component, useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import {useSelector} from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
+import React, {useEffect, useState} from 'react';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import CustomHeader from '../movieDetails/components/Header';
-import {Colors} from '../../themes';
-import MovieBrief from '../../components/MovieBrief';
-import MyRatingMovieCard from './components/MyRatingMovieCard';
-import HeaderTitle from '../../components/HeaderTitle';
+import {useSelector} from 'react-redux';
 import DrawerIconComponent from '../../components/DrawerIconComponent';
+import HeaderTitle from '../../components/HeaderTitle';
+import {moderateScale} from '../../themes';
+import CustomHeader from '../movieDetails/components/Header';
+import EmptyWatchList from './components/EmptyWatchList';
+import ItemSeparatorMyRatings from './components/ItemSeparator';
+import MyRatingMovieCard from './components/MyRatingMovieCard';
+import styles from './styles/RatedByMeStyles';
 
-// create a component
 const RatedByMe = ({navigation}) => {
   const currentUserUID = useSelector(state => state.auth.userUID);
   const [threads, setThreads] = useState([]);
@@ -38,17 +31,6 @@ const RatedByMe = ({navigation}) => {
     getUsers();
   }, [threads]);
 
-  const EmptyWatchList = () => {
-    return (
-      <View style={{marginTop: 200}}>
-        <Text
-          style={{fontSize: 25, fontWeight: '500', color: Colors.limeGreen}}>
-          WatchList is Empty!
-        </Text>
-      </View>
-    );
-  };
-
   const renderItem = ({item}) => (
     <MyRatingMovieCard
       rating={item?.rating}
@@ -62,26 +44,6 @@ const RatedByMe = ({navigation}) => {
     />
   );
 
-  const ItemSeparator = () => {
-    return (
-      <View
-        style={{
-          justifyContent: 'center',
-          height: 50,
-        }}>
-        <View
-          style={{
-            alignSelf: 'center',
-            width: '40%',
-            height: 3,
-            opacity: 0.5,
-            borderRadius: 5 / 2,
-            backgroundColor: '#696969',
-          }}></View>
-      </View>
-    );
-  };
-
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -94,10 +56,13 @@ const RatedByMe = ({navigation}) => {
         />
         <View style={styles.subContainer}>
           <FlatList
+            ListFooterComponent={() => (
+              <View style={{height: moderateScale(100)}}></View>
+            )}
             initialNumToRender={4}
             ListEmptyComponent={<EmptyWatchList />}
             keyExtractor={item => item?.item?.id}
-            ItemSeparatorComponent={() => <ItemSeparator />}
+            ItemSeparatorComponent={() => <ItemSeparatorMyRatings />}
             showsVerticalScrollIndicator={false}
             maxToRenderPerBatch={4}
             data={threads}
@@ -108,14 +73,5 @@ const RatedByMe = ({navigation}) => {
     </SafeAreaProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {backgroundColor: '#181725', flex: 1},
-  subContainer: {
-    padding: 10,
-    backgroundColor: '#061422',
-    alignItems: 'center',
-  },
-});
 
 export default RatedByMe;

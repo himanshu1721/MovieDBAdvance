@@ -34,6 +34,10 @@ const colors = {
   cinnabar: '#e34e46',
   cherub: '#F8D8DB',
   transparentGrey: '#34343466',
+  backdropWhite: 'rgba(200, 200, 200, 0.7)',
+  skeletonBackground: '#696969',
+  discoverSkeletonCard: '#ababab',
+  transparent: 'transparent',
 };
 
 export default colors;

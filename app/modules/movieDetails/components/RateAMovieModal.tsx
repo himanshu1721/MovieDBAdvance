@@ -1,26 +1,26 @@
-//import liraries
-import React, {Component} from 'react';
+import React from 'react';
+import {Image, Pressable, Text, TouchableOpacity, View} from 'react-native';
 import Modal from 'react-native-modal';
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native';
 import {AirbnbRating} from 'react-native-ratings';
+import {Colors, moderateScale} from '../../../themes';
 import {useSelector} from 'react-redux';
-import {Colors} from '../../../themes';
+import styles from '../styles/RateAMovieModalStyles';
 
-// create a component
+interface RateAMovieModalProps {
+  modalVisible: boolean;
+  ratingCompleted: (arg0: number) => void;
+  setModalVisible: (arg0: boolean) => void;
+  myRated: number;
+  rateMovie: () => void;
+}
+
 const RateAMovieModal = ({
   modalVisible,
   ratingCompleted,
   setModalVisible,
   myRated,
   rateMovie,
-}) => {
+}: RateAMovieModalProps) => {
   const isThisMovieRatedByMeBefore = useSelector(
     state => state?.detail?.haveBeenRatedBeforeByMe,
   );
@@ -28,79 +28,57 @@ const RateAMovieModal = ({
   return (
     <Modal
       animationIn={'fadeIn'}
-      style={{
-        alignSelf: 'center',
-        shadowColor: '#474747',
-        shadowRadius: 5,
-        shadowOffset: {
-          width: 1,
-          height: 1,
-        },
-        shadowOpacity: 1,
-      }}
-      backdropColor="rgba(200, 200, 200, 0.7)"
-      // backdropColor="rgba(0,0,0,0.8)"
+      style={styles.modalStyles}
+      backdropColor={Colors.backdropWhite}
       backdropOpacity={0.7}
       onBackdropPress={() => setModalVisible(!modalVisible)}
       isVisible={modalVisible}>
-      <View
-        style={{
-          borderRadius: 10,
-          // height: 200,
-          paddingVertical: 40,
-          paddingHorizontal: 40,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#000',
-        }}>
+      <View style={styles.container}>
         <Pressable
           hitSlop={5}
           onPress={() => setModalVisible(!modalVisible)}
-          style={{
-            position: 'absolute',
-            right: 12,
-            top: 12,
-          }}>
+          style={styles.closeIconTouchable}>
           <Image
             source={require('../../../assets/images/close.png')}
-            style={{width: 20, height: 20}}
+            style={styles.closeIconStyles}
           />
         </Pressable>
-        <View style={isThisMovieRatedByMeBefore ? {opacity: 0.4} : {opacity: 1}}>
+        <View
+          style={
+            isThisMovieRatedByMeBefore
+              ? styles.inActiveOpacity
+              : styles.activeOpacity
+          }>
           <AirbnbRating
+            starImage={require('../../../assets/images/star.png')}
             isDisabled={isThisMovieRatedByMeBefore}
             showRating={false}
             onFinishRating={ratingCompleted}
             count={5}
             defaultRating={myRated}
-            size={30}
-            reviewSize={0}
+            size={moderateScale(30)}
+            reviewSize={moderateScale(30)}
           />
         </View>
 
-        <View style={{height: 20}}></View>
+        <View style={styles.viewWithHeightTwenty} />
         <TouchableOpacity
           disabled={isThisMovieRatedByMeBefore}
+          style={
+            isThisMovieRatedByMeBefore
+              ? styles.rateButtonInactiveStyles
+              : styles.rateButtonStyles
+          }
           onPress={() => {
             setModalVisible(!modalVisible);
             rateMovie();
-          }}
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            opacity: !isThisMovieRatedByMeBefore ? 1 : 0.4,
-            backgroundColor: Colors.natureGreen,
-            paddingHorizontal: 20,
-            width: null,
-            borderRadius: 5,
-            paddingVertical: 2,
           }}>
-          <Text style={{fontWeight: '600', fontSize: 20}}>RATE</Text>
+          <Text style={styles.rateTextStyles}>RATE</Text>
         </TouchableOpacity>
-        <View style={{height: 10}}></View>
+        <View style={styles.rateButtonAndMovieAlreadyRatedSeparator} />
         {isThisMovieRatedByMeBefore ? (
           <View>
-            <Text style={{color: 'gold'}}>
+            <Text style={styles.alreadyRatedMovieText}>
               You have already rated this movie!
             </Text>
           </View>
@@ -110,15 +88,4 @@ const RateAMovieModal = ({
   );
 };
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-});
-
-//make this component available to the app
 export default RateAMovieModal;

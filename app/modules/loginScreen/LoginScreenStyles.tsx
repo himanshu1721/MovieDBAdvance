@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
     paddingVertical: moderateScale(5),
     backgroundColor: Colors.cherub,
   },
-  dontHaveAccountStyles: {fontSize: 18, color: Colors.alto},
+  dontHaveAccountStyles: {fontSize: moderateScale(16), color: Colors.alto},
   dontHaveAccountContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
     justifyContent: 'center',
   },
-  signUpText: {fontSize: 18, color: Colors.cyan},
+  signUpText: {fontSize: moderateScale(15), color: Colors.cyan},
   passwordViewStyles: {
     flexDirection: 'row',
     height: moderateScale(45),
@@ -61,9 +61,9 @@ const styles = StyleSheet.create({
   passwordTextInput: {
     letterSpacing: 1,
     paddingHorizontal: 10,
-    fontSize: moderateScale(20, 0.4),
+    fontSize: moderateScale(18, 0.4),
     width: '100%',
-    height: moderateScale(37),
+    height: '100%',
   },
 
   loginStyles: {
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   appLogoStyles: {width: moderateScale(90), height: moderateScale(64)},
-  forgotPasswordStyles: {color: Colors.cyan, fontSize: moderateScale(18)},
+  forgotPasswordStyles: {color: Colors.cyan, fontSize: moderateScale(16)},
   disabledLoginButtonStyles: {
     opacity: 0.3,
     height: moderateScale(35),
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.natureGreen,
   },
   loginButtonStyles: {
-    height: moderateScale(35),
+    height: moderateScale(40),
     borderRadius: moderateScale(6),
     justifyContent: 'center',
     alignItems: 'center',
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
   emailTextInputStyles: {
     letterSpacing: 1,
-    fontSize: moderateScale(20, 0.4),
+    fontSize: moderateScale(18, 0.4),
     height: moderateScale(45),
     paddingHorizontal: moderateScale(10),
     padding: moderateScale(5),
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   },
   emailTextInputStylesFocus: {
     letterSpacing: 1,
-    fontSize: moderateScale(20, 0.4),
+    fontSize: moderateScale(18, 0.4),
     height: moderateScale(45),
     paddingHorizontal: moderateScale(10),
     padding: moderateScale(5),

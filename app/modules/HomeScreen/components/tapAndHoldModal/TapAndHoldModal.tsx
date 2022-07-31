@@ -1,14 +1,5 @@
-//import liraries
-import {BlurView} from '@react-native-community/blur';
 import React from 'react';
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import AppConstants from '../../../../constants/AppConstants';
@@ -16,8 +7,7 @@ import {onPressOut} from '../../../../features/focus/focusSlice';
 import TapAndHoldModalBackdrop from '../TapAndHoldModalBackdrop';
 import styles from './TapAndHoldModalStyles';
 
-// create a component
-const TapAndHoldModal = () => {
+const TapAndHoldModal = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const focusMovie = useSelector(state => state?.focus?.data);
@@ -25,6 +15,7 @@ const TapAndHoldModal = () => {
 
   return (
     <Modal
+      animationOut={'fadeOut'}
       animationIn={'fadeIn'}
       style={styles.modalStyles}
       backdropColor="transparent"
@@ -64,7 +55,4 @@ const TapAndHoldModal = () => {
   );
 };
 
-// define your styles
-
-//make this component available to the app
 export default TapAndHoldModal;

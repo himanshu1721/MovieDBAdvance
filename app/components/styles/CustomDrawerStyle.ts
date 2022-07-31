@@ -11,15 +11,15 @@ const styles = StyleSheet.create({
   },
   emailText: {
     color: Colors.grey,
-    fontSize: moderateScale(15),
+    fontSize: moderateScale(13),
     fontWeight: '500',
     letterSpacing: 0.5,
-    marginLeft: scale(15),
+    marginLeft: scale(10),
   },
   usernameText: {
     color: Colors.white,
     fontSize: moderateScale(18),
-    marginLeft: scale(15),
+    marginLeft: scale(10),
     fontWeight: '500',
   },
   touchableText: {
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     marginLeft: scale(15),
   },
   appLogo: {
-    marginHorizontal: scale(80),
+    alignSelf: 'center',
     marginVertical: verticalScale(50),
     height: moderateScale(100),
     width: moderateScale(100),
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     backgroundColor: Colors.grey,
-    width: scale(260),
+    width: '100%',
     height: verticalScale(1),
     alignSelf: 'center',
     marginVertical: verticalScale(10),

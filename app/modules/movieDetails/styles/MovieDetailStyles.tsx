@@ -4,16 +4,16 @@ import {Colors, verticalScale, moderateScale} from '../../../themes';
 const styles = StyleSheet.create({
   subContainer: {flex: 1, justifyContent: 'center'},
   itemSeparator: {
-    height: verticalScale(9),
+    height: verticalScale(5),
   },
   movieSaveIconWrapper: {
-    flex: 5,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   movieSaveIconStyles: {
-    height: 28,
-    width: 28,
+    height: moderateScale(28),
+    width: moderateScale(28),
   },
   userScoreAndPlayContainer: {
     flex: 1,
@@ -31,7 +31,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.black,
   },
-  rateMovieTextStyles: {fontWeight: '500', color: '#2657e0'},
+  rateMovieTextStyles: {
+    fontWeight: '500',
+    fontSize: moderateScale(13),
+    color: '#2657e0',
+  },
   rateMovieWrapper: {
     flex: 1,
     alignItems: 'center',
@@ -46,7 +50,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   ratingContainerWrapper: {
-    marginVertical: 15,
+    marginVertical: verticalScale(15),
+    marginTop: verticalScale(5),
     flexDirection: 'row',
   },
 });

@@ -1,4 +1,4 @@
-import {configureStore} from '@reduxjs/toolkit';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import thunkMiddleware from 'redux-thunk';
 
 import authSlice from './auth/authSlice';
@@ -9,22 +9,37 @@ import focusSlice from './focus/focusSlice';
 import ratingSlice from './rating/ratingSlice';
 import watchLaterSlice from './watchLater/watchLaterSlice';
 import topRatedSlice from './topRated/topRatedSlice';
+import {persistReducer, persistStore} from 'redux-persist';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const rootReducer = combineReducers({
+  popular: popularSlice,
+  trending: trendingSlice,
+  detail: detailSlice,
+  watchLater: watchLaterSlice,
+  focus: focusSlice,
+  rating: ratingSlice,
+  topRated: topRatedSlice,
+  auth: authSlice,
+});
+
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: ['auth'],
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
-  reducer: {
-    popular: popularSlice,
-    trending: trendingSlice,
-    detail: detailSlice,
-    watchLater: watchLaterSlice,
-    focus: focusSlice,
-    rating: ratingSlice,
-    topRated: topRatedSlice,
-    auth: authSlice,
-  },
+  reducer: persistedReducer,
   middleware: [thunkMiddleware],
   // other options e.g middleware, go here
 });
 
-export default store;
-export type AppDispatch = typeof store.dispatch;
+const persistor = persistStore(store);
+export {store, persistor};
+
 export type RootState = ReturnType<typeof store.getState>;
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch;

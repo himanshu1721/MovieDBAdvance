@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/drawer/lib/typescript/src/types';
 import {DrawerNavigationState, ParamListBase} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, Alert, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 // import {Icons, Images} from '../assets';
 import {Strings} from '../constants';
@@ -23,6 +23,18 @@ type PropsType = {
 const CustomDrawer = (props: PropsType) => {
   const userData = useSelector(state => state?.auth?.email);
   const dispatch = useDispatch();
+
+  const logOutPressed = () =>
+    Alert.alert('Warning', 'Are you sure you want to log out?', [
+      {
+        text: 'No',
+      },
+      {
+        text: 'Yes',
+        onPress: () => dispatch(logOutUser()),
+      },
+    ]);
+
   return (
     <View style={styles.screen}>
       <Image
@@ -37,9 +49,7 @@ const CustomDrawer = (props: PropsType) => {
       <DrawerItemList {...props} />
       <View style={styles.divider} />
       {userData ? (
-        <TouchableOpacity
-          onPress={() => dispatch(logOutUser())}
-          style={styles.touchableView}>
+        <TouchableOpacity onPress={logOutPressed} style={styles.touchableView}>
           <Image
             source={require('../assets/images/logoutLight.png')}
             style={styles.iconStyle}

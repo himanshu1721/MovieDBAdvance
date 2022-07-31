@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchPopular} from '../../../features/content/popularSlice';
 import {setFocusDetail} from '../../../features/focus/focusSlice';
 import MovieCard from '../components/MovieCard';
+import styles from '../styles/MovieListStyles';
 
 // create a component
 const RatingList = ({data, isTV = false, type, isPopular}) => {
@@ -22,9 +23,9 @@ const RatingList = ({data, isTV = false, type, isPopular}) => {
       showsHorizontalScrollIndicator={false}
       bounces={false}
       horizontal
-      ListFooterComponent={() => <View style={{width: 10}}></View>}
+      ListFooterComponent={() => <View style={styles.listFooterComponent} />}
       ItemSeparatorComponent={() => {
-        return <View style={{width: 26}}></View>;
+        return <View style={styles.itemSeparator} />;
       }}
       keyExtractor={item => `${item?.id}${Math.random()}`}
       data={data}
@@ -38,7 +39,10 @@ const RatingList = ({data, isTV = false, type, isPopular}) => {
             onLongTap={() => {}}
             onTap={() => {
               const mediaType = isTV ? 'tv' : 'movie';
-              navigation.navigate('Detail', {type: mediaType, id: item?.movie?.id});
+              navigation.navigate('Detail', {
+                type: mediaType,
+                id: item?.movie?.id,
+              });
             }}
           />
         );
@@ -48,15 +52,4 @@ const RatingList = ({data, isTV = false, type, isPopular}) => {
   );
 };
 
-// define your styles
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2c3e50',
-  },
-});
-
-//make this component available to the app
 export default RatingList;

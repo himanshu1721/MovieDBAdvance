@@ -9,8 +9,8 @@ const styles = StyleSheet.create({
   },
   dateStyles: {
     color: Colors.white,
-    fontWeight: "500",
-    fontSize: moderateScale(18),
+    fontWeight: "400",
+    fontSize: moderateScale(16),
   },
   subContainer: { flexDirection: "row", alignItems: "center" },
   ratedContainer: {

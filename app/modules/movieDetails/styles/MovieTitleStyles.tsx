@@ -13,13 +13,13 @@ const styles = StyleSheet.create({
   titleAndYearSeparator: { width: scale(5) },
   titleYearStyle: {
     color: Colors.gray,
-    fontSize: moderateScale(19),
-    fontWeight: "500",
+    fontSize: moderateScale(17),
+    fontWeight: "400",
   },
   titleTextStyle: {
     color: Colors.white,
-    fontSize: moderateScale(23),
-    fontWeight: "600",
+    fontSize: moderateScale(22),
+    fontWeight: "400",
   },
 });
 

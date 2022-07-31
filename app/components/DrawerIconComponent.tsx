@@ -1,7 +1,14 @@
 import React from 'react';
 import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {moderateScale} from '../themes';
 
-const DrawerIconComponent = ({onTap}) => {
+interface DrawerIconComponentProps {
+  onTap: () => void;
+}
+
+const DrawerIconComponent = ({
+  onTap,
+}: DrawerIconComponentProps): JSX.Element => {
   return (
     <TouchableOpacity onPress={onTap}>
       <Image
@@ -13,7 +20,7 @@ const DrawerIconComponent = ({onTap}) => {
 };
 
 const styles = StyleSheet.create({
-  imageStyles: {height: 35, width: 35},
+  imageStyles: {height: moderateScale(35), width: moderateScale(35)},
 });
 
 export default DrawerIconComponent;

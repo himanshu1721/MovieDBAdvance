@@ -1,10 +1,15 @@
 import {StyleSheet} from 'react-native';
 import {Colors, moderateScale} from '../../../themes';
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
+  textStyles: {
+    fontSize: moderateScale(21),
+    fontWeight: '600',
+    color: Colors.limeGreen,
+  },
   ratingStyle: {flexDirection: 'row', alignItems: 'center'},
   percentStyle: {
-    fontSize: moderateScale(19),
+    fontSize: moderateScale(17),
     fontWeight: '700',
     color: Colors.white,
   },
@@ -35,3 +40,5 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.black,
   },
 });
+
+export default styles;

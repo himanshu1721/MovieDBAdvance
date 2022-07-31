@@ -7,8 +7,10 @@ import HeaderTitle from '../../components/HeaderTitle';
 import MovieBrief from '../../components/MovieBrief';
 import {getTopRated} from '../../features/topRated/topRatedSlice';
 import CustomHeader from '../movieDetails/components/Header';
+import styles from './styles/TopRatesStyles';
+import NavigationProp from '../../types/NavigationTypes';
 
-const TopRated = ({navigation}) => {
+const TopRated = ({navigation}: NavigationProp) => {
   const dispatch = useDispatch();
   const topRatedMovies = useSelector(state => state?.topRated?.topRatedMovies);
   const loading = useSelector(state => state?.topRated?.loading);
@@ -16,11 +18,31 @@ const TopRated = ({navigation}) => {
     dispatch(getTopRated());
   }, []);
 
+  const renderItem = ({item}) => {
+    return (
+      <MovieBrief
+        item={item}
+        onTap={() =>
+          navigation.navigate('Detail', {
+            type: 'movie',
+            id: item?.id,
+          })
+        }
+      />
+    );
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView>
         {loading ? (
-          <View style={styles.container}>
+          <View
+            style={{
+              height: '100%',
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
             <ActivityIndicator />
           </View>
         ) : (
@@ -32,6 +54,7 @@ const TopRated = ({navigation}) => {
               }
             />
             <FlatList
+              ListHeaderComponent={() => <View style={styles.itemSeparator} />}
               maxToRenderPerBatch={3}
               ItemSeparatorComponent={() => (
                 <View style={styles.itemSeparator} />
@@ -40,19 +63,7 @@ const TopRated = ({navigation}) => {
               keyExtractor={item => item?.id}
               showsVerticalScrollIndicator={false}
               data={topRatedMovies}
-              renderItem={({item}) => {
-                return (
-                  <MovieBrief
-                    item={item}
-                    onTap={() =>
-                      navigation.navigate('Detail', {
-                        type: 'movie',
-                        id: item?.id,
-                      })
-                    }
-                  />
-                );
-              }}
+              renderItem={renderItem}
             />
           </View>
         )}
@@ -60,14 +71,5 @@ const TopRated = ({navigation}) => {
     </SafeAreaProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#061422',
-    width: '100%',
-    alignItems: 'center',
-  },
-  itemSeparator: {height: 15},
-});
 
 export default TopRated;

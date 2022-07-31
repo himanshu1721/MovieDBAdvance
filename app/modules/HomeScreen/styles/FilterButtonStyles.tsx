@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: Colors.prussianBlue,
     fontSize: moderateScale(18),
-    fontWeight: '600',
+    fontWeight: '400',
     marginVertical: verticalScale(2),
   },
   containerBetweenTextAndIcon: {width: moderateScale(5)},
@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
   },
   titleStyle: {
     fontSize: moderateScale(16),
-    fontWeight: '600',
+    fontWeight: '400',
+    letterSpacing: 0.3,
     color: Colors.emerald,
   },
 });

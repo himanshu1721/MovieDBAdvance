@@ -2,7 +2,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {Image} from 'react-native';
 import TopRated from '../modules/topRated/TopRated';
-import {Colors} from '../themes';
+import WatchList from '../modules/watchlist/WatchList';
+import {Colors, moderateScale, verticalScale} from '../themes';
 import HomeStack from './StackNavigation';
 
 const Tab = createBottomTabNavigator();
@@ -14,6 +15,8 @@ export default function TabRoutes() {
         tabBarActiveTintColor: Colors.green,
         tabBarInactiveTintColor: Colors.white,
         tabBarStyle: {
+          height: verticalScale(60),
+          paddingTop: verticalScale(5),
           backgroundColor: Colors.prussianBlue,
         },
         headerShown: false,
@@ -28,7 +31,7 @@ export default function TabRoutes() {
                   ? require('../assets/images/home.png')
                   : require('../assets/images/homeLime.png')
               }
-              style={{width: 30, height: 30}}
+              style={{width: moderateScale(30), height: moderateScale(30)}}
             />
           ),
         }}
@@ -40,7 +43,7 @@ export default function TabRoutes() {
           tabBarShowLabel: false,
           tabBarIcon: ({focused}) => (
             <Image
-              style={{width: 32, height: 32}}
+              style={{width: moderateScale(32), height: moderateScale(32)}}
               source={
                 focused
                   ? require('../assets/images/topRatedLime.png')
@@ -52,6 +55,24 @@ export default function TabRoutes() {
         name="TopRated"
         component={TopRated}
       />
+      <Tab.Screen
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({focused}) => (
+            <Image
+              style={{width: moderateScale(30), height: moderateScale(30)}}
+              source={
+                focused
+                  ? require('../assets/images/bookmarkLime.png')
+                  : require('../assets/images/bookmarkFilled.png')
+              }
+            />
+          ),
+        }}
+        name="WatchList"
+        component={WatchList}
+      />
+
     </Tab.Navigator>
   );
 }

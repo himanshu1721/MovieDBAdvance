@@ -2,9 +2,11 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useRef, useState} from 'react';
+import {AppDispatch} from '../../features/store';
 import {
   ActivityIndicator,
   Alert,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -27,7 +29,7 @@ interface LoginScreenProps {
   navigation: NativeStackNavigationProp<any, any>;
 }
 
-const LoginScreen = ({navigation}: LoginScreenProps) => {
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [obsecureText, setObsecureText] = useState(true);
@@ -36,7 +38,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
   const [emailFocus, setEmailFocus] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
   const [isLoginScreen, setLoginScreen] = useState(true);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const loading = useSelector(state => state.auth.loading);
   const error = useSelector(state => state.auth.error);
 
@@ -94,13 +96,8 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
       // firestore()
       //   .collection('users')
       //   .doc(result.user.uid)
-      //   .collection('watchLater')
-      //   .add({name: 'Himanshu'});
-      firestore()
-        .collection('users')
-        .doc(result.user.uid)
-        .collection('myRatings')
-        .add({name: 'Himanshu22'});
+      //   .collection('myRatings')
+      //   .add({name: 'Himanshu22'});
       setPassword('');
       Alert.alert(AuthStrings.success, AuthStrings.accountSuccessfullyCreated);
       setLoginScreen(true);
@@ -135,7 +132,10 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoidingViewStyles}>
           <View>
-            {/* <Image style={styles.appLogoStyles} source={Images.appLogo} /> */}
+            <Image
+              style={styles.appLogoStyles}
+              source={require('../../assets/images/tmdbLogo.png')}
+            />
           </View>
           <View style={styles.viewWithHeightForty} />
           <TextInput
@@ -190,11 +190,16 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
               {password === '' ? (
                 <View style={styles.emptyViewWhenNoPasswordIsEntered} />
               ) : (
-                // <Image
-                //   style={styles.passwordEyeStyles}
-                //   source={obsecureText ? Icons.eye : Icons.invisibleEye}
-                // />
-                <View></View>
+                <View>
+                  <Image
+                    style={styles.passwordEyeStyles}
+                    source={
+                      obsecureText
+                        ? require('../../assets/images/passwordEye.png')
+                        : require('../../assets/images/passwordInvisible.png')
+                    }
+                  />
+                </View>
               )}
             </TouchableOpacity>
           </View>

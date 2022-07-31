@@ -21,13 +21,13 @@ const styles = StyleSheet.create({
   separatorStyles: {height: moderateScale(30)},
   releaseDateStyles: {
     color: Colors.gray,
-    fontSize: moderateScale(15),
-    fontWeight: '500',
+    fontSize: moderateScale(14),
+    fontWeight: '400',
   },
   titleStyles: {
-    fontWeight: '600',
+    fontWeight: '500',
     color: Colors.black,
-    fontSize: moderateScale(18),
+    fontSize: moderateScale(16),
   },
 });
 

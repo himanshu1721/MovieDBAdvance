@@ -1,31 +1,37 @@
-//import liraries
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
-import CircularProgress from 'react-native-circular-progress-indicator';
-import RatingCircle from './RatingCircle';
 import AppConstants from '../../../constants/AppConstants';
 import {refactorDate} from '../../../services';
-import {Colors, moderateScale, scale} from '../../../themes';
-import MenuCircle from './MenuButtonCircle';
+import {verticalScale} from '../../../themes';
 import styles from '../styles/MovieCardStyles';
-import {AirbnbRating, Rating} from 'react-native-ratings';
-// create a component
+import MenuCircle from './MenuButtonCircle';
+import RatingCircle from './RatingCircle';
 
-const RatingCard = ({rating}) => {
-  return (
-    <View style={{paddingVertical: 5, alignSelf: 'center'}}>
-      <AirbnbRating
-        showRating={false}
-        isDisabled
-        count={5}
-        defaultRating={rating ?? 0}
-        size={20}
-      />
-    </View>
-  );
-};
+interface ItemProps {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+  original_name?: string;
+  first_air_date?: string;
+}
+interface MovieCardProps {
+  item: ItemProps;
+  onTap: () => void;
+  onLongTap: () => {};
+}
 
-const MovieCard = ({item, onTap, onLongTap, isRating, rating}): JSX.Element => {
+const MovieCard = ({item, onTap, onLongTap}: MovieCardProps): JSX.Element => {
   return (
     <TouchableOpacity
       delayLongPress={200}
@@ -43,7 +49,7 @@ const MovieCard = ({item, onTap, onLongTap, isRating, rating}): JSX.Element => {
       </View>
       <MenuCircle />
       <RatingCircle vote_average={item?.vote_average} />
-      {isRating && <RatingCard rating={rating} />}
+      <View style={{height: verticalScale(20)}} />
       <View style={styles.textContainer}>
         <Text style={styles.titleStyles}>
           {item?.title ?? item?.original_name}
@@ -56,5 +62,4 @@ const MovieCard = ({item, onTap, onLongTap, isRating, rating}): JSX.Element => {
   );
 };
 
-//make this component available to the app
 export default memo(MovieCard);

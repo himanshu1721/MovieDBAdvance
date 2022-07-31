@@ -12,19 +12,9 @@ const initialState = {
 
 const fetchTrending = createAsyncThunk(
   'trending/fetchTrending',
-  async ({page}) => {
+  async ({span = 'day', page}) => {
     const popular = await axios.get(
-      `${AppConstants.BASE_URL}trending/movie/day?api_key=${API_KEY}&language=en-US&page=${page}`,
-    );
-    return popular.data;
-  },
-);
-
-const fetchTrendingWeekly = createAsyncThunk(
-  'trending/fetchTrending',
-  async ({page}) => {
-    const popular = await axios.get(
-      `${AppConstants.BASE_URL}trending/movie/week?api_key=${API_KEY}&language=en-US&page=${page}`,
+      `${AppConstants.BASE_URL}trending/movie/${span}?api_key=${API_KEY}&language=en-US&page=${page}`,
     );
     return popular.data;
   },
@@ -56,5 +46,5 @@ const trendingSlice = createSlice({
 
 const {reducer} = trendingSlice;
 export const {changeTrendingMedia} = trendingSlice.actions;
-export {fetchTrending, fetchTrendingWeekly};
+export {fetchTrending};
 export default reducer;

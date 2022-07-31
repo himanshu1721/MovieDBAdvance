@@ -13,13 +13,14 @@ import {
 import Modal from 'react-native-modal';
 import {AirbnbRating} from 'react-native-ratings';
 import {useDispatch, useSelector} from 'react-redux';
+import {RouteProp} from '@react-navigation/native';
 import {
   fetchMovie,
   setHaveBeenRated,
   setHaveNotBeenRated,
 } from '../../features/detail/detailSlice';
 import {addMovieInRatingSection} from '../../features/rating/ratingSlice';
-import {Colors} from '../../themes';
+import {Colors, moderateScale} from '../../themes';
 import GenreList from './components/GenreList';
 import HeaderComponent from './components/Header';
 import ImageComponent from './components/ImageComponent';
@@ -29,11 +30,17 @@ import RateAMovieModal from './components/RateAMovieModal';
 import ReleaseDateAndRuntime from './components/ReleaseDate';
 import UserScore from './components/UserScore';
 import styles from './styles/MovieDetailStyles';
+import NavigationProp from '../../types/NavigationTypes';
+import {useGetMovies} from './hooks/useGetMovie';
 
-const DetailScreen = ({navigation, route}) => {
+interface DetailScreenProps {
+  navigation: NavigationProp;
+  route: RouteProp<{params: {type: string}}, 'params'>;
+}
+
+const DetailScreen = ({navigation, route}: DetailScreenProps) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.detail.loading);
-  const movies = useSelector(state => state.detail.movieDetails);
   const currentUserUID = useSelector(state => state.auth.userUID);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -43,9 +50,10 @@ const DetailScreen = ({navigation, route}) => {
   const [movieRatedByValue, setMovieRatedByValue] = useState(0);
   const [myRated, setMyRated] = useState(0);
 
-  useEffect(() => {
-    dispatch(fetchMovie({type: route.params.type, movieID: route.params.id}));
-  }, []);
+  const {movies} = useGetMovies({
+    t: route?.params?.type,
+    id: route?.params?.id,
+  });
 
   useEffect(() => {
     checkIfMovieExistsInRating();
@@ -119,7 +127,7 @@ const DetailScreen = ({navigation, route}) => {
       .get();
     if (user?.data()) {
       dispatch(setHaveBeenRated());
-      setMyRated(user?.data().rating);
+      setMyRated(user?.data()?.rating);
       console.log('=>>', myRated);
     } else {
       dispatch(setHaveNotBeenRated());
@@ -127,29 +135,28 @@ const DetailScreen = ({navigation, route}) => {
     }
   };
 
-  const ratingCompleted = rating => {
-    console.log('Rating is: ' + rating);
+  const ratingCompleted = (rating: number) => {
     setIfRatedByMeTheRating(rating);
     getRating();
     updateTotalRating(rating);
     dispatch(addMovieInRatingSection({movie: movies, rating: rating}));
   };
 
-  const getRating = () => {
+  const getRating = (): void => {
     firestore()
       .collection('MovieRating')
       .doc(`${movies?.id}`)
       .set({ratedBy: firestore.FieldValue.increment(1) ?? 0}, {merge: true});
   };
 
-  const updateTotalRating = rating => {
+  const updateTotalRating = (rating: number): void => {
     firestore()
       .collection('MovieRating')
       .doc(`${movies?.id}`)
       .set({rating: firestore.FieldValue.increment(rating)}, {merge: true});
   };
 
-  const rateMovie = () => {
+  const rateMovie = (): void => {
     firestore()
       .collection('MovieRating')
       .doc(`${movies.id}`)
@@ -159,7 +166,7 @@ const DetailScreen = ({navigation, route}) => {
     updateMovieInMyRatingsFB();
   };
 
-  const updateMovieInMyRatingsFB = () => {
+  const updateMovieInMyRatingsFB = (): void => {
     firestore()
       .collection('users')
       .doc(currentUserUID)
@@ -215,12 +222,13 @@ const DetailScreen = ({navigation, route}) => {
               <View style={styles.flexOne} />
               <View style={styles.ratingContainer}>
                 <AirbnbRating
+                  starImage={require('../../assets/images/star.png')}
                   isDisabled={true}
                   showRating={false}
                   onFinishRating={ratingCompleted}
                   count={5}
                   defaultRating={getMovieRatingStar()}
-                  size={28}
+                  size={moderateScale(28)}
                   reviewSize={0}
                 />
               </View>

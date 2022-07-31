@@ -9,9 +9,14 @@ const initialState = {
   error: false,
 };
 
+interface UserCredentials {
+  userEmail: string;
+  userPassword: string;
+}
+
 const loginTheUser = createAsyncThunk(
   'auth/loginUser',
-  async ({userEmail, userPassword}) => {
+  async ({userEmail, userPassword}: UserCredentials) => {
     const login = await auth().signInWithEmailAndPassword(
       userEmail,
       userPassword,
