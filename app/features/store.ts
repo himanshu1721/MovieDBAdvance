@@ -7,6 +7,7 @@ import trendingSlice from './content/trendingSlice';
 import detailSlice from './detail/detailSlice';
 import focusSlice from './focus/focusSlice';
 import ratingSlice from './rating/ratingSlice';
+import popularTVSlice from './content/popularTVSlice';
 import watchLaterSlice from './watchLater/watchLaterSlice';
 import topRatedSlice from './topRated/topRatedSlice';
 import {persistReducer, persistStore} from 'redux-persist';
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   rating: ratingSlice,
   topRated: topRatedSlice,
   auth: authSlice,
+  popularTV: popularTVSlice,
 });
 
 const persistConfig = {

@@ -29,7 +29,12 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     color: 'white',
   },
-  threeDotsStyles: {letterSpacing: 0.3, fontSize: 16, fontWeight: '400'},
+  threeDotsStyles: {
+    color: 'white',
+    letterSpacing: 0.3,
+    fontSize: 16,
+    fontWeight: '400',
+  },
   titleAndYearWrapper: {alignItems: 'center'},
   heightFive: {height: 5},
   heightTen: {height: 10},

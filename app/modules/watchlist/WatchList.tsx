@@ -9,7 +9,7 @@ import DrawerIconComponent from '../../components/DrawerIconComponent';
 import HeaderTitle from '../../components/HeaderTitle';
 import {Colors} from '../../themes';
 import CustomHeader from '../movieDetails/components/Header';
-import EmptyWatchList from '../ratedByMe/components/EmptyWatchList';
+import EmptyList from '../ratedByMe/components/EmptyWatchList';
 import ItemSeparatorMyRatings from '../ratedByMe/components/ItemSeparator';
 import MyRatingMovieCard from '../ratedByMe/components/MyRatingMovieCard';
 import styles from './styles/WatchListStyles';
@@ -47,7 +47,7 @@ const WatchList = ({navigation}: NavigationProp) => {
         />
         <View style={styles.subContainer}>
           <FlatList
-            ListEmptyComponent={<EmptyWatchList />}
+            ListEmptyComponent={<EmptyList title="WatchList is Empty" />}
             ItemSeparatorComponent={() => <ItemSeparatorMyRatings />}
             showsVerticalScrollIndicator={false}
             maxToRenderPerBatch={3}

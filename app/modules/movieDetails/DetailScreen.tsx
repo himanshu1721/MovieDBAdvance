@@ -20,7 +20,7 @@ import {
   setHaveNotBeenRated,
 } from '../../features/detail/detailSlice';
 import {addMovieInRatingSection} from '../../features/rating/ratingSlice';
-import {Colors, moderateScale} from '../../themes';
+import {Colors, moderateScale, scale} from '../../themes';
 import GenreList from './components/GenreList';
 import HeaderComponent from './components/Header';
 import ImageComponent from './components/ImageComponent';
@@ -39,6 +39,8 @@ interface DetailScreenProps {
 }
 
 const DetailScreen = ({navigation, route}: DetailScreenProps) => {
+  const [contentType, setContentType] = useState('');
+
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.detail.loading);
   const currentUserUID = useSelector(state => state.auth.userUID);
@@ -58,6 +60,7 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
   useEffect(() => {
     checkIfMovieExistsInRating();
     checkIfIHaveRatedTheMovieBefore();
+    setContentType(route?.params?.type);
   }, [movies?.id]);
 
   const [doesMovieExists, setDoesMovieExists] = useState(false);
@@ -92,13 +95,18 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
           .doc(currentUserUID)
           .collection('watchLater')
           .doc(`${movies?.id}`)
-          .set(movies);
+          .set({movies});
   };
 
   const getMovieRatingStar = () => {
     if (movieRatedByValue === 0) return 0;
     const starRating = movieRatingValue / movieRatedByValue;
     return starRating;
+  };
+
+  const getMovieRatedByPeopleNumber = () => {
+    if (movieRatedByValue === 0) return 0;
+    return movieRatedByValue;
   };
 
   const checkIfMovieExistsInRating = async () => {
@@ -128,7 +136,6 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
     if (user?.data()) {
       dispatch(setHaveBeenRated());
       setMyRated(user?.data()?.rating);
-      console.log('=>>', myRated);
     } else {
       dispatch(setHaveNotBeenRated());
       setMyRated(0);
@@ -199,7 +206,10 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
               <UserScore vote_average={movies?.vote_average ?? 1} />
               <View style={styles.componentSeparator} />
               <View style={styles.movieSaveIconWrapper}>
-                <TouchableOpacity onPress={onSavingMovie}>
+                <TouchableOpacity
+                  style={contentType === 'tv' ? {opacity: 0.4} : {opacity: 1}}
+                  disabled={contentType === 'tv'}
+                  onPress={onSavingMovie}>
                   <Image
                     style={styles.movieSaveIconStyles}
                     source={
@@ -231,13 +241,24 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
                   size={moderateScale(28)}
                   reviewSize={0}
                 />
+                <View style={styles.ratingAndPeopleSeparator} />
+                <View>
+                  <Text style={styles.totalRatings}>
+                    ({getMovieRatedByPeopleNumber()})
+                  </Text>
+                </View>
               </View>
               <TouchableOpacity
+                disabled={contentType === 'tv'}
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   checkIfIHaveRatedTheMovieBefore();
                 }}
-                style={styles.rateMovieWrapper}>
+                style={
+                  contentType === 'tv'
+                    ? styles.rateMovieWrapperTV
+                    : styles.rateMovieWrapper
+                }>
                 <Text style={styles.rateMovieTextStyles}>Rate</Text>
                 <Text style={styles.rateMovieTextStyles}>Movie</Text>
               </TouchableOpacity>

@@ -36,14 +36,8 @@ const TopRated = ({navigation}: NavigationProp) => {
     <SafeAreaProvider>
       <SafeAreaView>
         {loading ? (
-          <View
-            style={{
-              height: '100%',
-              width: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <ActivityIndicator />
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator color="white" size={'large'} />
           </View>
         ) : (
           <View style={styles.container}>
@@ -59,7 +53,7 @@ const TopRated = ({navigation}: NavigationProp) => {
               ItemSeparatorComponent={() => (
                 <View style={styles.itemSeparator} />
               )}
-              decelerationRate={0.5}
+              decelerationRate={2}
               keyExtractor={item => item?.id}
               showsVerticalScrollIndicator={false}
               data={topRatedMovies}

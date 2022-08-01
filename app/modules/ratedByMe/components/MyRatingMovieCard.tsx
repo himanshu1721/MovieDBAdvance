@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {AirbnbRating} from 'react-native-ratings';
 import GenreCard from '../../../components/GenreCard';
 import AppConstants from '../../../constants/AppConstants';
+import {convertMinsToHrsMins} from '../../../services/TimeUtils';
 import {moderateScale} from '../../../themes';
 import styles from '../styles/MyRatingMoviesCardStyles';
 
@@ -31,6 +32,8 @@ interface MyRatingMovieCardProps {
 }
 
 const MyRatingMovieCard = ({data, onTap, rating}: MyRatingMovieCardProps) => {
+  const getRuntime = runTime => convertMinsToHrsMins(runTime);
+
   return (
     <Pressable onPress={onTap} style={styles.container}>
       <Image
@@ -76,6 +79,12 @@ const MyRatingMovieCard = ({data, onTap, rating}: MyRatingMovieCardProps) => {
               return <GenreCard genreName={item?.name} />;
             }}
           />
+        </View>
+        <View style={styles.itemSeparator} />
+        <View>
+          <Text style={styles.runtimeStyles}>
+            Runtime - {getRuntime(data?.runtime)}
+          </Text>
         </View>
         <View style={styles.itemSeparator} />
       </View>

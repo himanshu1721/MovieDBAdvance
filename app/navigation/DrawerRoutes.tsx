@@ -18,6 +18,7 @@ const DrawerRoutes = () => {
           color: Colors.white,
         },
         drawerStyle: {
+          flex: 1,
           backgroundColor: Colors.darkBlue,
         },
         headerShown: false,

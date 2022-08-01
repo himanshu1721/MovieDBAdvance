@@ -35,7 +35,7 @@ const trendingSlice = createSlice({
     });
     builder.addCase(fetchTrending.fulfilled, (state, action) => {
       state.loading = false;
-      state.trending = action.payload.results;
+      state.trending = state.trending.concat(action.payload.results);
       state.nextPage = state.nextPage + 1;
     });
     builder.addCase(fetchTrending.rejected, state => {

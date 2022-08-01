@@ -4,14 +4,11 @@ import {
   DrawerNavigationHelpers,
 } from '@react-navigation/drawer/lib/typescript/src/types';
 import {DrawerNavigationState, ParamListBase} from '@react-navigation/native';
-import React, {useState} from 'react';
-import {Image, Text, Alert, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-// import {Icons, Images} from '../assets';
 import {Strings} from '../constants';
 import {logOutUser} from '../features/auth/authSlice';
-// import {dummyEmail, dummyUsername} from '../constants/DummyData';
-// import AuthActions, {userSelectors} from '../redux/AuthRedux';
 import styles from './styles/CustomDrawerStyle';
 
 type PropsType = {

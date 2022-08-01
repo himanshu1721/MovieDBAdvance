@@ -3,17 +3,14 @@ import {moderateScale, verticalScale} from '../../../themes';
 
 const styles = StyleSheet.create({
   container: {
-    // padding: moderateScale(10),
     borderRadius: 10,
     backgroundColor: '#222',
     width: '100%',
   },
+  runtimeStyles: {color: 'white', fontSize: moderateScale(17)},
   imageStyles: {
-    // borderTopRightRadius: 10,
-    // borderTopLeftRadius: 10,
     width: '100%',
     aspectRatio: 16 / 9,
-    // height: 200,
   },
   titleStyles: {fontSize: moderateScale(20), fontWeight: '600', color: 'white'},
   releaseYearStyles: {

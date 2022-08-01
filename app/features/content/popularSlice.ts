@@ -8,29 +8,13 @@ const initialState = {
   popular: [],
   error: false,
   nextPage: 2,
-  currentMedia: 'Movie',
 };
 
 const fetchPopular = createAsyncThunk(
   'popular/fetchPopular',
-  async ({mediaType = 'movie', page}) => {
+  async ({page}) => {
     const popular = await axios.get(
-      `${AppConstants.BASE_URL}${mediaType}/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
-    );
-    return popular.data;
-  },
-);
-
-interface FetchPopularTVProps {
-  mediaType: string;
-  page: number;
-}
-
-const fetchPopularTV = createAsyncThunk(
-  'popular/fetchPopularTV',
-  async ({mediaType, page}: FetchPopularTVProps) => {
-    const popular = await axios.get(
-      `${AppConstants.BASE_URL}${mediaType}/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
+      `${AppConstants.BASE_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
     );
     return popular.data;
   },
@@ -39,13 +23,7 @@ const fetchPopularTV = createAsyncThunk(
 const popularSlice = createSlice({
   name: 'popular',
   initialState,
-  reducers: {
-    changePopularMedia: (state, action) => {
-      state.popular = [];
-      state.currentMedia = action.payload;
-      state.nextPage = 2;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchPopular.pending, state => {
       state.loading = true;
@@ -59,23 +37,9 @@ const popularSlice = createSlice({
       state.loading = false;
       state.error = true;
     });
-
-    builder.addCase(fetchPopularTV.pending, state => {
-      state.loading = true;
-    });
-    builder.addCase(fetchPopularTV.fulfilled, (state, action) => {
-      state.nextPage += 1;
-      state.loading = false;
-      state.popular = state.popular.concat(action.payload.results);
-    });
-    builder.addCase(fetchPopularTV.rejected, state => {
-      state.loading = false;
-      state.error = true;
-    });
   },
 });
 
 const {reducer} = popularSlice;
-export const {changePopularMedia} = popularSlice.actions;
 export default reducer;
-export {fetchPopular, fetchPopularTV};
+export {fetchPopular};
