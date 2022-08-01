@@ -32,12 +32,10 @@ const styles = StyleSheet.create({
   },
 
   containerMovieDetailScreen: {
-    width: moderateScale(49),
+
     justifyContent: 'center',
     alignItems: 'center',
-    height: moderateScale(49),
-    borderRadius: moderateScale(24.5),
-    backgroundColor: Colors.black,
+
   },
 });
 

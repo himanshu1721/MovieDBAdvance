@@ -48,8 +48,7 @@ const MovieCard = ({item, onTap, onLongTap}: MovieCardProps): JSX.Element => {
         />
       </View>
       <MenuCircle />
-      <RatingCircle vote_average={item?.vote_average} />
-      <View style={{height: verticalScale(20)}} />
+      <View style={{height: verticalScale(5)}} />
       <View style={styles.textContainer}>
         <Text style={styles.titleStyles}>
           {item?.title ?? item?.original_name}

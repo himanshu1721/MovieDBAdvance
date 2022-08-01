@@ -202,7 +202,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1310;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -414,6 +414,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2B833550BBA07BCE459DFB66 /* Pods-MovieDBAdvance-MovieDBAdvanceTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -441,6 +442,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B930A4702AC0C6AF02F1186B /* Pods-MovieDBAdvance-MovieDBAdvanceTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = MovieDBAdvanceTests/Info.plist;

@@ -4,6 +4,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {AirbnbRating} from 'react-native-ratings';
 import GenreCard from '../../../components/GenreCard';
 import AppConstants from '../../../constants/AppConstants';
+import {convertMinsToHrsMins} from '../../../services/TimeUtils';
 import {moderateScale} from '../../../themes';
 import styles from '../styles/MyRatingMoviesCardStyles';
 
@@ -78,6 +79,16 @@ const MyRatingMovieCard = ({data, onTap, rating}: MyRatingMovieCardProps) => {
           />
         </View>
         <View style={styles.itemSeparator} />
+        <View>
+          <Text
+            style={{
+              fontSize: moderateScale(18),
+              fontWeight: '500',
+              color: 'white',
+            }}>
+            Runtime: {convertMinsToHrsMins(data?.runtime)}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );
