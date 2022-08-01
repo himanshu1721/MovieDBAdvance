@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -11,16 +11,16 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modal';
-import {AirbnbRating} from 'react-native-ratings';
-import {useDispatch, useSelector} from 'react-redux';
-import {RouteProp} from '@react-navigation/native';
+import { AirbnbRating } from 'react-native-ratings';
+import { useDispatch, useSelector } from 'react-redux';
+import { RouteProp } from '@react-navigation/native';
 import {
   fetchMovie,
   setHaveBeenRated,
   setHaveNotBeenRated,
 } from '../../features/detail/detailSlice';
-import {addMovieInRatingSection} from '../../features/rating/ratingSlice';
-import {Colors, moderateScale, scale} from '../../themes';
+import { addMovieInRatingSection } from '../../features/rating/ratingSlice';
+import { Colors, moderateScale, scale } from '../../themes';
 import GenreList from './components/GenreList';
 import HeaderComponent from './components/Header';
 import ImageComponent from './components/ImageComponent';
@@ -31,14 +31,14 @@ import ReleaseDateAndRuntime from './components/ReleaseDate';
 import UserScore from './components/UserScore';
 import styles from './styles/MovieDetailStyles';
 import NavigationProp from '../../types/NavigationTypes';
-import {useGetMovies} from './hooks/useGetMovie';
+import { useGetMovies } from './hooks/useGetMovie';
 
 interface DetailScreenProps {
   navigation: NavigationProp;
-  route: RouteProp<{params: {type: string}}, 'params'>;
+  route: RouteProp<{ params: { type: string } }, 'params'>;
 }
 
-const DetailScreen = ({navigation, route}: DetailScreenProps) => {
+const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
   const [contentType, setContentType] = useState('');
 
   const dispatch = useDispatch();
@@ -52,7 +52,7 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
   const [movieRatedByValue, setMovieRatedByValue] = useState(0);
   const [myRated, setMyRated] = useState(0);
 
-  const {movies} = useGetMovies({
+  const { movies } = useGetMovies({
     t: route?.params?.type,
     id: route?.params?.id,
   });
@@ -95,7 +95,7 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
           .doc(currentUserUID)
           .collection('watchLater')
           .doc(`${movies?.id}`)
-          .set({movies});
+          .set(movies);
   };
 
   const getMovieRatingStar = () => {
@@ -146,21 +146,24 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
     setIfRatedByMeTheRating(rating);
     getRating();
     updateTotalRating(rating);
-    dispatch(addMovieInRatingSection({movie: movies, rating: rating}));
+    dispatch(addMovieInRatingSection({ movie: movies, rating: rating }));
   };
 
   const getRating = (): void => {
     firestore()
       .collection('MovieRating')
       .doc(`${movies?.id}`)
-      .set({ratedBy: firestore.FieldValue.increment(1) ?? 0}, {merge: true});
+      .set(
+        { ratedBy: firestore.FieldValue.increment(1) ?? 0 },
+        { merge: true },
+      );
   };
 
   const updateTotalRating = (rating: number): void => {
     firestore()
       .collection('MovieRating')
       .doc(`${movies?.id}`)
-      .set({rating: firestore.FieldValue.increment(rating)}, {merge: true});
+      .set({ rating: firestore.FieldValue.increment(rating) }, { merge: true });
   };
 
   const rateMovie = (): void => {
@@ -169,7 +172,7 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
       .doc(`${movies.id}`)
       .collection('ratedByUsers')
       .doc(currentUserUID)
-      .set({rated: ifRatedByMeTheRating});
+      .set({ rated: ifRatedByMeTheRating });
     updateMovieInMyRatingsFB();
   };
 
@@ -179,7 +182,7 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
       .doc(currentUserUID)
       .collection('myRatings')
       .doc(`${movies?.id}`)
-      .set({rating: ifRatedByMeTheRating, item: movies});
+      .set({ rating: ifRatedByMeTheRating, item: movies });
     dispatch(setHaveBeenRated());
   };
 
@@ -207,7 +210,9 @@ const DetailScreen = ({navigation, route}: DetailScreenProps) => {
               <View style={styles.componentSeparator} />
               <View style={styles.movieSaveIconWrapper}>
                 <TouchableOpacity
-                  style={contentType === 'tv' ? {opacity: 0.4} : {opacity: 1}}
+                  style={
+                    contentType === 'tv' ? { opacity: 0.4 } : { opacity: 1 }
+                  }
                   disabled={contentType === 'tv'}
                   onPress={onSavingMovie}>
                   <Image
