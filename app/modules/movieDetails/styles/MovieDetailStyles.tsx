@@ -1,10 +1,16 @@
 import {StyleSheet} from 'react-native';
-import {Colors, verticalScale, moderateScale} from '../../../themes';
+import {Colors, verticalScale, moderateScale, scale} from '../../../themes';
 
 const styles = StyleSheet.create({
   subContainer: {flex: 1, justifyContent: 'center'},
   itemSeparator: {
     height: verticalScale(5),
+  },
+  ratingAndPeopleSeparator: {width: scale(5)},
+  totalRatings: {
+    fontSize: moderateScale(20),
+    color: 'white',
+    fontWeight: '400',
   },
   movieSaveIconWrapper: {
     flex: 1,
@@ -41,10 +47,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  rateMovieWrapperTV: {
+    opacity: 0.4,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   flexOne: {
     flex: 1,
   },
   ratingContainer: {
+    flexDirection: 'row',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',

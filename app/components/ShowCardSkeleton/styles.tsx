@@ -1,5 +1,5 @@
-import {StyleSheet, Dimensions} from 'react-native';
-import {Colors, moderateScale, scale, verticalScale} from '../../themes';
+import { StyleSheet, Dimensions } from 'react-native';
+import { Colors, moderateScale, scale, verticalScale } from '../../themes';
 
 export const styles = StyleSheet.create({
   profileCardSkeletonContainer: {
@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
     width: moderateScale(24),
     height: moderateScale(24),
   },
-  separator: {height: verticalScale(120)},
+  separator: { height: verticalScale(120) },
   profilePictureAndUsernameContainer: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -77,8 +77,8 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     right: scale(8),
   },
-  cardSkeletonGrid: {opacity: 0.85},
-  loader: {backgroundColor: Colors.white},
+  cardSkeletonGrid: { opacity: 0.85 },
+  loader: { backgroundColor: Colors.white },
   loaderSize: {
     opacity: 0.55,
     borderRadius: 10,

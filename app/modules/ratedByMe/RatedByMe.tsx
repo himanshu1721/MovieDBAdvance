@@ -8,7 +8,7 @@ import DrawerIconComponent from '../../components/DrawerIconComponent';
 import HeaderTitle from '../../components/HeaderTitle';
 import {moderateScale} from '../../themes';
 import CustomHeader from '../movieDetails/components/Header';
-import EmptyWatchList from './components/EmptyWatchList';
+import EmptyList from './components/EmptyWatchList';
 import ItemSeparatorMyRatings from './components/ItemSeparator';
 import MyRatingMovieCard from './components/MyRatingMovieCard';
 import styles from './styles/RatedByMeStyles';
@@ -56,11 +56,12 @@ const RatedByMe = ({navigation}) => {
         />
         <View style={styles.subContainer}>
           <FlatList
-            ListFooterComponent={() => (
-              <View style={{height: moderateScale(100)}}></View>
-            )}
+            bounces={false}
+            ListFooterComponent={() => <View style={styles.footer} />}
             initialNumToRender={4}
-            ListEmptyComponent={<EmptyWatchList />}
+            ListEmptyComponent={
+              <EmptyList title="You have not rated Anything yet!" />
+            }
             keyExtractor={item => item?.item?.id}
             ItemSeparatorComponent={() => <ItemSeparatorMyRatings />}
             showsVerticalScrollIndicator={false}

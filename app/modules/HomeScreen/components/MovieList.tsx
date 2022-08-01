@@ -3,8 +3,11 @@ import React, {useRef} from 'react';
 import {FlatList, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchPopular} from '../../../features/content/popularSlice';
+import {fetchPopularTV} from '../../../features/content/popularTVSlice';
+import {fetchTrending} from '../../../features/content/trendingSlice';
 import {setFocusDetail} from '../../../features/focus/focusSlice';
 import MovieCard from '../components/MovieCard';
+import {useGetNextPage} from '../hooks/useGetNextPage';
 import styles from '../styles/MovieListStyles';
 
 interface ItemProps {
@@ -25,28 +28,29 @@ interface ItemProps {
 }
 
 interface MovieListProps {
+  contentIndex: number;
   data: ItemProps[];
   isTV?: boolean;
-  isPopular: boolean;
 }
 
 const MovieList = ({
+  contentIndex,
   data,
   isTV = false,
-  isPopular,
 }: MovieListProps): JSX.Element => {
   const flatListRef = useRef();
 
-  const popularMedia = useSelector(state => state?.popular?.currentMedia);
-  const nextPagePopular = useSelector(state => state?.popular?.nextPage);
+  const {nextPagePopular, nextPagePopularTV, nextPageTrending} =
+    useGetNextPage();
+
   const dispatch = useDispatch();
   const onEndReached = () => {
-    if (isPopular) {
-      if (popularMedia === 'Movie') {
-        dispatch(fetchPopular({page: nextPagePopular + 1}));
-      } else {
-        dispatch(fetchPopular({mediaType: 'tv', page: nextPagePopular + 1}));
-      }
+    if (contentIndex === 0) {
+      dispatch(fetchPopular({page: nextPagePopular}));
+    } else if (contentIndex === 1) {
+      dispatch(fetchPopularTV({page: nextPagePopularTV}));
+    } else {
+      dispatch(fetchTrending({page: nextPageTrending}));
     }
   };
 
@@ -54,7 +58,7 @@ const MovieList = ({
   return (
     <FlatList
       ref={flatListRef}
-      decelerationRate={0.4}
+      // decelerationRate={0.4}
       maxToRenderPerBatch={6}
       removeClippedSubviews
       showsHorizontalScrollIndicator={false}

@@ -1,13 +1,13 @@
 //import liraries
-import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../../themes';
 
-const EmptyWatchList = () => {
+const EmptyList = ({title}: {title: string}) => {
   return (
     <View style={{marginTop: 200}}>
       <Text style={{fontSize: 25, fontWeight: '500', color: Colors.limeGreen}}>
-        WatchList is Empty!
+        {title}
       </Text>
     </View>
   );
@@ -24,4 +24,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default EmptyWatchList;
+export default EmptyList;

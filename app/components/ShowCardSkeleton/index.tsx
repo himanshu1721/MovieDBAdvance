@@ -1,6 +1,6 @@
 import MaskedView from '@react-native-masked-view/masked-view';
-import React, {ReactElement, useEffect, useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import React, { ReactElement, useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Reanimated, {
   interpolate,
@@ -10,9 +10,9 @@ import Reanimated, {
   withTiming,
 } from 'react-native-reanimated';
 // import {Icons} from '../../assets';
-import {Colors, scale, verticalScale} from '../../themes';
-import {styles} from './styles';
-import {LayoutProps, LoaderStyleProps, SkeletonLoaderProps} from './types';
+import { Colors, scale, verticalScale } from '../../themes';
+import { styles } from './styles';
+import { LayoutProps, LoaderStyleProps, SkeletonLoaderProps } from './types';
 
 const SkeletonLoader = ({
   children,
@@ -23,7 +23,7 @@ const SkeletonLoader = ({
   const shared = useSharedValue(0);
 
   useEffect(() => {
-    shared.value = withRepeat(withTiming(1, {duration: 900}), Infinity);
+    shared.value = withRepeat(withTiming(1, { duration: 900 }), Infinity);
   }, []);
 
   const animatedStyles = useAnimatedStyle(() => ({
@@ -43,7 +43,7 @@ const SkeletonLoader = ({
       <View
         style={[
           StyleSheet.absoluteFill,
-          {backgroundColor: highlight || '#9c9c9c'},
+          { backgroundColor: highlight || '#9c9c9c' },
         ]}
       />
     );
@@ -59,12 +59,12 @@ const SkeletonLoader = ({
 
   return (
     <MaskedView
-      style={{height: layout?.height, width: layout?.width}}
+      style={{ height: layout?.height, width: layout?.width }}
       maskElement={<View>{children}</View>}>
       <View
         style={[
           styles.background,
-          {backgroundColor: backgroundColor || Colors.skeletonBackground},
+          { backgroundColor: backgroundColor || Colors.skeletonBackground },
         ]}
       />
       <Reanimated.View style={[animatedStyles, StyleSheet.absoluteFill]}>
@@ -72,8 +72,8 @@ const SkeletonLoader = ({
           style={StyleSheet.absoluteFill}
           maskElement={
             <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
               style={StyleSheet.absoluteFill}
               colors={[Colors.transparent, Colors.black, Colors.transparent]}
             />
@@ -85,7 +85,7 @@ const SkeletonLoader = ({
   );
 };
 
-const Loader = ({style}: LoaderStyleProps) => {
+const Loader = ({ style }: LoaderStyleProps) => {
   return <View style={[style ? style : styles.loaderSize, styles.loader]} />;
 };
 
@@ -99,7 +99,7 @@ const dateAndShareSkeleton = () => (
 export const SkeletonCard = () => (
   <SkeletonLoader>
     <Loader style={styles.messageSkeleton} />
-    <View style={{height: verticalScale(5)}}></View>
+    <View style={{ height: verticalScale(5) }}></View>
     <Loader
       style={{
         height: verticalScale(8),
@@ -107,7 +107,7 @@ export const SkeletonCard = () => (
         borderRadius: 10,
       }}
     />
-    <View style={{height: verticalScale(4)}}></View>
+    <View style={{ height: verticalScale(4) }}></View>
     <Loader
       style={{
         height: verticalScale(8),
@@ -115,7 +115,7 @@ export const SkeletonCard = () => (
         borderRadius: 6,
       }}
     />
-    <View style={{height: verticalScale(4)}}></View>
+    <View style={{ height: verticalScale(4) }}></View>
     <Loader
       style={{
         height: verticalScale(8),
@@ -141,9 +141,9 @@ export const HomeScreenShowSkeleton = () => (
   <View>
     <View style={styles.skeletonCardRow}>
       <SkeletonCard />
-      <View style={{width: 26}}></View>
+      <View style={{ width: 26 }}></View>
       <SkeletonCard />
-      <View style={{width: 26}}></View>
+      <View style={{ width: 26 }}></View>
       <SkeletonCard />
     </View>
   </View>
