@@ -1,26 +1,24 @@
 import firestore from '@react-native-firebase/firestore';
+import { RouteProp } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Image,
-  Pressable,
   SafeAreaView,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import Modal from 'react-native-modal';
 import { AirbnbRating } from 'react-native-ratings';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteProp } from '@react-navigation/native';
 import {
-  fetchMovie,
   setHaveBeenRated,
   setHaveNotBeenRated,
 } from '../../features/detail/detailSlice';
 import { addMovieInRatingSection } from '../../features/rating/ratingSlice';
-import { Colors, moderateScale, scale } from '../../themes';
+import { Colors, moderateScale } from '../../themes';
+import NavigationProp from '../../types/NavigationTypes';
 import GenreList from './components/GenreList';
 import HeaderComponent from './components/Header';
 import ImageComponent from './components/ImageComponent';
@@ -29,9 +27,9 @@ import Overview from './components/Overview';
 import RateAMovieModal from './components/RateAMovieModal';
 import ReleaseDateAndRuntime from './components/ReleaseDate';
 import UserScore from './components/UserScore';
-import styles from './styles/MovieDetailStyles';
-import NavigationProp from '../../types/NavigationTypes';
 import { useGetMovies } from './hooks/useGetMovie';
+import styles from './styles/MovieDetailStyles';
+import Icons from '../../assets/images';
 
 interface DetailScreenProps {
   navigation: NavigationProp;
@@ -211,16 +209,16 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
               <View style={styles.movieSaveIconWrapper}>
                 <TouchableOpacity
                   style={
-                    contentType === 'tv' ? { opacity: 0.4 } : { opacity: 1 }
+                    contentType === 'tv'
+                      ? styles.inActiveSaveButton
+                      : styles.activeSaveButton
                   }
                   disabled={contentType === 'tv'}
                   onPress={onSavingMovie}>
                   <Image
                     style={styles.movieSaveIconStyles}
                     source={
-                      doesMovieExists
-                        ? require('../../assets/images/bookmarkFilled.png')
-                        : require('../../assets/images/bookmarkOutline.png')
+                      doesMovieExists ? Icons.saveFilled : Icons.saveOutline
                     }
                   />
                 </TouchableOpacity>
@@ -237,7 +235,7 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
               <View style={styles.flexOne} />
               <View style={styles.ratingContainer}>
                 <AirbnbRating
-                  starImage={require('../../assets/images/star.png')}
+                  starImage={Icons.star}
                   isDisabled={true}
                   showRating={false}
                   onFinishRating={ratingCompleted}

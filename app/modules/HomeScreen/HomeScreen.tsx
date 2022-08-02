@@ -3,6 +3,7 @@ import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import DrawerIconComponent from '../../components/DrawerIconComponent';
 import { HomeScreenShowSkeleton } from '../../components/ShowCardSkeleton';
+import { Strings } from '../../constants';
 import NavigationProp from '../../types/NavigationTypes';
 import CustomHeader from '../movieDetails/components/Header';
 import MovieList from './components/MovieList';
@@ -28,7 +29,7 @@ const HomeScreen = ({ navigation }: NavigationProp) => {
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.sectionContainer}>
               <View style={styles.sectionTitleContainer}>
-                <SectionTitle title="Popular Now" />
+                <SectionTitle title={Strings.popularNow} />
               </View>
               {popularLoading ? (
                 <View style={styles.loadingContainer}>
@@ -40,7 +41,7 @@ const HomeScreen = ({ navigation }: NavigationProp) => {
             </View>
             <View style={styles.sectionContainer}>
               <View style={styles.sectionTitleContainer}>
-                <SectionTitle title="Popular TV" />
+                <SectionTitle title={Strings.popularTV} />
               </View>
               {popularTVLoading ? (
                 <View style={styles.loadingContainer}>
@@ -52,7 +53,7 @@ const HomeScreen = ({ navigation }: NavigationProp) => {
             </View>
             <View style={styles.sectionContainer}>
               <View style={styles.sectionTitleContainer}>
-                <SectionTitle title="Trending" />
+                <SectionTitle title={Strings.trending} />
               </View>
               {trendingLoading ? (
                 <View style={styles.loadingContainer}>

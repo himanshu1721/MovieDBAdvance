@@ -1,22 +1,24 @@
 //import liraries
 import firestore from '@react-native-firebase/firestore';
-import React, {useEffect, useState} from 'react';
-import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import DrawerIconComponent from '../../components/DrawerIconComponent';
 import HeaderTitle from '../../components/HeaderTitle';
-import {Colors} from '../../themes';
+import { Colors } from '../../themes';
 import CustomHeader from '../movieDetails/components/Header';
 import EmptyList from '../ratedByMe/components/EmptyWatchList';
 import ItemSeparatorMyRatings from '../ratedByMe/components/ItemSeparator';
 import MyRatingMovieCard from '../ratedByMe/components/MyRatingMovieCard';
 import styles from './styles/WatchListStyles';
 import NavigationProp from '../../types/NavigationTypes';
-import {SkeletonCard} from '../../components/ShowCardSkeleton';
+import { SkeletonCard } from '../../components/ShowCardSkeleton';
+import { Strings } from '../../constants';
+import strings from '../../constants/Strings';
 
-const WatchList = ({navigation}: NavigationProp) => {
+const WatchList = ({ navigation }: NavigationProp) => {
   const currentUserUID = useSelector(state => state.auth.userUID);
 
   const [threads, setThreads] = useState([]);
@@ -39,7 +41,7 @@ const WatchList = ({navigation}: NavigationProp) => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <CustomHeader
-          renderMiddle={<HeaderTitle title={'WatchList'} />}
+          renderMiddle={<HeaderTitle title={Strings.watchList} />}
           renderIcon={
             <DrawerIconComponent onTap={() => navigation.openDrawer()} />
           }
@@ -47,7 +49,7 @@ const WatchList = ({navigation}: NavigationProp) => {
         />
         <View style={styles.subContainer}>
           <FlatList
-            ListEmptyComponent={<EmptyList title="WatchList is Empty" />}
+            ListEmptyComponent={<EmptyList title={strings.emptyWatchList} />}
             ItemSeparatorComponent={() => <ItemSeparatorMyRatings />}
             showsVerticalScrollIndicator={false}
             maxToRenderPerBatch={3}
@@ -55,7 +57,7 @@ const WatchList = ({navigation}: NavigationProp) => {
             ListFooterComponent={() => {
               return <View style={styles.footerStyles} />;
             }}
-            renderItem={({item}) => {
+            renderItem={({ item }) => {
               return (
                 <MyRatingMovieCard
                   data={item}

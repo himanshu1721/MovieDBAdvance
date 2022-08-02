@@ -1,8 +1,8 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useRef, useState} from 'react';
-import {AppDispatch} from '../../features/store';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useRef, useState } from 'react';
+import { AppDispatch } from '../../features/store';
 import {
   ActivityIndicator,
   Alert,
@@ -16,12 +16,16 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-// import {Icons, Images} from '../../assets';
-import {AuthErrors, AuthStrings, Strings} from '../../constants';
+import { useDispatch, useSelector } from 'react-redux';
+import Icons from '../../assets/images';
+import { AuthErrors, AuthStrings, Strings } from '../../constants';
 // import AuthAction from '../../redux/AuthRedux';
 // import {regexPassword} from '../../services/Utils';
-import {clearError, loginTheUser} from '../../features/auth/authSlice';
+import {
+  clearError,
+  loginTheUser,
+  SignUpTheUser,
+} from '../../features/auth/authSlice';
 import Colors from '../../themes/Colors';
 import styles from './LoginScreenStyles';
 
@@ -85,22 +89,12 @@ const LoginScreen = () => {
 
   const createUser = async (userEmail: string, userPassword: string) => {
     try {
-      const result = await auth().createUserWithEmailAndPassword(
-        userEmail,
-        userPassword,
+      dispatch(
+        SignUpTheUser({
+          userEmail: userEmail,
+          userPassword: userPassword,
+        }),
       );
-      firestore().collection('users').doc(result.user.uid).set({
-        email: userEmail,
-        uid: result.user.uid,
-      });
-      // firestore()
-      //   .collection('users')
-      //   .doc(result.user.uid)
-      //   .collection('myRatings')
-      //   .add({name: 'Himanshu22'});
-      setPassword('');
-      Alert.alert(AuthStrings.success, AuthStrings.accountSuccessfullyCreated);
-      setLoginScreen(true);
     } catch (error) {
       if (error?.code === AuthErrors.EMAIL_ALREADY_IN_USE) {
         Alert.alert(AuthStrings.emailAlreadyUsed);
@@ -112,9 +106,9 @@ const LoginScreen = () => {
   };
 
   const showAlert = () =>
-    Alert.alert('Alert Title', 'Please recheck you email and password', [
+    Alert.alert(Strings.oops, Strings.recheckEmailAndPass, [
       {
-        text: 'Ok',
+        text: Strings.OK,
         onPress: () => dispatch(clearError()),
       },
     ]);
@@ -132,10 +126,7 @@ const LoginScreen = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoidingViewStyles}>
           <View>
-            <Image
-              style={styles.appLogoStyles}
-              source={require('../../assets/images/tmdbLogo.png')}
-            />
+            <Image style={styles.appLogoStyles} source={Icons.appLogo} />
           </View>
           <View style={styles.viewWithHeightForty} />
           <TextInput
@@ -193,11 +184,7 @@ const LoginScreen = () => {
                 <View>
                   <Image
                     style={styles.passwordEyeStyles}
-                    source={
-                      obsecureText
-                        ? require('../../assets/images/passwordEye.png')
-                        : require('../../assets/images/passwordInvisible.png')
-                    }
+                    source={obsecureText ? Icons.eye : Icons.invisibleEye}
                   />
                 </View>
               )}

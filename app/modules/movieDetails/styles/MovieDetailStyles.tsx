@@ -1,12 +1,12 @@
-import {StyleSheet} from 'react-native';
-import {Colors, verticalScale, moderateScale, scale} from '../../../themes';
+import { StyleSheet } from 'react-native';
+import { Colors, verticalScale, moderateScale, scale } from '../../../themes';
 
 const styles = StyleSheet.create({
-  subContainer: {flex: 1, justifyContent: 'center'},
+  subContainer: { flex: 1, justifyContent: 'center' },
   itemSeparator: {
     height: verticalScale(5),
   },
-  ratingAndPeopleSeparator: {width: scale(5)},
+  ratingAndPeopleSeparator: { width: scale(5) },
   totalRatings: {
     fontSize: moderateScale(20),
     color: 'white',
@@ -67,6 +67,8 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(5),
     flexDirection: 'row',
   },
+  inActiveSaveButton: { opacity: 0.4 },
+  activeSaveButton: { opacity: 1 },
 });
 
 export default styles;

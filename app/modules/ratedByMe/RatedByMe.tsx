@@ -1,19 +1,20 @@
 //import liraries
 import firestore from '@react-native-firebase/firestore';
-import React, {useEffect, useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 import DrawerIconComponent from '../../components/DrawerIconComponent';
 import HeaderTitle from '../../components/HeaderTitle';
-import {moderateScale} from '../../themes';
+import { Strings } from '../../constants';
+import { moderateScale } from '../../themes';
 import CustomHeader from '../movieDetails/components/Header';
 import EmptyList from './components/EmptyWatchList';
 import ItemSeparatorMyRatings from './components/ItemSeparator';
 import MyRatingMovieCard from './components/MyRatingMovieCard';
 import styles from './styles/RatedByMeStyles';
 
-const RatedByMe = ({navigation}) => {
+const RatedByMe = ({ navigation }) => {
   const currentUserUID = useSelector(state => state.auth.userUID);
   const [threads, setThreads] = useState([]);
 
@@ -31,7 +32,7 @@ const RatedByMe = ({navigation}) => {
     getUsers();
   }, [threads]);
 
-  const renderItem = ({item}) => (
+  const renderItem = ({ item }) => (
     <MyRatingMovieCard
       rating={item?.rating}
       data={item?.item}
@@ -48,7 +49,7 @@ const RatedByMe = ({navigation}) => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <CustomHeader
-          renderMiddle={<HeaderTitle title={'My Ratings'} />}
+          renderMiddle={<HeaderTitle title={Strings.myRatings} />}
           renderIcon={
             <DrawerIconComponent onTap={() => navigation.openDrawer()} />
           }
@@ -59,9 +60,7 @@ const RatedByMe = ({navigation}) => {
             bounces={false}
             ListFooterComponent={() => <View style={styles.footer} />}
             initialNumToRender={4}
-            ListEmptyComponent={
-              <EmptyList title="You have not rated Anything yet!" />
-            }
+            ListEmptyComponent={<EmptyList title={Strings.notHaveRatedYet} />}
             keyExtractor={item => item?.item?.id}
             ItemSeparatorComponent={() => <ItemSeparatorMyRatings />}
             showsVerticalScrollIndicator={false}

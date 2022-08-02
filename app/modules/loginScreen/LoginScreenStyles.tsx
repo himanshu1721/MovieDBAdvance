@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native';
-import {moderateScale, Colors} from '../../themes';
+import { StyleSheet } from 'react-native';
+import { moderateScale, Colors } from '../../themes';
 
 const styles = StyleSheet.create({
   weakPasswordTextStyles: {
@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: Colors.cinnabar,
   },
-  passwordValidationContainer: {width: '80%', padding: moderateScale(5)},
+  passwordValidationContainer: { width: '80%', padding: moderateScale(5) },
   passwordValidationTextStyles: {
     fontSize: moderateScale(17),
     fontWeight: '500',
@@ -19,13 +19,13 @@ const styles = StyleSheet.create({
     paddingVertical: moderateScale(5),
     backgroundColor: Colors.cherub,
   },
-  dontHaveAccountStyles: {fontSize: moderateScale(16), color: Colors.alto},
+  dontHaveAccountStyles: { fontSize: moderateScale(16), color: Colors.alto },
   dontHaveAccountContainer: {
     flexDirection: 'row',
     alignItems: 'baseline',
     justifyContent: 'center',
   },
-  signUpText: {fontSize: moderateScale(15), color: Colors.cyan},
+  signUpText: { fontSize: moderateScale(15), color: Colors.cyan },
   passwordViewStyles: {
     flexDirection: 'row',
     height: moderateScale(45),
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontWeight: '600',
   },
-  appLogoStyles: {width: moderateScale(90), height: moderateScale(64)},
-  forgotPasswordStyles: {color: Colors.cyan, fontSize: moderateScale(16)},
+  appLogoStyles: { width: moderateScale(90), height: moderateScale(64) },
+  forgotPasswordStyles: { color: Colors.cyan, fontSize: moderateScale(16) },
   disabledLoginButtonStyles: {
     opacity: 0.3,
     height: moderateScale(35),
@@ -132,13 +132,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.darkBlue,
   },
-  viewWithHeightForty: {height: moderateScale(40)},
-  viewWithHeightThirty: {height: moderateScale(30)},
-  viewWithHeightTwenty: {height: moderateScale(20)},
-  viewWithHeightTen: {height: moderateScale(10)},
+  viewWithHeightForty: { height: moderateScale(40) },
+  viewWithHeightThirty: { height: moderateScale(30) },
+  viewWithHeightTwenty: { height: moderateScale(20) },
+  viewWithHeightTen: { height: moderateScale(10) },
   loadingScreen: {
     zIndex: 20,
-    // opacity: 0.7,
     backgroundColor: 'rgba(150,150,150,0.5)',
     position: 'absolute',
     left: 0,

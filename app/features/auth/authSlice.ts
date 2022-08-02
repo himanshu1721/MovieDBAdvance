@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import auth from '@react-native-firebase/auth';
 
 const initialState = {
@@ -16,7 +16,7 @@ interface UserCredentials {
 
 const loginTheUser = createAsyncThunk(
   'auth/loginUser',
-  async ({userEmail, userPassword}: UserCredentials) => {
+  async ({ userEmail, userPassword }: UserCredentials) => {
     const login = await auth().signInWithEmailAndPassword(
       userEmail,
       userPassword,
@@ -25,12 +25,23 @@ const loginTheUser = createAsyncThunk(
   },
 );
 
+const SignUpTheUser = createAsyncThunk(
+  'auth/signUp',
+  async ({ userEmail, userPassword }: UserCredentials) => {
+    const signUp = await auth().createUserWithEmailAndPassword(
+      userEmail,
+      userPassword,
+    );
+    return signUp;
+  },
+);
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     createUserState: (state, action) => {
-      const {email, userUID} = action.payload;
+      const { email, userUID } = action.payload;
       state.email = email;
       state.userUID = userUID;
       state.user = true;
@@ -59,10 +70,24 @@ const authSlice = createSlice({
       state.error = true;
       state.loading = false;
     });
+
+    builder.addCase(SignUpTheUser.pending, state => {
+      state.loading = true;
+    });
+    builder.addCase(SignUpTheUser.fulfilled, (state, action) => {
+      state.email = action.payload.user.email;
+      state.userUID = action.payload.user.uid;
+      state.user = true;
+      state.loading = false;
+    });
+    builder.addCase(SignUpTheUser.rejected, state => {
+      state.error = true;
+      state.loading = false;
+    });
   },
 });
 
-const {reducer} = authSlice;
-export const {createUserState, logOutUser, clearError} = authSlice.actions;
+const { reducer } = authSlice;
+export const { createUserState, logOutUser, clearError } = authSlice.actions;
 export default reducer;
-export {loginTheUser};
+export { loginTheUser, SignUpTheUser };

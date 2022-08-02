@@ -1,4 +1,15 @@
 const strings = {
+  popularNow: 'Popular Now',
+  popularTV: 'Popular TV',
+  topRated: 'Top Rated',
+  watchList: 'WatchList',
+  emptyWatchList: 'WatchList is Empty',
+  myRatings: 'My Ratings',
+  notHaveRatedYet: 'You have not rated Anything yet!',
+  oops: 'OOPS!',
+  recheckEmailAndPass: 'Please recheck you email and password',
+  OK: 'OK',
+
   homeScreenTitle: 'MovieDB',
   homeScreenNavigationButtonTitle: 'Go to next screen',
   movieDetailScreenText: 'Movie Detail',

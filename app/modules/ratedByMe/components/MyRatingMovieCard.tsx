@@ -64,7 +64,7 @@ const MyRatingMovieCard = ({data, onTap, rating}: MyRatingMovieCardProps) => {
                 isDisabled={true}
                 showRating={false}
                 defaultRating={rating}
-                size={28}
+                size={moderateScale(26)}
               />
             </View>
             <View style={styles.extraViewNearRating} />

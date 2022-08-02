@@ -1,10 +1,11 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import {Image} from 'react-native';
+import { Image } from 'react-native';
 import TopRated from '../modules/topRated/TopRated';
 import WatchList from '../modules/watchlist/WatchList';
-import {Colors, moderateScale, verticalScale} from '../themes';
+import { Colors, moderateScale, verticalScale } from '../themes';
 import HomeStack from './StackNavigation';
+import Icons from '../assets/images';
 
 const Tab = createBottomTabNavigator();
 
@@ -24,14 +25,10 @@ export default function TabRoutes() {
       <Tab.Screen
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Image
-              source={
-                !focused
-                  ? require('../assets/images/home.png')
-                  : require('../assets/images/homeLime.png')
-              }
-              style={{width: moderateScale(30), height: moderateScale(30)}}
+              source={!focused ? Icons.home : Icons.homeLime}
+              style={{ width: moderateScale(30), height: moderateScale(30) }}
             />
           ),
         }}
@@ -41,14 +38,10 @@ export default function TabRoutes() {
       <Tab.Screen
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Image
-              style={{width: moderateScale(32), height: moderateScale(32)}}
-              source={
-                focused
-                  ? require('../assets/images/topRatedLime.png')
-                  : require('../assets/images/topRated.png')
-              }
+              style={{ width: moderateScale(32), height: moderateScale(32) }}
+              source={focused ? Icons.topRatedLime : Icons.topRated}
             />
           ),
         }}
@@ -58,21 +51,16 @@ export default function TabRoutes() {
       <Tab.Screen
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Image
-              style={{width: moderateScale(30), height: moderateScale(30)}}
-              source={
-                focused
-                  ? require('../assets/images/bookmarkLime.png')
-                  : require('../assets/images/bookmarkFilled.png')
-              }
+              style={{ width: moderateScale(30), height: moderateScale(30) }}
+              source={focused ? Icons.saveLime : Icons.saveFilled}
             />
           ),
         }}
         name="WatchList"
         component={WatchList}
       />
-
     </Tab.Navigator>
   );
 }
