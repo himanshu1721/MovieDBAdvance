@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { useDispatch, useSelector } from 'react-redux';
 import DrawerIconComponent from '../../components/DrawerIconComponent';
 import HeaderTitle from '../../components/HeaderTitle';
 import MovieBrief from '../../components/MovieBrief';
-import { getTopRated } from '../../features/topRated/topRatedSlice';
+import { Strings } from '../../constants';
+import { getTopRated } from '../../features/topRated/services';
+import NavigationProp from '../../types/NavigationTypes';
 import CustomHeader from '../movieDetails/components/Header';
 import styles from './styles/TopRatesStyles';
-import NavigationProp from '../../types/NavigationTypes';
-import { Strings } from '../../constants';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const TopRated = ({ navigation }: NavigationProp) => {
   const dispatch = useDispatch();

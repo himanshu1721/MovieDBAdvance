@@ -1,8 +1,8 @@
-import {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchPopular} from '../../../features/content/popularSlice';
-import {fetchPopularTV} from '../../../features/content/popularTVSlice';
-import {fetchTrending} from '../../../features/content/trendingSlice';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPopular } from '../../../features/content/services';
+import { fetchPopularTV } from '../../../features/content/popularTVSlice';
+import { fetchTrending } from '../../../features/content/trendingSlice';
 
 export const useGetData = () => {
   const popularData = useSelector(state => state.popular.popular);
@@ -11,10 +11,10 @@ export const useGetData = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchPopular({page: 1}));
-    dispatch(fetchTrending({page: 1}));
-    dispatch(fetchPopularTV({page: 1}));
+    dispatch(fetchPopular({ page: 1 }));
+    dispatch(fetchTrending({ page: 1 }));
+    dispatch(fetchPopularTV({ page: 1 }));
   }, [dispatch]);
 
-  return {popularData, popularTVData, trendingData};
+  return { popularData, popularTVData, trendingData };
 };

@@ -1,24 +1,13 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-import App from '../../../App';
-import AppConstants, {API_KEY} from '../../constants/AppConstants';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchPopular } from './services';
+import { PopularData } from './types';
 
-const initialState = {
+const initialState: PopularData = {
   loading: false,
   popular: [],
   error: false,
   nextPage: 2,
 };
-
-const fetchPopular = createAsyncThunk(
-  'popular/fetchPopular',
-  async ({page}) => {
-    const popular = await axios.get(
-      `${AppConstants.BASE_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`,
-    );
-    return popular.data;
-  },
-);
 
 const popularSlice = createSlice({
   name: 'popular',
@@ -40,6 +29,6 @@ const popularSlice = createSlice({
   },
 });
 
-const {reducer} = popularSlice;
+const { reducer } = popularSlice;
 export default reducer;
-export {fetchPopular};
+export { fetchPopular };

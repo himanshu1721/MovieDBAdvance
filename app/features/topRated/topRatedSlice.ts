@@ -1,19 +1,12 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-import AppConstants, {API_KEY} from '../../constants/AppConstants';
+import { createSlice } from '@reduxjs/toolkit';
+import { getTopRated } from './services';
+import { TopRatedProps } from './types';
 
-const initialState = {
+const initialState: TopRatedProps = {
   loading: false,
   topRatedMovies: [],
   error: false,
 };
-
-const getTopRated = createAsyncThunk('topRated/getTopRated', async () => {
-  const result = await axios.get(
-    `${AppConstants.BASE_URL}discover/movie?api_key=${API_KEY}&language=en-US&sort_by=vote_count.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=free`,
-  );
-  return result.data;
-});
 
 const topRatedSlice = createSlice({
   name: 'topRated',
@@ -34,6 +27,5 @@ const topRatedSlice = createSlice({
   },
 });
 
-const {reducer} = topRatedSlice;
-export {getTopRated};
+const { reducer } = topRatedSlice;
 export default reducer;

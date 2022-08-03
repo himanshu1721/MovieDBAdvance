@@ -1,6 +1,7 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { FocusData } from './types';
 
-const initialState = {
+const initialState: FocusData = {
   isFocus: false,
   data: {},
 };
@@ -19,8 +20,7 @@ const focusSlice = createSlice({
   },
 });
 
-const {reducer} = focusSlice;
+const { reducer } = focusSlice;
 
-export const {setFocusDetail, onPressOut} = focusSlice.actions;
+export const { setFocusDetail, onPressOut } = focusSlice.actions;
 export default reducer;
-

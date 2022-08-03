@@ -1,34 +1,18 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import axios from 'axios';
-import AppConstants, {API_KEY} from '../../constants/AppConstants';
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchTrending } from './services';
+import { TrendingData } from './types';
 
-const initialState = {
+const initialState: TrendingData = {
   loading: false,
   error: false,
   trending: [],
   nextPage: 2,
-  currentMedia: 'Today',
 };
-
-const fetchTrending = createAsyncThunk(
-  'trending/fetchTrending',
-  async ({span = 'day', page}) => {
-    const popular = await axios.get(
-      `${AppConstants.BASE_URL}trending/movie/${span}?api_key=${API_KEY}&language=en-US&page=${page}`,
-    );
-    return popular.data;
-  },
-);
 
 const trendingSlice = createSlice({
   name: 'trending',
   initialState,
-  reducers: {
-    changeTrendingMedia: (state, action) => {
-      state.currentMedia = action.payload;
-      state.nextPage = 2;
-    },
-  },
+  reducers: {},
   extraReducers: builder => {
     builder.addCase(fetchTrending.pending, state => {
       state.loading = true;
@@ -44,7 +28,6 @@ const trendingSlice = createSlice({
   },
 });
 
-const {reducer} = trendingSlice;
-export const {changeTrendingMedia} = trendingSlice.actions;
-export {fetchTrending};
+const { reducer } = trendingSlice;
+export { fetchTrending };
 export default reducer;

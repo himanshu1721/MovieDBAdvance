@@ -1,8 +1,5 @@
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useRef, useState } from 'react';
-import { AppDispatch } from '../../features/store';
 import {
   ActivityIndicator,
   Alert,
@@ -19,19 +16,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Icons from '../../assets/images';
 import { AuthErrors, AuthStrings, Strings } from '../../constants';
-// import AuthAction from '../../redux/AuthRedux';
-// import {regexPassword} from '../../services/Utils';
-import {
-  clearError,
-  loginTheUser,
-  SignUpTheUser,
-} from '../../features/auth/authSlice';
+import { clearError } from '../../features/auth/authSlice';
+import { loginTheUser, signUpUser } from '../../features/auth/services';
+import { AppDispatch } from '../../features/store';
 import Colors from '../../themes/Colors';
 import styles from './LoginScreenStyles';
-
-interface LoginScreenProps {
-  navigation: NativeStackNavigationProp<any, any>;
-}
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -90,7 +79,7 @@ const LoginScreen = () => {
   const createUser = async (userEmail: string, userPassword: string) => {
     try {
       dispatch(
-        SignUpTheUser({
+        signUpUser({
           userEmail: userEmail,
           userPassword: userPassword,
         }),
