@@ -1,4 +1,4 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import thunkMiddleware from 'redux-thunk';
 
 import authSlice from './auth/authSlice';
@@ -10,7 +10,8 @@ import ratingSlice from './rating/ratingSlice';
 import popularTVSlice from './content/popularTVSlice';
 import watchLaterSlice from './watchLater/watchLaterSlice';
 import topRatedSlice from './topRated/topRatedSlice';
-import {persistReducer, persistStore} from 'redux-persist';
+import ratedByMeSlice from './ratedByMe/ratedByMeSlice';
+import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   rating: ratingSlice,
   topRated: topRatedSlice,
   auth: authSlice,
+  ratedByMe: ratedByMeSlice,
   popularTV: popularTVSlice,
 });
 
@@ -40,7 +42,7 @@ const store = configureStore({
 });
 
 const persistor = persistStore(store);
-export {store, persistor};
+export { store, persistor };
 
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}

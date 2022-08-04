@@ -30,6 +30,14 @@ import UserScore from './components/UserScore';
 import { useGetMovies } from './hooks/useGetMovie';
 import styles from './styles/MovieDetailStyles';
 import Icons from '../../assets/images';
+import { useSaveUnsaveFirebase } from './hooks/useSaveUnsaveFirebase';
+import {
+  getMovieRatedByPeopleNumber,
+  getMovieRatingStar,
+  updateTotalRating,
+} from './utils/helperFunctions';
+import { useCheckMovieRating } from './hooks/useCheckMovieRating';
+import { useUpdateMovieRatings } from './hooks/useUpdateMovieRatings';
 
 interface DetailScreenProps {
   navigation: NavigationProp;
@@ -45,10 +53,13 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const [ifRatedByMeTheRating, setIfRatedByMeTheRating] = useState(0);
+  const { movieRatingValue, movieRatedByValue } = useCheckMovieRating();
 
-  const [movieRatingValue, setMovieRatingValue] = useState(0);
-  const [movieRatedByValue, setMovieRatedByValue] = useState(0);
   const [myRated, setMyRated] = useState(0);
+  const [doesMovieExists, setDoesMovieExists] = useState(false);
+  const { onSavingMovie, getRating } = useSaveUnsaveFirebase(doesMovieExists);
+
+  const { rateMovie } = useUpdateMovieRatings(ifRatedByMeTheRating);
 
   const { movies } = useGetMovies({
     t: route?.params?.type,
@@ -56,12 +67,9 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
   });
 
   useEffect(() => {
-    checkIfMovieExistsInRating();
     checkIfIHaveRatedTheMovieBefore();
     setContentType(route?.params?.type);
   }, [movies?.id]);
-
-  const [doesMovieExists, setDoesMovieExists] = useState(false);
 
   useEffect(() => {
     const m = firestore()
@@ -79,50 +87,6 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
       }
     });
   }, [setDoesMovieExists, movies?.id]);
-
-  const onSavingMovie = () => {
-    doesMovieExists
-      ? firestore()
-          .collection('users')
-          .doc(currentUserUID)
-          .collection('watchLater')
-          .doc(`${movies?.id}`)
-          .delete()
-      : firestore()
-          .collection('users')
-          .doc(currentUserUID)
-          .collection('watchLater')
-          .doc(`${movies?.id}`)
-          .set(movies);
-  };
-
-  const getMovieRatingStar = () => {
-    if (movieRatedByValue === 0) return 0;
-    const starRating = movieRatingValue / movieRatedByValue;
-    return starRating;
-  };
-
-  const getMovieRatedByPeopleNumber = () => {
-    if (movieRatedByValue === 0) return 0;
-    return movieRatedByValue;
-  };
-
-  const checkIfMovieExistsInRating = async () => {
-    const user = await firestore()
-      .collection('MovieRating')
-      .doc(`${movies?.id}`)
-      .get();
-    if (user.data()) {
-      console.log('User', user.data());
-      setMovieRatedByValue(user?.data()?.ratedBy);
-      setMovieRatingValue(user?.data()?.rating);
-      getMovieRatingStar();
-    } else {
-      console.log('Data does not exist');
-      setMovieRatedByValue(0);
-      setMovieRatingValue(0);
-    }
-  };
 
   const checkIfIHaveRatedTheMovieBefore = async () => {
     const user = await firestore()
@@ -143,45 +107,8 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
   const ratingCompleted = (rating: number) => {
     setIfRatedByMeTheRating(rating);
     getRating();
-    updateTotalRating(rating);
-    dispatch(addMovieInRatingSection({ movie: movies, rating: rating }));
-  };
-
-  const getRating = (): void => {
-    firestore()
-      .collection('MovieRating')
-      .doc(`${movies?.id}`)
-      .set(
-        { ratedBy: firestore.FieldValue.increment(1) ?? 0 },
-        { merge: true },
-      );
-  };
-
-  const updateTotalRating = (rating: number): void => {
-    firestore()
-      .collection('MovieRating')
-      .doc(`${movies?.id}`)
-      .set({ rating: firestore.FieldValue.increment(rating) }, { merge: true });
-  };
-
-  const rateMovie = (): void => {
-    firestore()
-      .collection('MovieRating')
-      .doc(`${movies.id}`)
-      .collection('ratedByUsers')
-      .doc(currentUserUID)
-      .set({ rated: ifRatedByMeTheRating });
-    updateMovieInMyRatingsFB();
-  };
-
-  const updateMovieInMyRatingsFB = (): void => {
-    firestore()
-      .collection('users')
-      .doc(currentUserUID)
-      .collection('myRatings')
-      .doc(`${movies?.id}`)
-      .set({ rating: ifRatedByMeTheRating, item: movies });
-    dispatch(setHaveBeenRated());
+    updateTotalRating(rating, movies?.id);
+    dispatch(addMovieInRatingSection({ rating: rating }));
   };
 
   return (
@@ -240,14 +167,17 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                   showRating={false}
                   onFinishRating={ratingCompleted}
                   count={5}
-                  defaultRating={getMovieRatingStar()}
+                  defaultRating={getMovieRatingStar({
+                    movieRatedByValue,
+                    movieRatingValue,
+                  })}
                   size={moderateScale(28)}
                   reviewSize={0}
                 />
                 <View style={styles.ratingAndPeopleSeparator} />
                 <View>
                   <Text style={styles.totalRatings}>
-                    ({getMovieRatedByPeopleNumber()})
+                    ({getMovieRatedByPeopleNumber(movieRatedByValue)})
                   </Text>
                 </View>
               </View>

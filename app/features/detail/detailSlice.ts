@@ -6,14 +6,22 @@ const initialState: MediaType = {
   loading: false,
   haveBeenRatedBeforeByMe: false,
   error: false,
-  movieDetails: null,
+  movieDetails: { id: 0 },
   movieRatingByMe: 0,
+  movieRating: 0,
+  movieRatingByPeople: 0,
 };
 
 const detailSlice = createSlice({
   name: 'detail',
   initialState,
   reducers: {
+    setMovieRating: (state, action) => {
+      state.movieRating = action.payload;
+    },
+    setMovieRatingByPeople: (state, action) => {
+      state.movieRatingByPeople = action.payload;
+    },
     setHaveBeenRated: state => {
       state.haveBeenRatedBeforeByMe = true;
     },
@@ -41,6 +49,11 @@ const detailSlice = createSlice({
 
 const { reducer } = detailSlice;
 export default reducer;
-export const { setHaveBeenRated, setMyRating, setHaveNotBeenRated } =
-  detailSlice.actions;
+export const {
+  setMovieRating,
+  setMovieRatingByPeople,
+  setHaveBeenRated,
+  setMyRating,
+  setHaveNotBeenRated,
+} = detailSlice.actions;
 export { fetchMovie };

@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   movieRatings: [],
@@ -12,18 +12,18 @@ const ratingSlice = createSlice({
   initialState,
   reducers: {
     getRating: (state, action) => {
-      const {movieId, rating} = action.payload;
-      const rate = {movieID: movieId, rating: rating};
+      const { movieId, rating } = action.payload;
+      const rate = { movieID: movieId, rating: rating };
       state.movieRatings = state.movieRatings.concat(rate);
     },
     addMovieInRatingSection: (state, action) => {
-      const {movie, rating} = action.payload;
-      const rate = {movie: movie, rating: rating};
+      const { rating } = action.payload;
+      const rate = { rating: rating };
       state.movieRatingsSection = state.movieRatingsSection.concat(rate);
     },
   },
 });
 
-const {reducer} = ratingSlice;
+const { reducer } = ratingSlice;
 export default reducer;
-export const {getRating, addMovieInRatingSection} = ratingSlice.actions;
+export const { getRating, addMovieInRatingSection } = ratingSlice.actions;

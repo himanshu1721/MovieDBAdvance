@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
@@ -12,25 +12,12 @@ const watchLaterSlice = createSlice({
   initialState,
   reducers: {
     saveToWatchLater: (state, action) => {
-      const {movie, id} = action.payload;
-      state.watchLater = state.watchLater.concat(movie);
-      state.watchLaterID = state.watchLaterID.concat(id);
-    },
-    removeFromWatchLater: (state, action) => {
-      const {movie, id} = action.payload;
-      const result = state.watchLater.filter(obj => {
-        return obj?.id !== id;
-      });
-      const newWatchLaterID = state.watchLaterID.filter(obj => {
-        return obj !== id;
-      });
-      state.watchLater = result;
-      state.watchLaterID = newWatchLaterID;
+      state.watchLater = action.payload;
     },
   },
 });
 
-const {reducer} = watchLaterSlice;
+const { reducer } = watchLaterSlice;
 
-export const {saveToWatchLater, removeFromWatchLater} = watchLaterSlice.actions;
+export const { saveToWatchLater } = watchLaterSlice.actions;
 export default reducer;

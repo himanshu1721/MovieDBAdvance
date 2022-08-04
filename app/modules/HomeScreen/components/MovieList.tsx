@@ -1,13 +1,13 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useRef} from 'react';
-import {FlatList, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchPopular} from '../../../features/content/popularSlice';
-import {fetchPopularTV} from '../../../features/content/popularTVSlice';
-import {fetchTrending} from '../../../features/content/trendingSlice';
-import {setFocusDetail} from '../../../features/focus/focusSlice';
+import { useNavigation } from '@react-navigation/native';
+import React, { useRef } from 'react';
+import { FlatList, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPopular } from '../../../features/content/popularSlice';
+import { fetchPopularTV } from '../../../features/content/popularTVSlice';
+import { fetchTrending } from '../../../features/content/trendingSlice';
+import { setFocusDetail } from '../../../features/focus/focusSlice';
 import MovieCard from '../components/MovieCard';
-import {useGetNextPage} from '../hooks/useGetNextPage';
+import { useGetNextPage } from '../hooks/useGetNextPage';
 import styles from '../styles/MovieListStyles';
 
 interface ItemProps {
@@ -40,18 +40,31 @@ const MovieList = ({
 }: MovieListProps): JSX.Element => {
   const flatListRef = useRef();
 
-  const {nextPagePopular, nextPagePopularTV, nextPageTrending} =
+  const { nextPagePopular, nextPagePopularTV, nextPageTrending } =
     useGetNextPage();
 
   const dispatch = useDispatch();
   const onEndReached = () => {
     if (contentIndex === 0) {
-      dispatch(fetchPopular({page: nextPagePopular}));
+      dispatch(fetchPopular({ page: nextPagePopular }));
     } else if (contentIndex === 1) {
-      dispatch(fetchPopularTV({page: nextPagePopularTV}));
+      dispatch(fetchPopularTV({ page: nextPagePopularTV }));
     } else {
-      dispatch(fetchTrending({page: nextPageTrending}));
+      dispatch(fetchTrending({ page: nextPageTrending }));
     }
+  };
+
+  const renderItem = ({ item }) => {
+    return (
+      <MovieCard
+        item={item}
+        onLongTap={() => dispatch(setFocusDetail(item))}
+        onTap={() => {
+          const mediaType = isTV ? 'tv' : 'movie';
+          navigation.navigate('Detail', { type: mediaType, id: item?.id });
+        }}
+      />
+    );
   };
 
   const navigation = useNavigation();
@@ -71,18 +84,7 @@ const MovieList = ({
       keyExtractor={item => `${item?.id}${Math.random()}`}
       data={data}
       initialNumToRender={5}
-      renderItem={({item}) => {
-        return (
-          <MovieCard
-            item={item}
-            onLongTap={() => dispatch(setFocusDetail(item))}
-            onTap={() => {
-              const mediaType = isTV ? 'tv' : 'movie';
-              navigation.navigate('Detail', {type: mediaType, id: item?.id});
-            }}
-          />
-        );
-      }}
+      renderItem={renderItem}
       onEndReached={onEndReached}
       onEndReachedThreshold={0.5}
     />
