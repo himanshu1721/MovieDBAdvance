@@ -1,9 +1,9 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import { Text, View } from 'react-native';
 import ProgressCircle from 'react-native-progress-circle-rtl';
-import {Strings} from '../../../constants';
-import {returnColor} from '../../../services';
-import {moderateScale, Colors} from '../../../themes';
+import { Strings } from '../../../constants';
+import { returnColor } from '../../../services';
+import { moderateScale, Colors } from '../../../themes';
 import colors from '../../../themes/Colors';
 import styles from '../styles/RatingCircleStyles';
 
@@ -34,19 +34,5 @@ const RatingCircle = ({
     </View>
   );
 };
-{
-  /* <ProgressCircle
-percent={getValidNumber()}
-radius={moderateScale(24)}
-borderWidth={moderateScale(2.6, 0.25)}
-color={returnColor(vote_average).colour}
-shadowColor={returnColor(vote_average).shadow}
-bgColor={Colors.black}>
-<View style={styles.ratingStyle}>
-  <Text style={styles.percentStyle}>{getValidNumber()}</Text>
-  <Text style={styles.percentSymbolStyle}>{Strings.percentSymbol}</Text>
-</View>
-</ProgressCircle> */
-}
 
 export default RatingCircle;

@@ -153,37 +153,36 @@ const ProfileScreen = ({ navigation }) => {
           bounces={true}>
           <View style={{ height: '10%' }}></View>
           <View style={styles.subContainer}>
-            <View style={styles.dpAndNameContainer}>
-              <View
-                style={{
-                  backgroundColor: 'white',
-                  width: moderateScale(70),
-                  height: moderateScale(70),
-                  borderRadius: moderateScale(35),
-                }}>
-                <SvgUri
-                  width={moderateScale(70)}
-                  height={moderateScale(70)}
-                  uri={`https://avatars.dicebear.com/api/croodles/${currentUsername}20.svg`}
-                />
+            <View style={styles.dpAndEditProfileContainer}>
+              <View style={styles.dpAndNameContainer}>
+                <View style={styles.dpContainer}>
+                  <SvgUri
+                    width={moderateScale(70)}
+                    height={moderateScale(70)}
+                    uri={`https://avatars.dicebear.com/api/croodles/${currentUsername}20.svg`}
+                  />
+                </View>
+                <View style={styles.dpAndInfoSeparator} />
+                <View>
+                  <Text style={styles.nameStyles}>{name}</Text>
+                  <Text style={styles.usernameStyles}>@{username}</Text>
+                </View>
               </View>
-              <View style={styles.dpAndInfoSeparator} />
-              <View>
-                <Text style={styles.nameStyles}>{name}</Text>
-                <Text style={styles.usernameStyles}>@{username}</Text>
+              <View style={styles.editProfileButtonContainer}>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(true)}
+                  activeOpacity={0.8}
+                  style={styles.editProfileButton}>
+                  <Text style={styles.editProfileText}>Edit Profile</Text>
+                </TouchableOpacity>
               </View>
             </View>
+
             <View style={styles.dpAndAboutSeparator} />
             <View style={styles.aboutContainer}>
               <Text style={styles.aboutStyles}>{about}</Text>
             </View>
             <View style={styles.dpAndAboutSeparator} />
-            <TouchableOpacity
-              onPress={() => setModalVisible(true)}
-              activeOpacity={0.8}
-              style={styles.editProfileButton}>
-              <Text style={styles.editProfileText}>Edit Profile</Text>
-            </TouchableOpacity>
           </View>
           <View style={{ height: '100%' }} />
           <View style={styles.favoritesContainer}>
@@ -199,7 +198,6 @@ const ProfileScreen = ({ navigation }) => {
         <Modal
           presentationStyle="pageSheet"
           style={styles.modal}
-          // animationType="slide"
           animationType="slide"
           onRequestClose={() => {
             setModalVisible(!modalVisible);
@@ -229,7 +227,7 @@ const ProfileScreen = ({ navigation }) => {
               </Pressable>
             </View>
             <EditProfile
-              maxCharactersAllowed={25}
+              maxCharactersAllowed={22}
               currentCount={customName.length}
               value={customName}
               title={'Name'}
@@ -315,9 +313,9 @@ const ProfileScreen = ({ navigation }) => {
                           </Text>
                         </Text>
                         <View style={{ height: 10 }}></View>
-                        <View>
+                        <View style={{ width: '80%' }}>
                           <FlatList
-                            style={{ maxHeight: 300 }}
+                            style={{ maxHeight: 300, maxWidth: 250 }}
                             numColumns={4}
                             data={item?.genres}
                             renderItem={renderItem}

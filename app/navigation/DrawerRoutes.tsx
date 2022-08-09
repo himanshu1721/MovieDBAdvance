@@ -1,24 +1,20 @@
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import React, { useEffect, useRef, useState } from 'react';
 import firestore from '@react-native-firebase/firestore';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import React, { useEffect, useRef } from 'react';
+import { AppState } from 'react-native';
 import CustomDrawer from '../components/CustomDrawer';
-import Community from '../modules/community/Community';
+import { useCurrentUserDetails } from '../hooks/useCurrentUID';
 import RatedByMe from '../modules/ratedByMe/RatedByMe';
-import WatchList from '../modules/watchlist/WatchList';
 import { Colors, moderateScale } from '../themes';
 import CommunityStack from './CommunityStack';
 import TabRoutes from './TabRoutes';
-import { AppState } from 'react-native';
-import { useCurrentUserDetails } from '../hooks/useCurrentUID';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerRoutes = () => {
-  const { currentUserUID, currentEmailID } = useCurrentUserDetails();
+  const { currentUserUID } = useCurrentUserDetails();
 
-  const [aState, setAppState] = useState(AppState.currentState);
   const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
@@ -30,7 +26,6 @@ const DrawerRoutes = () => {
           .collection('users')
           .doc(`${currentUserUID}`)
           .update({ isOnline: true });
-        console.log('App has come to the foreground!');
       } else {
         firestore()
           .collection('users')
@@ -45,10 +40,8 @@ const DrawerRoutes = () => {
               minute: '2-digit',
             }),
           });
-        console.log('App not active');
       }
       appState.current = nextAppState;
-      setAppStateVisible(appState.current);
     });
 
     return () => {
@@ -126,7 +119,7 @@ const DrawerRoutes = () => {
             color: 'white',
           },
         }}
-        name="CommunityStack"
+        name="Community"
         component={CommunityStack}
       />
     </Drawer.Navigator>

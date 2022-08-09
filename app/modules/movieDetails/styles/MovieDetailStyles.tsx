@@ -6,15 +6,28 @@ const styles = StyleSheet.create({
   itemSeparator: {
     height: verticalScale(5),
   },
+  watchTrailerButton: {
+    flexDirection: 'row',
+    flex: 1.2,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  watchTrailerTextStyles: { color: 'white', fontSize: moderateScale(14) },
   ratingAndPeopleSeparator: { width: scale(5) },
   totalRatings: {
     fontSize: moderateScale(20),
     color: 'white',
     fontWeight: '400',
   },
+  favoriteExtraViewOne: { flex: 0.4 },
+  favoriteExtraViewTwo: { flex: 3 },
   movieSaveIconWrapper: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  heartImageWrapper: {
+    flex: 1,
     alignItems: 'center',
   },
   movieSaveIconStyles: {
@@ -33,6 +46,7 @@ const styles = StyleSheet.create({
     height: verticalScale(25),
     backgroundColor: Colors.white,
   },
+  extraViewWatchTrailer: { flex: 0.1 },
   container: {
     flex: 1,
     backgroundColor: Colors.black,
@@ -77,12 +91,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: '80%',
-    height: 50,
+    height: verticalScale(40),
     backgroundColor: '#eee',
   },
-  heartImage: { width: 30, height: 30 },
+  heartImage: { width: moderateScale(30), height: moderateScale(30) },
   heartAndTextSeparator: { width: 10 },
-  addToFavoritesTextStyles: { fontWeight: '600', color: 'black', fontSize: 20 },
+  addToFavoritesTextStyles: {
+    fontWeight: '600',
+    color: 'black',
+    fontSize: moderateScale(19),
+  },
 });
 
 export default styles;

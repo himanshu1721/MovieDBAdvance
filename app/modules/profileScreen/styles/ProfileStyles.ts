@@ -2,15 +2,21 @@ import { StyleSheet } from 'react-native';
 import { moderateScale, scale, verticalScale } from '../../../themes';
 
 const styles = StyleSheet.create({
+  dpContainer: {
+    backgroundColor: 'white',
+    width: moderateScale(70),
+    height: moderateScale(70),
+    borderRadius: moderateScale(35),
+  },
+  dpAndEditProfileContainer: { flexDirection: 'row' },
   container: { backgroundColor: '#222', flex: 1 },
   subContainer: {
     flex: 1,
     alignItems: 'center',
   },
   dpAndNameContainer: {
-    flexDirection: 'row',
-    width: '93%',
-    alignItems: 'center',
+    width: '60%',
+    // alignItems: 'center',
   },
 
   //
@@ -33,12 +39,20 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'white',
   },
+  editProfileButtonContainer: {
+    alignItems: 'center',
+    width: '33%',
+  },
   editProfileButton: {
-    width: '100%',
-    paddingHorizontal: scale(20),
+    width: '90%',
+    paddingHorizontal: scale(10),
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#474747',
-    borderRadius: moderateScale(5),
-    padding: moderateScale(5),
+    borderRadius: moderateScale(20),
+    borderWidth: 1,
+    borderColor: '#ddd',
+    paddingVertical: moderateScale(5),
   },
   aboutStyles: {
     fontSize: moderateScale(14),
@@ -46,7 +60,7 @@ const styles = StyleSheet.create({
     fontWeight: '400',
   },
   aboutContainer: { flexDirection: 'row', width: '90%' },
-  dpAndAboutSeparator: { height: verticalScale(20) },
+  dpAndAboutSeparator: { height: verticalScale(10) },
   usernameStyles: {
     fontSize: moderateScale(14),
     fontStyle: 'italic',
@@ -63,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: 'pink',
   },
-  dpAndInfoSeparator: { width: scale(15) },
+  dpAndInfoSeparator: { height: verticalScale(10) },
   centeredView: {
     backgroundColor: '#474747',
     flex: 1,
@@ -151,7 +165,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 3,
     backgroundColor: 'pink',
-  }
+  },
 });
 
 export default styles;

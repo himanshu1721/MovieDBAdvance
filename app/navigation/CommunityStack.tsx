@@ -9,7 +9,7 @@ const Stack = createNativeStackNavigator();
 function CommunityStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Community" component={Community} />
+      <Stack.Screen name="CommunityScreen" component={Community} />
       <Stack.Screen name="OtherProfile" component={OtherProfile} />
     </Stack.Navigator>
   );

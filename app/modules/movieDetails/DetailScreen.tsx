@@ -3,10 +3,13 @@ import { RouteProp } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Button,
   Image,
   SafeAreaView,
   ScrollView,
+  Linking,
   Text,
+  Alert,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -38,6 +41,8 @@ import {
 } from './utils/helperFunctions';
 import { useCheckMovieRating } from './hooks/useCheckMovieRating';
 import { useUpdateMovieRatings } from './hooks/useUpdateMovieRatings';
+import axios from 'axios';
+import AppConstants, { YOUTUBE_API_KEY } from '../../constants/AppConstants';
 
 interface DetailScreenProps {
   navigation: NavigationProp;
@@ -45,6 +50,16 @@ interface DetailScreenProps {
 }
 
 const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
+  const LinkingFunction = async (url: string) => {
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      Alert.alert(`Don't know how to open this URL: ${url}`);
+    }
+  };
+
   const [contentType, setContentType] = useState('');
 
   const dispatch = useDispatch();
@@ -130,6 +145,15 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
     dispatch(addMovieInRatingSection({ rating: rating }));
   };
 
+  const getTrailerLink = async () => {
+    const getType = movies?.original_title ?? movies?.original_name;
+    const data = await axios.get(
+      `${AppConstants.YOUTUBE_BASE_URL}search?part=snippet&maxResults=1&q=${getType} trailer&type=video&key=${YOUTUBE_API_KEY}`,
+    );
+    const z = data?.data?.items[0]?.id?.videoId;
+    LinkingFunction(`${AppConstants.YOUTUBE_WATCH_BASE_URL}${z}`);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent backButton onTap={() => navigation.pop()} />
@@ -150,6 +174,25 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
             />
             <View style={styles.itemSeparator} />
             <View style={styles.userScoreAndPlayContainer}>
+              <TouchableOpacity
+                onPress={() => getTrailerLink()}
+                activeOpacity={0.7}
+                style={styles.watchTrailerButton}>
+                <View style={styles.extraViewWatchTrailer} />
+                <View>
+                  <Text style={styles.watchTrailerTextStyles}>Watch</Text>
+                  <Text style={styles.watchTrailerTextStyles}>Trailer</Text>
+                </View>
+                <Image
+                  style={{
+                    width: moderateScale(30),
+                    height: moderateScale(30),
+                  }}
+                  source={Icons.youtube}
+                />
+                <View style={styles.extraViewWatchTrailer} />
+              </TouchableOpacity>
+              <View style={styles.componentSeparator} />
               <UserScore vote_average={movies?.vote_average ?? 1} />
               <View style={styles.componentSeparator} />
               <View style={styles.movieSaveIconWrapper}>
@@ -215,26 +258,32 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                 <Text style={styles.rateMovieTextStyles}>Movie</Text>
               </TouchableOpacity>
             </View>
-            <View>
-              <TouchableOpacity
-                onPress={onAddingToFavorites}
-                style={styles.addToFavorites}>
-                <Image
-                  style={styles.heartImage}
-                  source={
-                    doesMovieExistFavorites
-                      ? require('../../assets/images/heartFilled.png')
-                      : require('../../assets/images/heartOutline.png')
-                  }
-                />
-                <View style={styles.heartAndTextSeparator} />
-                <Text style={styles.addToFavoritesTextStyles}>
-                  {doesMovieExistFavorites
-                    ? 'Added to Favorites'
-                    : 'Add to Favorites'}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {contentType !== 'tv' ? (
+              <View>
+                <TouchableOpacity
+                  onPress={onAddingToFavorites}
+                  style={styles.addToFavorites}>
+                  <View style={styles.favoriteExtraViewOne} />
+                  <View style={styles.heartImageWrapper}>
+                    <Image
+                      style={styles.heartImage}
+                      source={
+                        doesMovieExistFavorites
+                          ? Icons.heartFilled
+                          : Icons.heartOutline
+                      }
+                    />
+                  </View>
+                  <View style={styles.favoriteExtraViewTwo}>
+                    <Text style={styles.addToFavoritesTextStyles}>
+                      {doesMovieExistFavorites
+                        ? 'Added to Favorites'
+                        : 'Add to Favorites'}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ) : null}
             <Overview description={movies?.overview} />
           </View>
         </ScrollView>

@@ -66,5 +66,8 @@ buck-out/
 /ios/Pods/
 /vendor/bundle/
 
+# env
+/app/utils
+
 # MovieDB
 Podfile.lock

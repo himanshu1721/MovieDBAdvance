@@ -1,7 +1,12 @@
-const API_KEY = '75f81ae108c32ef6e09c4adf44096089';
+import ENV from '../utils/env';
+
+const API_KEY = ENV.MOVIE_DB_API;
+const YOUTUBE_API_KEY = ENV.YOUTUBE_API_KEY;
 const AppConstants = {
   API_IMAGE: 'https://image.tmdb.org/t/p/w500',
   BASE_URL: 'https://api.themoviedb.org/3/',
+  YOUTUBE_BASE_URL: 'https://youtube.googleapis.com/youtube/v3/',
+  YOUTUBE_WATCH_BASE_URL: 'https://www.youtube.com/watch/',
   POPULAR_MOVIES_ENDPOINT: `movie/popular?api_key=${API_KEY}&language=en-US&page=1`,
   POPULAR_TV_ENDPOINT: `tv/popular?api_key=${API_KEY}&language=en-US&page=1`,
   MOVIES_IN_THEATRES_ENDPOINT: `movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`,
@@ -21,4 +26,4 @@ const AppConstants = {
 };
 
 export default AppConstants;
-export {API_KEY};
+export { API_KEY, YOUTUBE_API_KEY };

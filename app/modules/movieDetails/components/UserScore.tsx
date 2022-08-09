@@ -13,8 +13,6 @@ const UserScore = ({ vote_average = 5.6 }: UserScoreType): JSX.Element => {
     <View style={styles.container}>
       <View style={styles.extraView} />
       <View style={styles.subContainer}>
-        <Text style={styles.userScoreTextStyles}>{Strings.userScore}</Text>
-        <View style={styles.itemSeparator} />
         <RatingCircle isMovieDetail={true} vote_average={vote_average} />
       </View>
       <View style={styles.extraView} />
