@@ -35,6 +35,8 @@
 			</dict>
 		</dict>
 	</dict>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Upload an image to personalize your user profile</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>

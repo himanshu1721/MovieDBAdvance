@@ -6,6 +6,7 @@ import WatchList from '../modules/watchlist/WatchList';
 import { Colors, moderateScale, verticalScale } from '../themes';
 import HomeStack from './StackNavigation';
 import Icons from '../assets/images';
+import ProfileScreen from '../modules/profileScreen/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -60,6 +61,19 @@ export default function TabRoutes() {
         }}
         name="WatchList"
         component={WatchList}
+      />
+      <Tab.Screen
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => (
+            <Image
+              style={{ width: moderateScale(30), height: moderateScale(30) }}
+              source={focused ? Icons.profileLime : Icons.profile}
+            />
+          ),
+        }}
+        name="Profile"
+        component={ProfileScreen}
       />
     </Tab.Navigator>
   );

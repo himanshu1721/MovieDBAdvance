@@ -69,6 +69,20 @@ const styles = StyleSheet.create({
   },
   inActiveSaveButton: { opacity: 0.4 },
   activeSaveButton: { opacity: 1 },
+
+  addToFavorites: {
+    flexDirection: 'row',
+    borderRadius: 5,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '80%',
+    height: 50,
+    backgroundColor: '#eee',
+  },
+  heartImage: { width: 30, height: 30 },
+  heartAndTextSeparator: { width: 10 },
+  addToFavoritesTextStyles: { fontWeight: '600', color: 'black', fontSize: 20 },
 });
 
 export default styles;

@@ -1,8 +1,8 @@
-import React, {memo} from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import React, { memo } from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import AppConstants from '../../../constants/AppConstants';
-import {refactorDate} from '../../../services';
-import {verticalScale} from '../../../themes';
+import { refactorDate } from '../../../services';
+import { verticalScale } from '../../../themes';
 import styles from '../styles/MovieCardStyles';
 import MenuCircle from './MenuButtonCircle';
 import RatingCircle from './RatingCircle';
@@ -28,10 +28,14 @@ interface ItemProps {
 interface MovieCardProps {
   item: ItemProps;
   onTap: () => void;
-  onLongTap: () => {};
+  onLongTap: () => void;
 }
 
-const MovieCard = ({item, onTap, onLongTap}: MovieCardProps): JSX.Element => {
+const MovieCard = ({
+  item,
+  onTap = () => {},
+  onLongTap = () => {},
+}: MovieCardProps): JSX.Element => {
   return (
     <TouchableOpacity
       delayLongPress={200}
@@ -48,7 +52,7 @@ const MovieCard = ({item, onTap, onLongTap}: MovieCardProps): JSX.Element => {
         />
       </View>
       <MenuCircle />
-      <View style={{height: verticalScale(5)}} />
+      <View style={{ height: verticalScale(5) }} />
       <View style={styles.textContainer}>
         <Text style={styles.titleStyles}>
           {item?.title ?? item?.original_name}

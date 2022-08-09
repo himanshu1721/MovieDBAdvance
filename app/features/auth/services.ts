@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ActionTypeConstants from '../../constants/ActionTypeConstants';
-import { loginTheUserApi, signUpUserApi } from './Api';
+import { createUserAccount, loginTheUserApi, signUpUserApi } from './Api';
 import { UserCredentials } from './types';
 
 export const loginTheUser = createAsyncThunk(
@@ -20,6 +20,10 @@ export const signUpUser = createAsyncThunk(
     const result = await signUpUserApi({
       userEmail: userEmail,
       userPassword: userPassword,
+    });
+    createUserAccount({
+      userEmail: result.user.email,
+      userUID: result.user.uid,
     });
     return result;
   },

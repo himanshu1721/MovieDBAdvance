@@ -1,5 +1,13 @@
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import { UserCredentials } from './types';
+
+const generateRandom = () => {
+  return Math.random()
+    .toString(36)
+    .replace(/[^a-z]+/g, '')
+    .substring(0, 10);
+};
 
 export const loginTheUserApi = ({
   userEmail,
@@ -10,4 +18,24 @@ export const loginTheUserApi = ({
 
 export const signUpUserApi = ({ userEmail, userPassword }: UserCredentials) => {
   return auth().createUserWithEmailAndPassword(userEmail, userPassword);
+};
+
+export const createUserAccount = async ({
+  userEmail,
+  userUID,
+}: {
+  userEmail: string | null;
+  userUID: string;
+}) => {
+  await firestore().collection('users').doc(userUID).set({
+    email: userEmail,
+    uid: userUID,
+    isOnline: true,
+    favoriteGenres: [],
+    favoriteMovies: [],
+    about: 'Hello, I am new to MovieDB',
+    name: 'New User',
+    username: generateRandom(),
+    lastSeen: '',
+  });
 };

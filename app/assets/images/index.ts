@@ -18,6 +18,8 @@ const images = {
   star: require('./star.png'),
   eye: require('./passwordEye.png'),
   invisibleEye: require('./passwordInvisible.png'),
+  profile: require('./profile.png'),
+  profileLime: require('./profileLime.png'),
 };
 
 export default images;

@@ -11,6 +11,8 @@ import popularTVSlice from './content/popularTVSlice';
 import watchLaterSlice from './watchLater/watchLaterSlice';
 import topRatedSlice from './topRated/topRatedSlice';
 import ratedByMeSlice from './ratedByMe/ratedByMeSlice';
+import profileSlice from './profile/profileSlice';
+import otherProfileSlice from './otherProfile/otherProfileSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -25,6 +27,8 @@ const rootReducer = combineReducers({
   auth: authSlice,
   ratedByMe: ratedByMeSlice,
   popularTV: popularTVSlice,
+  profile: profileSlice,
+  otherProfile: otherProfileSlice,
 });
 
 const persistConfig = {

@@ -2,7 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import firestore from '@react-native-firebase/firestore';
 import { setHaveBeenRated } from '../../../features/detail/detailSlice';
 
-export const useSaveUnsaveFirebase = (doesMovieExists: boolean) => {
+export const useSaveUnsaveFirebase = (
+  doesMovieExists: boolean,
+  doesMovieExistFavorites: boolean,
+) => {
   const currentUserUID = useSelector(state => state.auth.userUID);
   const movies = useSelector(state => state.detail.movieDetails);
   const dispatch = useDispatch();
@@ -23,6 +26,22 @@ export const useSaveUnsaveFirebase = (doesMovieExists: boolean) => {
           .set(movies);
   };
 
+  const onAddingToFavorites = () => {
+    doesMovieExistFavorites
+      ? firestore()
+          .collection('users')
+          .doc(currentUserUID)
+          .collection('favorites')
+          .doc(`${movies?.id}`)
+          .delete()
+      : firestore()
+          .collection('users')
+          .doc(currentUserUID)
+          .collection('favorites')
+          .doc(`${movies?.id}`)
+          .set(movies);
+  };
+
   const getRating = (): void => {
     firestore()
       .collection('MovieRating')
@@ -33,5 +52,5 @@ export const useSaveUnsaveFirebase = (doesMovieExists: boolean) => {
       );
   };
 
-  return { onSavingMovie, getRating };
+  return { onSavingMovie, getRating, onAddingToFavorites };
 };

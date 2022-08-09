@@ -57,7 +57,9 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
 
   const [myRated, setMyRated] = useState(0);
   const [doesMovieExists, setDoesMovieExists] = useState(false);
-  const { onSavingMovie, getRating } = useSaveUnsaveFirebase(doesMovieExists);
+  const [doesMovieExistFavorites, setDoesMovieExistFavorites] = useState(false);
+  const { onSavingMovie, getRating, onAddingToFavorites } =
+    useSaveUnsaveFirebase(doesMovieExists, doesMovieExistFavorites);
 
   const { rateMovie } = useUpdateMovieRatings(ifRatedByMeTheRating);
 
@@ -87,6 +89,23 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
       }
     });
   }, [setDoesMovieExists, movies?.id]);
+
+  useEffect(() => {
+    const m = firestore()
+      .collection('users')
+      .doc(`${currentUserUID}`)
+      .collection('favorites')
+      .doc(`${movies?.id}`);
+
+    m.onSnapshot(querySnap => {
+      const data = querySnap.exists;
+      if (data) {
+        setDoesMovieExistFavorites(true);
+      } else {
+        setDoesMovieExistFavorites(false);
+      }
+    });
+  }, [setDoesMovieExistFavorites, movies?.id]);
 
   const checkIfIHaveRatedTheMovieBefore = async () => {
     const user = await firestore()
@@ -194,6 +213,26 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                 }>
                 <Text style={styles.rateMovieTextStyles}>Rate</Text>
                 <Text style={styles.rateMovieTextStyles}>Movie</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={onAddingToFavorites}
+                style={styles.addToFavorites}>
+                <Image
+                  style={styles.heartImage}
+                  source={
+                    doesMovieExistFavorites
+                      ? require('../../assets/images/heartFilled.png')
+                      : require('../../assets/images/heartOutline.png')
+                  }
+                />
+                <View style={styles.heartAndTextSeparator} />
+                <Text style={styles.addToFavoritesTextStyles}>
+                  {doesMovieExistFavorites
+                    ? 'Added to Favorites'
+                    : 'Add to Favorites'}
+                </Text>
               </TouchableOpacity>
             </View>
             <Overview description={movies?.overview} />
