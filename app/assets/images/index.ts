@@ -23,6 +23,7 @@ const images = {
   invisibleEye: require('./passwordInvisible.png'),
   profile: require('./profile.png'),
   profileLime: require('./profileLime.png'),
+  shrug: require('./shrug.png'),
 };
 
 export default images;

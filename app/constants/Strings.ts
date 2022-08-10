@@ -98,6 +98,8 @@ const strings = {
   moviesToWatch: 'Movies to watch',
   language: 'Language : ',
   date: 'Date : ',
+  addToFavorites: 'Add to favorites',
+  addedToFavorites: 'Added to favorites',
 };
 
 export default strings;
