@@ -1,53 +1,48 @@
 import firestore from '@react-native-firebase/firestore';
-import { RouteProp } from '@react-navigation/native';
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Button,
+  Alert,
   Image,
+  Linking,
   SafeAreaView,
   ScrollView,
-  Linking,
   Text,
-  Alert,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { AirbnbRating } from 'react-native-ratings';
 import { useDispatch, useSelector } from 'react-redux';
+import Icons from '../../assets/images';
+import { Strings } from '../../constants';
+import AppConstants, { YOUTUBE_API_KEY } from '../../constants/AppConstants';
 import {
   setHaveBeenRated,
   setHaveNotBeenRated,
 } from '../../features/detail/detailSlice';
 import { addMovieInRatingSection } from '../../features/rating/ratingSlice';
 import { Colors, moderateScale } from '../../themes';
-import NavigationProp from '../../types/NavigationTypes';
 import GenreList from './components/GenreList';
 import HeaderComponent from './components/Header';
 import ImageComponent from './components/ImageComponent';
 import MovieTitle from './components/MovieTitle';
+import OTTLogo from './components/OTTLogo';
 import Overview from './components/Overview';
 import RateAMovieModal from './components/RateAMovieModal';
 import ReleaseDateAndRuntime from './components/ReleaseDate';
 import UserScore from './components/UserScore';
+import { useCheckMovieRating } from './hooks/useCheckMovieRating';
 import { useGetMovies } from './hooks/useGetMovie';
-import styles from './styles/MovieDetailStyles';
-import Icons from '../../assets/images';
 import { useSaveUnsaveFirebase } from './hooks/useSaveUnsaveFirebase';
+import { useUpdateMovieRatings } from './hooks/useUpdateMovieRatings';
+import styles from './styles/MovieDetailStyles';
+import { DetailScreenProps } from './types/DetailScreenTypes';
 import {
   getMovieRatedByPeopleNumber,
   getMovieRatingStar,
   updateTotalRating,
 } from './utils/helperFunctions';
-import { useCheckMovieRating } from './hooks/useCheckMovieRating';
-import { useUpdateMovieRatings } from './hooks/useUpdateMovieRatings';
-import axios from 'axios';
-import AppConstants, { YOUTUBE_API_KEY } from '../../constants/AppConstants';
-
-interface DetailScreenProps {
-  navigation: NavigationProp;
-  route: RouteProp<{ params: { type: string } }, 'params'>;
-}
 
 const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
   const LinkingFunction = async (url: string) => {
@@ -198,11 +193,11 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
               <View style={styles.movieSaveIconWrapper}>
                 <TouchableOpacity
                   style={
-                    contentType === 'tv'
+                    contentType === Strings.tv
                       ? styles.inActiveSaveButton
                       : styles.activeSaveButton
                   }
-                  disabled={contentType === 'tv'}
+                  disabled={contentType === Strings.tv}
                   onPress={onSavingMovie}>
                   <Image
                     style={styles.movieSaveIconStyles}
@@ -213,6 +208,11 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                 </TouchableOpacity>
               </View>
             </View>
+            {contentType === Strings.tv && (
+              <OTTLogo
+                uri={`${AppConstants.API_IMAGE}${movies?.networks[0]?.logo_path}`}
+              />
+            )}
             <View style={styles.itemSeparator} />
             <ReleaseDateAndRuntime
               runTime={movies?.runtime ?? 1}
@@ -244,13 +244,13 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                 </View>
               </View>
               <TouchableOpacity
-                disabled={contentType === 'tv'}
+                disabled={contentType === Strings.tv}
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   checkIfIHaveRatedTheMovieBefore();
                 }}
                 style={
-                  contentType === 'tv'
+                  contentType === Strings.tv
                     ? styles.rateMovieWrapperTV
                     : styles.rateMovieWrapper
                 }>
@@ -258,7 +258,7 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                 <Text style={styles.rateMovieTextStyles}>Movie</Text>
               </TouchableOpacity>
             </View>
-            {contentType !== 'tv' ? (
+            {contentType !== Strings.tv ? (
               <View>
                 <TouchableOpacity
                   onPress={onAddingToFavorites}
@@ -277,8 +277,8 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                   <View style={styles.favoriteExtraViewTwo}>
                     <Text style={styles.addToFavoritesTextStyles}>
                       {doesMovieExistFavorites
-                        ? 'Added to Favorites'
-                        : 'Add to Favorites'}
+                        ? Strings.addedToFavorites
+                        : Strings.addToFavorites}
                     </Text>
                   </View>
                 </TouchableOpacity>
