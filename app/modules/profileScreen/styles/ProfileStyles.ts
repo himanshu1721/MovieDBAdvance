@@ -1,27 +1,28 @@
 import { StyleSheet } from 'react-native';
-import { moderateScale, scale, verticalScale } from '../../../themes';
+import { Colors, moderateScale, scale, verticalScale } from '../../../themes';
 
 const styles = StyleSheet.create({
   dpContainer: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     width: moderateScale(70),
     height: moderateScale(70),
     borderRadius: moderateScale(35),
   },
+  birthdayIcon: { height: moderateScale(30), width: moderateScale(30) },
   dpAndEditProfileContainer: { flexDirection: 'row' },
-  container: { backgroundColor: '#222', flex: 1 },
+  container: { backgroundColor: Colors.raisinBlack, flex: 1 },
   subContainer: {
+    marginTop: verticalScale(20),
     flex: 1,
     alignItems: 'center',
   },
   dpAndNameContainer: {
     width: '60%',
-    // alignItems: 'center',
   },
-
-  //
+  favoritesAndButtonSeparator: { width: scale(10) },
+  profileAndFavoriteSeparator: { height: '100%' },
   favoritesText: {
-    fontSize: 20,
+    fontSize: moderateScale(20),
     letterSpacing: 1,
     fontWeight: '600',
     color: 'white',
@@ -29,15 +30,15 @@ const styles = StyleSheet.create({
   favoritesContainer: {
     alignItems: 'center',
     flexDirection: 'row',
-    paddingHorizontal: 10,
-    marginTop: 30,
+    paddingHorizontal: scale(10),
+    marginTop: verticalScale(30),
     width: '100%',
   },
   editProfileText: {
     fontSize: moderateScale(15),
     width: '93%',
     fontWeight: '500',
-    color: 'white',
+    color: Colors.white,
   },
   editProfileButtonContainer: {
     alignItems: 'center',
@@ -48,23 +49,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: scale(10),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#474747',
+    backgroundColor: Colors.outerSpace,
     borderRadius: moderateScale(20),
-    borderWidth: 1,
-    borderColor: '#ddd',
+    borderWidth: scale(1),
+    borderColor: Colors.alto,
     paddingVertical: moderateScale(5),
   },
   aboutStyles: {
     fontSize: moderateScale(14),
-    color: 'white',
+    color: Colors.white,
     fontWeight: '400',
   },
-  aboutContainer: { flexDirection: 'row', width: '90%' },
+  aboutContainer: { flexDirection: 'row', width: '93%' },
   dpAndAboutSeparator: { height: verticalScale(10) },
   usernameStyles: {
     fontSize: moderateScale(14),
     fontStyle: 'italic',
-    color: 'white',
+    color: Colors.white,
   },
   nameStyles: {
     fontSize: moderateScale(17),
@@ -72,31 +73,30 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   dummyDP: {
-    width: 80,
-    height: 80,
+    width: moderateScale(80),
+    height: moderateScale(80),
     borderRadius: 40,
-    backgroundColor: 'pink',
+    backgroundColor: Colors.pink,
   },
   dpAndInfoSeparator: { height: verticalScale(10) },
   centeredView: {
-    backgroundColor: '#474747',
+    backgroundColor: Colors.outerSpace,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 22,
     width: '100%',
     height: '70%',
   },
   modalView: {
-    margin: 20,
-    backgroundColor: 'white',
+    margin: moderateScale(20),
+    backgroundColor: Colors.white,
     borderRadius: 20,
-    padding: 35,
+    padding: moderateScale(35),
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: verticalScale(2),
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
@@ -104,46 +104,28 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 20,
-    padding: 10,
+    padding: moderateScale(10),
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
-  buttonClose: {
-    backgroundColor: '#2196F3',
-  },
   textStyle: {
-    color: 'white',
+    color: Colors.white,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: verticalScale(15),
     textAlign: 'center',
   },
 
-  //Modal
   modal: {
     flex: 1,
     width: '100%',
   },
-  doneButtonTextStyles: { fontSize: 15, fontWeight: '500', color: 'black' },
-  doneButton: {
-    width: '50%',
-    alignSelf: 'center',
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'beige',
-    borderRadius: 5,
-    padding: 5,
-  },
-
   modalContainer: {
-    padding: 10,
+    padding: moderateScale(10),
     flex: 1,
-    backgroundColor: '#474747',
+    height: '60%',
+    backgroundColor: Colors.outerSpace,
   },
   closeAndDoneContainer: {
     flexDirection: 'row',
@@ -156,16 +138,55 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  closeButton: { width: 30, height: 30 },
+  closeButton: { width: moderateScale(30), height: moderateScale(30) },
   extraViewTop: {
     flex: 7,
   },
   showFavoriteButton: {
     borderRadius: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: scale(10),
     paddingVertical: 3,
-    backgroundColor: 'pink',
+    backgroundColor: Colors.pink,
   },
+  dobContainer: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    width: '93%',
+  },
+  dateOfBirthTextStyles: {
+    alignSelf: 'flex-start',
+    color: Colors.white,
+    fontSize: moderateScale(15),
+    fontWeight: '400',
+  },
+  datePickerContainer: { alignSelf: 'center' },
+  modalStyles: { backgroundColor: Colors.jet, padding: moderateScale(10) },
+  favoriteMoviesWrapper: { height: '100%' },
+  itemSeparatorFavoriteMovies: { height: verticalScale(20) },
+  favoriteMovieCard: {
+    flexDirection: 'row',
+  },
+  moviePosterStyles: {
+    borderRadius: 5,
+    width: '30%',
+    aspectRatio: 2 / 3,
+  },
+  imageAndTextSeparator: { width: scale(10) },
+  favoriteDetailsWrapper: { width: '67%' },
+  favoriteMovieTitle: {
+    fontSize: moderateScale(18),
+    fontWeight: '400',
+    color: Colors.white,
+  },
+  favoriteMovieReleaseYear: { color: Colors.alto, fontSize: moderateScale(14) },
+  titleAndGenreSeparator: { height: verticalScale(10) },
+  genreFlatList: { maxHeight: verticalScale(300), maxWidth: scale(250) },
+  runtime: {
+    color: Colors.white,
+    fontSize: moderateScale(17),
+  },
+  textInputSeparator: { height: verticalScale(30) },
 });
 
 export default styles;

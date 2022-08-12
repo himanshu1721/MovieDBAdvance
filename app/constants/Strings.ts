@@ -100,6 +100,17 @@ const strings = {
   date: 'Date : ',
   addToFavorites: 'Add to favorites',
   addedToFavorites: 'Added to favorites',
+  name: 'Name',
+  username: 'Username',
+  about: 'About',
+  showFavorite: 'Show favorite',
+  addYourBirthday: 'Add your birthday',
+  editProfile: 'Edit Profile',
+  myProfile: 'My Profile',
+  warning: 'Warning',
+  cannotChangeDOBLater: 'You cannot change your Date of Birth Later',
+  cancel: 'cancel',
+  ok: 'ok',
 };
 
 export default strings;

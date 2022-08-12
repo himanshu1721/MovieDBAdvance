@@ -24,6 +24,9 @@ const images = {
   profile: require('./profile.png'),
   profileLime: require('./profileLime.png'),
   shrug: require('./shrug.png'),
+  close: require('./close.png'),
+  tick: require('./tick.png'),
+  balloon: require('./balloon.png'),
 };
 
 export default images;

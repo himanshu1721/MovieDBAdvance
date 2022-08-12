@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -10,25 +10,44 @@ import {
   Text,
   View,
 } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { SvgUri } from 'react-native-svg';
 import { useDispatch, useSelector } from 'react-redux';
+import Icons from '../../assets/images';
 import DrawerIconComponent from '../../components/DrawerIconComponent';
-import GenreCard from '../../components/GenreCard';
 import HeaderTitle from '../../components/HeaderTitle';
+import { Strings } from '../../constants';
 import AppConstants from '../../constants/AppConstants';
 import { updateProfile } from '../../features/profile/profileSlice';
 import { useCurrentUserDetails } from '../../hooks/useCurrentUID';
-import { convertMinsToHrsMins } from '../../services/TimeUtils';
-import { moderateScale } from '../../themes';
+import { underAgeValidate } from '../../services/TimeUtils';
+import { Colors, moderateScale } from '../../themes';
 import CustomHeader from '../movieDetails/components/Header';
+import createTwoButtonAlert from './components/DateOfBirthAlert';
 import EditProfile from './components/EditProfileField';
 import EmptyFavorite from './components/EmptyFavoriteList';
+import FavoriteMovieCard from './components/FavoriteMovieCard';
 import styles from './styles/ProfileStyles';
 
 const ProfileScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [threads, setThreads] = useState([]);
+  const [date, setDate] = useState<Date>(new Date());
+  const [refreshing, setRefreshing] = useState<boolean>(false);
+  const { currentUserUID, currentUsername } = useCurrentUserDetails();
+  const name = useSelector(state => state.profile.name);
+  const username = useSelector(state => state.profile.username);
+  const about = useSelector(state => state.profile.about);
+  const dob = useSelector(state => state.profile.dob);
+  const isDOBAdded = useSelector(state => state.profile.isDOBAdded);
+  const [customName, setCustomName] = useState<string>('');
+  const [customUsername, setCustomUsername] = useState<string>('');
+  const [customAbout, setCustomAbout] = useState<string>('');
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [modalVisibleFav, setModalVisibleFav] = useState<boolean>(false);
+  const [modalVisibleDOB, setModalVisibleDOB] = useState<boolean>(false);
 
   const getUsers = async () => {
     const querySnap = await firestore()
@@ -44,13 +63,6 @@ const ProfileScreen = ({ navigation }) => {
     getUsers();
   }, [threads]);
 
-  const { currentUserUID, currentUsername } = useCurrentUserDetails();
-  const dispatch = useDispatch();
-
-  const name = useSelector(state => state.profile.name);
-  const username = useSelector(state => state.profile.username);
-  const about = useSelector(state => state.profile.about);
-
   const getUserProfileDetails = async () => {
     const user = await firestore()
       .collection('users')
@@ -58,8 +70,6 @@ const ProfileScreen = ({ navigation }) => {
       .get();
     dispatch(updateProfile(user.data()));
   };
-
-  const getRuntime = (runTime: number) => convertMinsToHrsMins(runTime);
 
   useEffect(() => {
     getUserProfileDetails();
@@ -70,20 +80,6 @@ const ProfileScreen = ({ navigation }) => {
     setCustomUsername(username);
     setCustomAbout(about);
   }, [name, username, about]);
-
-  const [customName, setCustomName] = useState('a');
-  const [customUsername, setCustomUsername] = useState('a');
-  const [customAbout, setCustomAbout] = useState('a');
-
-  const [usernameAlreadyTaken, setUsernameAlreadyTaken] = useState(false);
-
-  useEffect(() => {
-    setUsernameAlreadyTaken(checkUsername());
-  }, [customUsername]);
-
-  const checkUsername = async () => {
-    return await checkUsernameValid();
-  };
 
   const checkUsernameValid = async () => {
     const usernameExist = await firestore()
@@ -96,6 +92,21 @@ const ProfileScreen = ({ navigation }) => {
     } else if (!usernameExist.empty) {
       return false;
     }
+  };
+
+  const updateDOB = async () => {
+    firestore()
+      .collection('users')
+      .doc(`${currentUserUID}`)
+      .set({ isAdult: !underAgeValidate(date) }, { merge: true });
+    firestore()
+      .collection('users')
+      .doc(`${currentUserUID}`)
+      .set({ dob: date }, { merge: true });
+    firestore()
+      .collection('users')
+      .doc(`${currentUserUID}`)
+      .set({ isDOBAdded: true }, { merge: true });
   };
 
   const updateAbout = async () => {
@@ -115,28 +126,27 @@ const ProfileScreen = ({ navigation }) => {
       .set({ name: customName }, { merge: true });
   };
 
-  const [refreshing, setRefreshing] = React.useState(false);
+  const onDOBAdded = () => {
+    createTwoButtonAlert(() => {
+      updateDOB();
+      getUserProfileDetails();
+      setModalVisibleDOB(false);
+    });
+  };
 
-  const onRefresh = React.useCallback(() => {
+  const onRefresh = useCallback(() => {
     setRefreshing(true);
     setTimeout(() => {
       getUserProfileDetails();
       setRefreshing(false);
     }, 1500);
-    // wait(2000).then(() => );
   }, []);
 
-  const renderItem = ({ item }) => {
-    return <GenreCard genreName={item?.name} />;
-  };
-
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalVisibleFav, setModalVisibleFav] = useState(false);
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <CustomHeader
-          renderMiddle={<HeaderTitle title={'My Profile'} />}
+          renderMiddle={<HeaderTitle title={Strings.myProfile} />}
           renderIcon={
             <DrawerIconComponent onTap={() => navigation.openDrawer()} />
           }
@@ -145,13 +155,12 @@ const ProfileScreen = ({ navigation }) => {
         <ScrollView
           refreshControl={
             <RefreshControl
-              tintColor={'white'}
+              tintColor={Colors.white}
               refreshing={refreshing}
               onRefresh={onRefresh}
             />
           }
           bounces={true}>
-          <View style={{ height: '10%' }}></View>
           <View style={styles.subContainer}>
             <View style={styles.dpAndEditProfileContainer}>
               <View style={styles.dpAndNameContainer}>
@@ -159,7 +168,7 @@ const ProfileScreen = ({ navigation }) => {
                   <SvgUri
                     width={moderateScale(70)}
                     height={moderateScale(70)}
-                    uri={`https://avatars.dicebear.com/api/croodles/${currentUsername}20.svg`}
+                    uri={`${AppConstants.DICE_BEAR_API}${currentUsername}20.svg`}
                   />
                 </View>
                 <View style={styles.dpAndInfoSeparator} />
@@ -173,28 +182,74 @@ const ProfileScreen = ({ navigation }) => {
                   onPress={() => setModalVisible(true)}
                   activeOpacity={0.8}
                   style={styles.editProfileButton}>
-                  <Text style={styles.editProfileText}>Edit Profile</Text>
+                  <Text style={styles.editProfileText}>
+                    {Strings.editProfile}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
-
             <View style={styles.dpAndAboutSeparator} />
             <View style={styles.aboutContainer}>
               <Text style={styles.aboutStyles}>{about}</Text>
             </View>
             <View style={styles.dpAndAboutSeparator} />
+            <View style={styles.dobContainer}>
+              <Image source={Icons.balloon} style={styles.birthdayIcon} />
+              <Text style={styles.dateOfBirthTextStyles}>
+                {isDOBAdded && dob?.toDate()?.toDateString()}
+              </Text>
+              {!isDOBAdded && (
+                <TouchableOpacity onPress={() => setModalVisibleDOB(true)}>
+                  <Text style={{ color: Colors.blue }}>
+                    {Strings.addYourBirthday}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
           </View>
-          <View style={{ height: '100%' }} />
+          <View style={styles.profileAndFavoriteSeparator} />
           <View style={styles.favoritesContainer}>
             <Text style={styles.favoritesText}>Favorites</Text>
-            <View style={{ width: 10 }}></View>
+            <View style={styles.favoritesAndButtonSeparator} />
             <TouchableOpacity
               style={styles.showFavoriteButton}
               onPress={() => setModalVisibleFav(true)}>
-              <Text style={{ fontSize: moderateScale(15) }}>Show favorite</Text>
+              <Text style={{ fontSize: moderateScale(15) }}>
+                {Strings.showFavorite}
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
+        <Modal
+          presentationStyle="pageSheet"
+          style={styles.modal}
+          animationType="slide"
+          onRequestClose={() => {
+            setModalVisibleDOB(!modalVisibleDOB);
+          }}
+          visible={modalVisibleDOB}>
+          <View style={styles.modalContainer}>
+            <View style={styles.closeAndDoneContainer}>
+              <Pressable
+                onPress={() => setModalVisibleDOB(false)}
+                style={styles.closeButtonWrapper}>
+                <Image source={Icons.close} style={styles.closeButton} />
+              </Pressable>
+              <View style={styles.extraViewTop} />
+              <Pressable onPress={onDOBAdded} style={styles.closeButtonWrapper}>
+                <Image source={Icons.tick} style={styles.closeButton} />
+              </Pressable>
+            </View>
+            <View style={styles.datePickerContainer}>
+              <DatePicker
+                textColor={Colors.white}
+                mode="date"
+                date={date}
+                onDateChange={setDate}
+              />
+            </View>
+          </View>
+        </Modal>
         <Modal
           presentationStyle="pageSheet"
           style={styles.modal}
@@ -208,10 +263,7 @@ const ProfileScreen = ({ navigation }) => {
               <Pressable
                 onPress={() => setModalVisible(false)}
                 style={styles.closeButtonWrapper}>
-                <Image
-                  source={require('../../assets/images/close.png')}
-                  style={styles.closeButton}
-                />
+                <Image source={Icons.close} style={styles.closeButton} />
               </Pressable>
               <View style={styles.extraViewTop} />
               <Pressable
@@ -220,120 +272,61 @@ const ProfileScreen = ({ navigation }) => {
                   setModalVisible(false);
                 }}
                 style={styles.closeButtonWrapper}>
-                <Image
-                  source={require('../../assets/images/tick.png')}
-                  style={styles.closeButton}
-                />
+                <Image source={Icons.tick} style={styles.closeButton} />
               </Pressable>
             </View>
             <EditProfile
-              maxCharactersAllowed={22}
+              maxCharactersAllowed={AppConstants.nameLimit}
               currentCount={customName.length}
               value={customName}
-              title={'Name'}
+              title={Strings.name}
               onEditField={(text: string) => setCustomName(text)}
             />
-            <View style={{ height: 30 }}></View>
+            <View style={styles.textInputSeparator} />
             <EditProfile
-              maxCharactersAllowed={15}
+              maxCharactersAllowed={AppConstants.usernameLimit}
               currentCount={customUsername.length}
               value={customUsername}
-              title={'Username'}
+              title={Strings.username}
               onEditField={(text: string) => setCustomUsername(text)}
             />
-            <View style={{ height: 30 }}></View>
+            <View style={styles.textInputSeparator} />
             <EditProfile
-              maxCharactersAllowed={180}
+              maxCharactersAllowed={AppConstants.userAboutLimit}
               currentCount={customAbout.length}
-              title={'About'}
+              title={Strings.about}
               value={customAbout}
               onEditField={(text: string) => setCustomAbout(text)}
             />
             <View style={styles.dpAndAboutSeparator} />
-            <View style={styles.dpAndAboutSeparator} />
           </View>
         </Modal>
         <Modal
-          style={{ margin: 0 }}
           presentationStyle="pageSheet"
           animationType="slide"
           onRequestClose={() => {
             setModalVisibleFav(!modalVisibleFav);
           }}
           visible={modalVisibleFav}>
-          <View style={{ backgroundColor: '#363636', padding: 10 }}>
+          <View style={styles.modalStyles}>
             <View style={styles.closeAndDoneContainer}>
               <View style={styles.extraViewTop} />
               <Pressable
                 onPress={() => setModalVisibleFav(false)}
                 style={styles.closeButtonWrapper}>
-                <Image
-                  source={require('../../assets/images/close.png')}
-                  style={styles.closeButton}
-                />
+                <Image source={Icons.close} style={styles.closeButton} />
               </Pressable>
             </View>
-            <View style={{ height: '100%' }}>
+            <View style={styles.favoriteMoviesWrapper}>
               <FlatList
                 ListEmptyComponent={() => <EmptyFavorite />}
                 bounces={false}
                 ItemSeparatorComponent={() => (
-                  <View style={{ height: 20 }}></View>
+                  <View style={styles.itemSeparatorFavoriteMovies} />
                 )}
                 data={threads}
                 renderItem={({ item }) => {
-                  return (
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                      }}>
-                      <Image
-                        style={{
-                          borderRadius: 5,
-                          width: '30%',
-                          aspectRatio: 2 / 3,
-                        }}
-                        source={{
-                          uri: AppConstants.API_IMAGE + item?.poster_path,
-                        }}
-                      />
-                      <View style={{ width: '3%' }}></View>
-                      <View style={{ width: '67%' }}>
-                        <Text>
-                          <Text
-                            style={{
-                              fontSize: 18,
-                              fontWeight: '400',
-                              color: 'white',
-                            }}>
-                            {item?.title}
-                          </Text>
-                          <Text style={{ color: '#ddd', fontSize: 14 }}>
-                            ({item?.release_date?.substring(0, 4)})
-                          </Text>
-                        </Text>
-                        <View style={{ height: 10 }}></View>
-                        <View style={{ width: '80%' }}>
-                          <FlatList
-                            style={{ maxHeight: 300, maxWidth: 250 }}
-                            numColumns={4}
-                            data={item?.genres}
-                            renderItem={renderItem}
-                          />
-                        </View>
-                        <View style={{ height: 5 }}></View>
-                        <View>
-                          <Text
-                            style={{
-                              color: 'white',
-                              fontSize: 17,
-                            }}>
-                            Runtime - {getRuntime(item?.runtime)}
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-                  );
+                  return <FavoriteMovieCard item={item} />;
                 }}
               />
             </View>
