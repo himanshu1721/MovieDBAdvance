@@ -22,7 +22,9 @@ import {
   setHaveNotBeenRated,
 } from '../../features/detail/detailSlice';
 import { addMovieInRatingSection } from '../../features/rating/ratingSlice';
+import { useGetUserAdultStatus } from '../../hooks/useGetUserAdultStatus';
 import { Colors, moderateScale } from '../../themes';
+import AdultContentWarning from './components/AdultContent';
 import GenreList from './components/GenreList';
 import HeaderComponent from './components/Header';
 import ImageComponent from './components/ImageComponent';
@@ -60,6 +62,7 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(state => state.detail.loading);
   const currentUserUID = useSelector(state => state.auth.userUID);
+  const { isCurrentUserAdult } = useGetUserAdultStatus();
   const [modalVisible, setModalVisible] = useState(false);
 
   const [ifRatedByMeTheRating, setIfRatedByMeTheRating] = useState(0);
@@ -149,14 +152,21 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
     LinkingFunction(`${AppConstants.YOUTUBE_WATCH_BASE_URL}${z}`);
   };
 
+  const canViewContent = () => {
+    if (!movies?.adult) return true;
+    if (isCurrentUserAdult) return true;
+    else return false;
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderComponent backButton onTap={() => navigation.pop()} />
-      {isLoading ? (
+      {isLoading && (
         <View style={styles.subContainer}>
           <ActivityIndicator color={Colors.white} />
         </View>
-      ) : (
+      )}
+      {!isLoading && canViewContent() && (
         <ScrollView bounces={false}>
           <ImageComponent
             poster={movies?.poster_path}
@@ -175,8 +185,12 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
                 style={styles.watchTrailerButton}>
                 <View style={styles.extraViewWatchTrailer} />
                 <View>
-                  <Text style={styles.watchTrailerTextStyles}>Watch</Text>
-                  <Text style={styles.watchTrailerTextStyles}>Trailer</Text>
+                  <Text style={styles.watchTrailerTextStyles}>
+                    {Strings.watch}
+                  </Text>
+                  <Text style={styles.watchTrailerTextStyles}>
+                    {Strings.trailer}
+                  </Text>
                 </View>
                 <Image
                   style={{
@@ -288,6 +302,7 @@ const DetailScreen = ({ navigation, route }: DetailScreenProps) => {
           </View>
         </ScrollView>
       )}
+      {!isLoading && !canViewContent() && <AdultContentWarning />}
       <RateAMovieModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

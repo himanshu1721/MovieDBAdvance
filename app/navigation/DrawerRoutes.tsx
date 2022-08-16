@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import CustomDrawer from '../components/CustomDrawer';
 import { useCurrentUserDetails } from '../hooks/useCurrentUID';
+import { useGetUserProfile } from '../modules/profileScreen/hooks/useGetUserProfile';
 import RatedByMe from '../modules/ratedByMe/RatedByMe';
 import { Colors, moderateScale } from '../themes';
 import CommunityStack from './CommunityStack';
@@ -12,7 +13,12 @@ import TabRoutes from './TabRoutes';
 const Drawer = createDrawerNavigator();
 
 const DrawerRoutes = () => {
+  const { getUserProfileDetails } = useGetUserProfile();
   const { currentUserUID } = useCurrentUserDetails();
+
+  useEffect(() => {
+    getUserProfileDetails();
+  }, []);
 
   const appState = useRef(AppState.currentState);
 

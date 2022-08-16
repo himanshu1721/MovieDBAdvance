@@ -6,26 +6,31 @@ import {
   fetchTrendingApi,
 } from './Api';
 
+interface FetchListProps {
+  page: number;
+  isCurrentUserAdult: boolean;
+}
+
 export const fetchPopular = createAsyncThunk(
   ActionTypeConstants.fetchPopular,
-  async ({ page }: { page: number }) => {
-    const popular = await fetchPopularMoviesApi(page);
+  async ({ page, isCurrentUserAdult }: FetchListProps) => {
+    const popular = await fetchPopularMoviesApi({ page, isCurrentUserAdult });
     return popular.data;
   },
 );
 
 export const fetchPopularTV = createAsyncThunk(
   ActionTypeConstants.fetchPopularTV,
-  async ({ page }: { page: number }) => {
-    const result = await fetchPopularTVApi(page);
+  async ({ page, isCurrentUserAdult }: FetchListProps) => {
+    const result = await fetchPopularTVApi({ page, isCurrentUserAdult });
     return result.data;
   },
 );
 
 export const fetchTrending = createAsyncThunk(
   ActionTypeConstants.fetchTrending,
-  async ({ page }: { page: number }) => {
-    const result = await fetchTrendingApi(page);
+  async ({ page, isCurrentUserAdult }: FetchListProps) => {
+    const result = await fetchTrendingApi({ page, isCurrentUserAdult });
     return result.data;
   },
 );

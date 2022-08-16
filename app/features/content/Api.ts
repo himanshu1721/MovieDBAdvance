@@ -1,20 +1,34 @@
 import axios from 'axios';
 import AppConstants, { API_KEY } from '../../constants/AppConstants';
 
-export const fetchPopularMoviesApi = (payload: number) => {
+interface FetchListProps {
+  page: number;
+  isCurrentUserAdult: boolean;
+}
+
+export const fetchPopularMoviesApi = ({
+  page,
+  isCurrentUserAdult,
+}: FetchListProps) => {
   return axios.get(
-    `${AppConstants.BASE_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=${payload}`,
+    `${AppConstants.BASE_URL}${AppConstants.MOVIE_POPULAR}?${AppConstants.API}=${API_KEY}${AppConstants.INCLUDE_ADULT}${isCurrentUserAdult}${AppConstants.PAGE}${page}`,
   );
 };
 
-export const fetchPopularTVApi = (payload: number) => {
+export const fetchPopularTVApi = ({
+  page,
+  isCurrentUserAdult,
+}: FetchListProps) => {
   return axios.get(
-    `${AppConstants.BASE_URL}tv/popular?api_key=${API_KEY}&language=en-US&page=${payload}`,
+    `${AppConstants.BASE_URL}${AppConstants.TV_POPULAR}?${AppConstants.API}=${API_KEY}${AppConstants.INCLUDE_ADULT}${isCurrentUserAdult}${AppConstants.PAGE}${page}`,
   );
 };
 
-export const fetchTrendingApi = (payload: number) => {
+export const fetchTrendingApi = ({
+  page,
+  isCurrentUserAdult,
+}: FetchListProps) => {
   return axios.get(
-    `${AppConstants.BASE_URL}trending/movie/day?api_key=${API_KEY}&language=en-US&page=${payload}`,
+    `${AppConstants.BASE_URL}${AppConstants.TRENDING_MOVIE}/day?${AppConstants.API}=${API_KEY}${AppConstants.INCLUDE_ADULT}${isCurrentUserAdult}${AppConstants.PAGE}${page}`,
   );
 };

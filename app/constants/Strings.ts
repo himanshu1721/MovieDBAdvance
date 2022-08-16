@@ -111,6 +111,11 @@ const strings = {
   cannotChangeDOBLater: 'You cannot change your Date of Birth Later',
   cancel: 'cancel',
   ok: 'ok',
+  sorry: 'Sorry!',
+  adultContentWarning:
+    'The following media is intended only for audience over 18+',
+  watch: 'Watch',
+  trailer: 'trailer',
 };
 
 export default strings;
