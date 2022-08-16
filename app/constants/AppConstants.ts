@@ -5,6 +5,7 @@ const YOUTUBE_API_KEY = ENV.YOUTUBE_API_KEY;
 const AppConstants = {
   API_IMAGE: 'https://image.tmdb.org/t/p/w500',
   BASE_URL: 'https://api.themoviedb.org/3/',
+  DICE_BEAR_API: 'https://avatars.dicebear.com/api/croodles/',
   YOUTUBE_BASE_URL: 'https://youtube.googleapis.com/youtube/v3/',
   YOUTUBE_WATCH_BASE_URL: 'https://www.youtube.com/watch/',
   POPULAR_MOVIES_ENDPOINT: `movie/popular?api_key=${API_KEY}&language=en-US&page=1`,
@@ -23,6 +24,9 @@ const AppConstants = {
   LATEST_TRAILER_FOR_RENT: `discover/movie?api_key=${API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_watch_monetization_types=rent`,
   LATEST_TRAILER_IN_THEATRES: `movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`,
   LATEST_TRAILER_BACKGROUND_IMAGE: '/x747ZvF0CcYYTTpPRCoUrxA2cYy.jpg',
+  nameLimit: 22,
+  usernameLimit: 15,
+  userAboutLimit: 180,
 };
 
 export default AppConstants;

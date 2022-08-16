@@ -38,6 +38,9 @@ const colors = {
   skeletonBackground: '#696969',
   discoverSkeletonCard: '#ababab',
   transparent: 'transparent',
+  jet: '#363636',
+  raisinBlack: '#222',
+  outerSpace: '#474747',
 };
 
 export default colors;

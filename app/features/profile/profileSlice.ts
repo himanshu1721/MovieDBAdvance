@@ -4,8 +4,10 @@ const initialState = {
   name: '',
   username: '',
   about: '',
+  dob: new Date(),
   favoriteGenres: [],
   favoriteMovie: [],
+  isDOBAdded: false,
 };
 
 const profileSlice = createSlice({
@@ -13,10 +15,12 @@ const profileSlice = createSlice({
   initialState,
   reducers: {
     updateProfile: (state, action) => {
-      const { name, username, about } = action.payload;
+      const { name, username, about, dob, isDOBAdded } = action.payload;
       state.name = name;
       state.username = username;
       state.about = about;
+      state.dob = dob;
+      state.isDOBAdded = isDOBAdded;
     },
   },
   extraReducers: {},

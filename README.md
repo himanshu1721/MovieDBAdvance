@@ -4,7 +4,7 @@
 # MovieDB
 
 MovieDB is an application that uses the MovieDB API and is built with React Native. Users get list of Popular Movies, popular TV shows and trending movies that get updated every hour. User can click on a show/Movie to get additional information.
-The users can login with an account and rate movies and add the movie to their watchList. The State management of the application is done using Redux-Toolkit, it is the future of State management in React Native. Get started here [Redux-Toolkit](https://redux-toolkit.js.org/) 
+The users can login with an account and rate movies and add the movie to their watchList. The State management of the application is done using Redux-Toolkit, it is the future of State management in React Native. Get started here [Redux-Toolkit](https://redux-toolkit.js.org/)
 
 ## ReactNative
 
@@ -39,11 +39,15 @@ Use a little—or a lot. You can use React Native today in your existing Android
 
 ## Platforms
 
-Currently MovieDB runs on iPhone, iPad, and Android. 
+Currently MovieDB runs on iPhone, iPad, and Android.
 
 ## Tools used and their documentation
 
-- For creating user account [Firebase](https://rnfirebase.io/)
-- For storing User watchList and movie ratings [Firestore](https://rnfirebase.io/firestore/usage)
-- For State management -[Redux-Toolkit](https://redux-toolkit.js.org/)
-- Storage System [AsyncStorage](https://www.npmjs.com/package/@react-native-async-storage/async-storage)
+- [Firebase](https://rnfirebase.io/) to create user account
+- [Firestore](https://rnfirebase.io/firestore/usage) to store user watchList and movie ratings
+- [Redux-Toolkit](https://redux-toolkit.js.org/) for State management
+- [AsyncStorage](https://www.npmjs.com/package/@react-native-async-storage/async-storage) Storage System
+- [react-native-date-picker](https://github.com/henninghall/react-native-date-picker) to pick date of birth.
+- [@react-native-community/blur](https://github.com/Kureev/react-native-blur) to blur the background of a View.
+- [react-native-ratings](https://github.com/Monte9/react-native-ratings) to rate something.
+

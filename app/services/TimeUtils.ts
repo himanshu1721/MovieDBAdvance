@@ -51,6 +51,14 @@ export const returnDateMMDDYYYY = (date: string = Strings.space): string => {
   )}`;
 };
 
+//Check whether the user is 18+ or not
+export const underAgeValidate = (birthday: Date) => {
+  const diff = Date.now() - birthday.getTime();
+  const ageDate = new Date(diff);
+  let age = Math.abs(ageDate.getUTCFullYear() - 1970);
+  return age < 18;
+};
+
 export const convertMinsToHrsMins = (mins: number = 0): string => {
   const h = Math.floor(mins / 60);
   const m = Math.round(mins % 60);
