@@ -1,6 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import ActionTypeConstants from '../../constants/ActionTypeConstants';
-import { createUserAccount, loginTheUserApi, signUpUserApi } from './Api';
+import {
+  createUserAccount,
+  loginTheUserApi,
+  signInUserGoogleApi,
+  signUpUserApi,
+} from './Api';
 import { UserCredentials } from './types';
 
 export const loginTheUser = createAsyncThunk(
@@ -24,6 +29,18 @@ export const signUpUser = createAsyncThunk(
     createUserAccount({
       userEmail: result.user.email,
       userUID: result.user.uid,
+    });
+    return result;
+  },
+);
+
+export const signUpGoogle = createAsyncThunk(
+  ActionTypeConstants.signUpGoogle,
+  async () => {
+    const result = await signInUserGoogleApi();
+    createUserAccount({
+      userEmail: result.user.email,
+      userUID: result.user.id,
     });
     return result;
   },
