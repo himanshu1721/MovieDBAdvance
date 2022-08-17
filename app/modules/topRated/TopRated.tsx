@@ -8,6 +8,7 @@ import HeaderTitle from '../../components/HeaderTitle';
 import MovieBrief from '../../components/MovieBrief';
 import { Strings } from '../../constants';
 import { getTopRated } from '../../features/topRated/services';
+import { useGetUserAdultStatus } from '../../hooks/useGetUserAdultStatus';
 import NavigationProp from '../../types/NavigationTypes';
 import CustomHeader from '../movieDetails/components/Header';
 import styles from './styles/TopRatesStyles';
@@ -16,8 +17,9 @@ const TopRated = ({ navigation }: NavigationProp) => {
   const dispatch = useDispatch();
   const topRatedMovies = useSelector(state => state?.topRated?.topRatedMovies);
   const loading = useSelector(state => state?.topRated?.loading);
+  const { isCurrentUserAdult } = useGetUserAdultStatus();
   useEffect(() => {
-    dispatch(getTopRated());
+    dispatch(getTopRated({ isCurrentUserAdult }));
   }, []);
 
   const renderItem = ({ item }) => {

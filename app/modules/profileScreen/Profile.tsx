@@ -29,10 +29,10 @@ import createTwoButtonAlert from './components/DateOfBirthAlert';
 import EditProfile from './components/EditProfileField';
 import EmptyFavorite from './components/EmptyFavoriteList';
 import FavoriteMovieCard from './components/FavoriteMovieCard';
+import { useGetUserProfile } from './hooks/useGetUserProfile';
 import styles from './styles/ProfileStyles';
 
 const ProfileScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
   const [threads, setThreads] = useState([]);
   const [date, setDate] = useState<Date>(new Date());
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -48,6 +48,7 @@ const ProfileScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [modalVisibleFav, setModalVisibleFav] = useState<boolean>(false);
   const [modalVisibleDOB, setModalVisibleDOB] = useState<boolean>(false);
+  const { getUserProfileDetails } = useGetUserProfile();
 
   const getUsers = async () => {
     const querySnap = await firestore()
@@ -62,18 +63,6 @@ const ProfileScreen = ({ navigation }) => {
   useEffect(() => {
     getUsers();
   }, [threads]);
-
-  const getUserProfileDetails = async () => {
-    const user = await firestore()
-      .collection('users')
-      .doc(`${currentUserUID}`)
-      .get();
-    dispatch(updateProfile(user.data()));
-  };
-
-  useEffect(() => {
-    getUserProfileDetails();
-  }, []);
 
   useEffect(() => {
     setCustomName(name);
