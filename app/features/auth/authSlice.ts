@@ -1,6 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { loginTheUser, signUpUser } from './services';
-import { UserData } from './types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { loginTheUser, signUpGoogle, signUpUser } from './services';
+import {
+  AuthResponseGoogleSignInPayload,
+  AuthResponsePayload,
+  UserData,
+} from './types';
 
 const initialState: UserData = {
   user: false,
@@ -31,30 +35,54 @@ const authSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(loginTheUser.pending, state => {
+    builder.addCase(loginTheUser.pending, (state: UserData) => {
       state.loading = true;
     });
-    builder.addCase(loginTheUser.fulfilled, (state, action) => {
-      state.email = action.payload.user.email;
-      state.userUID = action.payload.user.uid;
-      state.user = true;
-      state.loading = false;
-    });
-    builder.addCase(loginTheUser.rejected, state => {
+    builder.addCase(
+      loginTheUser.fulfilled,
+      (state: UserData, action: PayloadAction<AuthResponsePayload>) => {
+        state.email = action.payload.user.email;
+        state.userUID = action.payload.user.uid;
+        state.user = true;
+        state.loading = false;
+      },
+    );
+    builder.addCase(loginTheUser.rejected, (state: UserData) => {
       state.error = true;
       state.loading = false;
     });
-
-    builder.addCase(signUpUser.pending, state => {
+    builder.addCase(signUpUser.pending, (state: UserData) => {
       state.loading = true;
     });
-    builder.addCase(signUpUser.fulfilled, (state, action) => {
-      state.email = action.payload.user.email;
-      state.userUID = action.payload.user.uid;
-      state.user = true;
+    builder.addCase(
+      signUpUser.fulfilled,
+      (state: UserData, action: PayloadAction<AuthResponsePayload>) => {
+        state.email = action.payload.user.email;
+        state.userUID = action.payload.user.uid;
+        state.user = true;
+        state.loading = false;
+      },
+    );
+    builder.addCase(signUpUser.rejected, (state: UserData) => {
+      state.error = true;
       state.loading = false;
     });
-    builder.addCase(signUpUser.rejected, state => {
+    builder.addCase(signUpGoogle.pending, (state: UserData) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      signUpGoogle.fulfilled,
+      (
+        state: UserData,
+        action: PayloadAction<AuthResponseGoogleSignInPayload>,
+      ) => {
+        state.email = action?.payload?.user?.email;
+        state.userUID = action?.payload?.user?.id;
+        state.user = true;
+        state.loading = false;
+      },
+    );
+    builder.addCase(signUpGoogle.rejected, (state: UserData) => {
       state.error = true;
       state.loading = false;
     });

@@ -116,6 +116,7 @@ const strings = {
     'The following media is intended only for audience over 18+',
   watch: 'Watch',
   trailer: 'trailer',
+  googleSignInFail: 'Some Error occurred. Please try again Later',
 };
 
 export default strings;

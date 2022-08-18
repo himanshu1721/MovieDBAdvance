@@ -1,5 +1,5 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useRef, useState } from 'react';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -7,6 +7,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   Text,
   TextInput,
   TouchableOpacity,
@@ -17,23 +18,39 @@ import { useDispatch, useSelector } from 'react-redux';
 import Icons from '../../assets/images';
 import { AuthErrors, AuthStrings, Strings } from '../../constants';
 import { clearError } from '../../features/auth/authSlice';
-import { loginTheUser, signUpUser } from '../../features/auth/services';
+import {
+  loginTheUser,
+  signUpGoogle,
+  signUpUser,
+} from '../../features/auth/services';
 import { AppDispatch } from '../../features/store';
 import Colors from '../../themes/Colors';
 import styles from './LoginScreenStyles';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [obsecureText, setObsecureText] = useState(true);
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [obsecureText, setObsecureText] = useState<boolean>(true);
   const passwordInput = useRef(null);
   const [isPasswordWeak, setIsPasswordWeak] = useState<boolean>(false);
-  const [emailFocus, setEmailFocus] = useState(false);
-  const [passwordFocus, setPasswordFocus] = useState(false);
-  const [isLoginScreen, setLoginScreen] = useState(true);
+  const [emailFocus, setEmailFocus] = useState<boolean>(false);
+  const [passwordFocus, setPasswordFocus] = useState<boolean>(false);
+  const [isLoginScreen, setLoginScreen] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
   const loading = useSelector(state => state.auth.loading);
   const error = useSelector(state => state.auth.error);
+
+  useEffect(() => {
+    GoogleSignin.configure();
+  }, []);
+
+  const signInGoogle = async () => {
+    try {
+      dispatch(signUpGoogle());
+    } catch (error) {
+      Alert.alert(Strings.googleSignInFail);
+    }
+  };
 
   const regexPassword = new RegExp(
     '^(((?=.*[a-z])(?=.*[0-9])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[!@#$%^&*])(?=.*[A-Z])(?=.*[0-9])))(?=.{8,})',
@@ -213,6 +230,9 @@ const LoginScreen = () => {
               </Text>
             </TouchableOpacity>
           )}
+          <Pressable onPress={signInGoogle}>
+            <Image source={Icons.google} style={styles.googleImageStyles} />
+          </Pressable>
         </KeyboardAvoidingView>
         <View style={styles.dontHaveAccountContainer}>
           <Text style={styles.dontHaveAccountStyles}>

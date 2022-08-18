@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { moderateScale, Colors } from '../../themes';
+import { Colors, moderateScale, verticalScale } from '../../themes';
 
 const styles = StyleSheet.create({
   weakPasswordTextStyles: {
@@ -12,6 +12,11 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(17),
     fontWeight: '500',
     color: Colors.alto,
+  },
+  googleImageStyles: {
+    marginTop: verticalScale(20),
+    width: moderateScale(35),
+    height: moderateScale(35),
   },
   weakPasswordContainer: {
     marginBottom: moderateScale(10),

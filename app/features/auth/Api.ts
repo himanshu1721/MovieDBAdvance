@@ -1,5 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { UserCredentials } from './types';
 
 const generateRandom = () => {
@@ -18,6 +19,12 @@ export const loginTheUserApi = ({
 
 export const signUpUserApi = ({ userEmail, userPassword }: UserCredentials) => {
   return auth().createUserWithEmailAndPassword(userEmail, userPassword);
+};
+
+export const signInUserGoogleApi = async () => {
+  await GoogleSignin.hasPlayServices();
+  const userInfo = await GoogleSignin.signIn();
+  return userInfo;
 };
 
 export const createUserAccount = async ({
