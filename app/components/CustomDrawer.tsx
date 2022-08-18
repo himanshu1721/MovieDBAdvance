@@ -18,7 +18,7 @@ type PropsType = {
 };
 
 const CustomDrawer = (props: PropsType) => {
-  const userData = useSelector(state => state?.auth?.email);
+  const userData = useSelector(state => state?.auth?.user);
   const dispatch = useDispatch();
 
   const logOutPressed = () =>

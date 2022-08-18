@@ -9,7 +9,6 @@ const strings = {
   oops: 'OOPS!',
   recheckEmailAndPass: 'Please recheck you email and password',
   OK: 'OK',
-
   homeScreenTitle: 'MovieDB',
   homeScreenNavigationButtonTitle: 'Go to next screen',
   movieDetailScreenText: 'Movie Detail',
@@ -117,6 +116,17 @@ const strings = {
   watch: 'Watch',
   trailer: 'trailer',
   googleSignInFail: 'Some Error occurred. Please try again Later',
+  sendCode: 'Send Code',
+  confirm: 'Confirm',
+  indiaCountryCode: '+91',
+  invalidPhone: 'Invalid Phone number',
+  invalidCode: 'Invalid code',
+  enterPhoneNumber: 'Enter phone number',
+  enterOTP: 'Enter OTP',
+
+  //Screen Names
+  loginScreen: 'LoginScreen',
+  phoneNumberScreen: 'PhoneNumberScreen',
 };
 
 export default strings;

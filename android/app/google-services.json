@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:743596881184:android:9fb9b6048d438ce5e61345",
+        "mobilesdk_app_id": "1:743596881184:android:e563176a3dc52f14e61345",
         "android_client_info": {
           "package_name": "com.moviedbadvance"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "743596881184-8m2425lv6bacev1vqcb62iq1uq03un0h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.moviedbadvance",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
         {
           "client_id": "743596881184-cmrtoos674bsqn4tike2no6p70hdk07c.apps.googleusercontent.com",
           "client_type": 3
