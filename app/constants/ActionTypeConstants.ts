@@ -20,6 +20,9 @@ const ActionTypeConstants = {
 
   topRated: 'topRated',
   getTopRated: 'topRated/getTopRated',
+
+  fetchPopularGenre: 'genre/fetchPopularGenre',
+  fetchTopRatedGenre: 'genre/fetchTopRatedGenre',
 };
 
 export default ActionTypeConstants;
