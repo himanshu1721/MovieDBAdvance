@@ -6,7 +6,7 @@ import {
   signInUserGoogleApi,
   signUpUserApi,
 } from './Api';
-import { UserCredentials } from './types';
+import { UserCredentials, UserUID } from './types';
 
 export const loginTheUser = createAsyncThunk(
   ActionTypeConstants.loginUser,
@@ -43,5 +43,16 @@ export const signUpGoogle = createAsyncThunk(
       userUID: result.user.id,
     });
     return result;
+  },
+);
+
+export const signUpPhone = createAsyncThunk(
+  ActionTypeConstants.signUpPhone,
+  async ({ uid }: UserUID) => {
+    createUserAccount({
+      userEmail: null,
+      userUID: uid,
+    });
+    return uid;
   },
 );

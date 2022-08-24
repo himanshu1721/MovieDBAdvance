@@ -28,6 +28,7 @@ const images = {
   tick: require('./tick.png'),
   balloon: require('./balloon.png'),
   google: require('./google.png'),
+  phone: require('./phone.png'),
 };
 
 export default images;

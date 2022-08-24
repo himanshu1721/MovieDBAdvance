@@ -1,10 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { loginTheUser, signUpGoogle, signUpUser } from './services';
 import {
   AuthResponseGoogleSignInPayload,
   AuthResponsePayload,
   UserData,
 } from './types';
+import {
+  loginTheUser,
+  signUpUser,
+  signUpGoogle,
+  signUpPhone,
+} from './services';
 
 const initialState: UserData = {
   user: false,
@@ -83,6 +88,23 @@ const authSlice = createSlice({
       },
     );
     builder.addCase(signUpGoogle.rejected, (state: UserData) => {
+      state.error = true;
+      state.loading = false;
+    });
+    builder.addCase(signUpPhone.pending, (state: UserData) => {
+      state.loading = true;
+    });
+    builder.addCase(
+      signUpPhone.fulfilled,
+      (state: UserData, action: PayloadAction<string>) => {
+        action.payload;
+        state.email = null;
+        state.userUID = action?.payload;
+        state.user = true;
+        state.loading = false;
+      },
+    );
+    builder.addCase(signUpPhone.rejected, (state: UserData) => {
       state.error = true;
       state.loading = false;
     });

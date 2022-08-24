@@ -71,3 +71,7 @@ export interface AuthResponseGoogleSignInPayload {
   serverAuthCode: string | null;
   user: GoogleSignupUser;
 }
+
+export interface UserUID {
+  uid: string;
+}

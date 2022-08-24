@@ -7,6 +7,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: Colors.cinnabar,
   },
+  signInOptionsContainer: {
+    flexDirection: 'row',
+    width: '40%',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
   passwordValidationContainer: { width: '80%', padding: moderateScale(5) },
   passwordValidationTextStyles: {
     fontSize: moderateScale(17),

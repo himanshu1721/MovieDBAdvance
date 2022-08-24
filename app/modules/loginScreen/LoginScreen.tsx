@@ -1,4 +1,5 @@
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -39,6 +40,7 @@ const LoginScreen = () => {
   const dispatch = useDispatch<AppDispatch>();
   const loading = useSelector(state => state.auth.loading);
   const error = useSelector(state => state.auth.error);
+  const navigation = useNavigation();
 
   useEffect(() => {
     GoogleSignin.configure();
@@ -50,6 +52,10 @@ const LoginScreen = () => {
     } catch (error) {
       Alert.alert(Strings.googleSignInFail);
     }
+  };
+
+  const signInPhone = async () => {
+    navigation.navigate(Strings.phoneNumberScreen);
   };
 
   const regexPassword = new RegExp(
@@ -230,9 +236,14 @@ const LoginScreen = () => {
               </Text>
             </TouchableOpacity>
           )}
-          <Pressable onPress={signInGoogle}>
-            <Image source={Icons.google} style={styles.googleImageStyles} />
-          </Pressable>
+          <View style={styles.signInOptionsContainer}>
+            <Pressable onPress={signInGoogle}>
+              <Image source={Icons.google} style={styles.googleImageStyles} />
+            </Pressable>
+            <Pressable onPress={signInPhone}>
+              <Image source={Icons.phone} style={styles.googleImageStyles} />
+            </Pressable>
+          </View>
         </KeyboardAvoidingView>
         <View style={styles.dontHaveAccountContainer}>
           <Text style={styles.dontHaveAccountStyles}>

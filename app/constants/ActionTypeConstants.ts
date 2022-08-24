@@ -3,6 +3,7 @@ const ActionTypeConstants = {
   loginUser: 'auth/loginUser',
   signUp: 'auth/signUp',
   signUpGoogle: 'auth/signUpGoogle',
+  signUpPhone: 'auth/signInPhone',
 
   popular: 'popular',
   trending: 'trending',
