@@ -3,11 +3,13 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import React, { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 import CustomDrawer from '../components/CustomDrawer';
+import { Strings } from '../constants';
 import { useCurrentUserDetails } from '../hooks/useCurrentUID';
 import { useGetUserProfile } from '../modules/profileScreen/hooks/useGetUserProfile';
 import RatedByMe from '../modules/ratedByMe/RatedByMe';
 import { Colors, moderateScale } from '../themes';
 import CommunityStack from './CommunityStack';
+import GenreStack from './GenreStack';
 import TabRoutes from './TabRoutes';
 
 const Drawer = createDrawerNavigator();
@@ -82,7 +84,7 @@ const DrawerRoutes = () => {
     <Drawer.Navigator
       drawerContent={props => <CustomDrawer {...props} />}
       screenOptions={{
-        swipeEdgeWidth: 0,
+        swipeEdgeWidth: 1,
         drawerLabelStyle: {
           color: Colors.white,
         },
@@ -98,10 +100,10 @@ const DrawerRoutes = () => {
             fontWeight: '500',
             letterSpacing: 0.2,
             fontSize: moderateScale(15),
-            color: 'white',
+            color: Colors.white,
           },
         }}
-        name="Home"
+        name={Strings.home}
         component={TabRoutes}
       />
       <Drawer.Screen
@@ -110,10 +112,10 @@ const DrawerRoutes = () => {
             fontWeight: '500',
             letterSpacing: 0.2,
             fontSize: moderateScale(15),
-            color: 'white',
+            color: Colors.white,
           },
         }}
-        name="Rated By Me"
+        name={Strings.ratedByMe}
         component={RatedByMe}
       />
       <Drawer.Screen
@@ -122,11 +124,23 @@ const DrawerRoutes = () => {
             fontWeight: '500',
             letterSpacing: 0.2,
             fontSize: moderateScale(15),
-            color: 'white',
+            color: Colors.white,
           },
         }}
-        name="Community"
+        name={Strings.community}
         component={CommunityStack}
+      />
+      <Drawer.Screen
+        options={{
+          drawerLabelStyle: {
+            fontWeight: '500',
+            letterSpacing: 0.2,
+            fontSize: moderateScale(15),
+            color: Colors.white,
+          },
+        }}
+        name={Strings.genres}
+        component={GenreStack}
       />
     </Drawer.Navigator>
   );
