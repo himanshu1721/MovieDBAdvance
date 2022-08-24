@@ -41,6 +41,7 @@ const colors = {
   jet: '#363636',
   raisinBlack: '#222',
   outerSpace: '#474747',
+  darkCerulean: '#154779',
 };
 
 export default colors;

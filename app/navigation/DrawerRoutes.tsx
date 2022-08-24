@@ -5,6 +5,7 @@ import { AppState } from 'react-native';
 import CustomDrawer from '../components/CustomDrawer';
 import { Strings } from '../constants';
 import { useCurrentUserDetails } from '../hooks/useCurrentUID';
+import GenreScreen from '../modules/genres/GenreScreen';
 import { useGetUserProfile } from '../modules/profileScreen/hooks/useGetUserProfile';
 import RatedByMe from '../modules/ratedByMe/RatedByMe';
 import { Colors, moderateScale } from '../themes';
