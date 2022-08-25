@@ -43,8 +43,10 @@ Currently MovieDB runs on iPhone, iPad, and Android.
 
 ## Tools used and their documentation
 
-- [Firebase](https://rnfirebase.io/) to create user account
-- [Firestore](https://rnfirebase.io/firestore/usage) to store user watchList and movie ratings
+- [Firebase/app](https://rnfirebase.io/) to access services from Firebase
+- [Firestore](https://rnfirebase.io/firestore/usage) NoSQL Database
+- [Auth](https://rnfirebase.io/auth/usage) to authenticate users
+- [Storage](https://rnfirebase.io/storage/usage) cloud storage
 - [Redux-Toolkit](https://redux-toolkit.js.org/) for State management
 - [AsyncStorage](https://www.npmjs.com/package/@react-native-async-storage/async-storage) Storage System
 - [react-native-date-picker](https://github.com/henninghall/react-native-date-picker) to pick date of birth.
