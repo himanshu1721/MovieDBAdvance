@@ -127,6 +127,13 @@ const strings = {
   //Screen Names
   loginScreen: 'LoginScreen',
   phoneNumberScreen: 'PhoneNumberScreen',
+  genreListScreen: 'GenreList',
+  genreMovies: 'GenreMovies',
+  detailScreen: 'Detail',
+  home: 'Home',
+  ratedByMe: 'Rated By Me',
+  community: 'Community',
+  genres: 'Genres',
 };
 
 export default strings;
