@@ -15,6 +15,8 @@ import profileSlice from './profile/profileSlice';
 import otherProfileSlice from './otherProfile/otherProfileSlice';
 import genreTopRatedSlice from './genre/genreTopRatedSlice';
 import genrePopularSlice from './genre/genrePopularSlice';
+import peopleSlice from './people/PeopleSlice';
+import celebritySlice from './celebrity/celebrityDetailSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -33,6 +35,8 @@ const rootReducer = combineReducers({
   otherProfile: otherProfileSlice,
   genreTopRated: genreTopRatedSlice,
   genrePopular: genrePopularSlice,
+  people: peopleSlice,
+  celebrity: celebritySlice,
 });
 
 const persistConfig = {

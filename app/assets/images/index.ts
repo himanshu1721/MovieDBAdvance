@@ -29,6 +29,9 @@ const images = {
   balloon: require('./balloon.png'),
   google: require('./google.png'),
   phone: require('./phone.png'),
+  reel: require('./reel.png'),
+  male: require('./male.png'),
+  female: require('./female.png'),
 };
 
 export default images;

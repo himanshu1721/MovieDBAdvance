@@ -13,7 +13,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3968E10953E44F3D2F87DDC5 /* Pods_MovieDBAdvance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CADEF53558C9DAA30F0EA2 /* Pods_MovieDBAdvance.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		EBCBC9B02890103800499A65 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBCBC9AF2890103800499A65 /* GoogleService-Info.plist */; };
+		EB21351D28B37E3D00ADECF5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB21351C28B37E3C00ADECF5 /* GoogleService-Info.plist */; };
 		F9F02317BEA2135485E5E34E /* Pods_MovieDBAdvance_MovieDBAdvanceTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 456ADB7685FB6CE285C5C2B3 /* Pods_MovieDBAdvance_MovieDBAdvanceTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +44,7 @@
 		7768934AD4D5F2D8249A95A3 /* Pods-MovieDBAdvance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieDBAdvance.release.xcconfig"; path = "Target Support Files/Pods-MovieDBAdvance/Pods-MovieDBAdvance.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = MovieDBAdvance/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B930A4702AC0C6AF02F1186B /* Pods-MovieDBAdvance-MovieDBAdvanceTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MovieDBAdvance-MovieDBAdvanceTests.release.xcconfig"; path = "Target Support Files/Pods-MovieDBAdvance-MovieDBAdvanceTests/Pods-MovieDBAdvance-MovieDBAdvanceTests.release.xcconfig"; sourceTree = "<group>"; };
-		EBCBC9AF2890103800499A65 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EB21351C28B37E3C00ADECF5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -88,7 +88,7 @@
 		13B07FAE1A68108700A75B9A /* MovieDBAdvance */ = {
 			isa = PBXGroup;
 			children = (
-				EBCBC9AF2890103800499A65 /* GoogleService-Info.plist */,
+				EB21351C28B37E3C00ADECF5 /* GoogleService-Info.plist */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -246,7 +246,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				EBCBC9B02890103800499A65 /* GoogleService-Info.plist in Resources */,
+				EB21351D28B37E3D00ADECF5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -566,7 +566,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -631,7 +631,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",

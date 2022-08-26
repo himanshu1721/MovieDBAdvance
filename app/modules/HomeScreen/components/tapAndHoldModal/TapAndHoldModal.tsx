@@ -4,7 +4,7 @@ import Modal from 'react-native-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import AppConstants from '../../../../constants/AppConstants';
 import {onPressOut} from '../../../../features/focus/focusSlice';
-import TapAndHoldModalBackdrop from '../TapAndHoldModalBackdrop';
+import TapAndHoldModalBackdrop from '../../../../components/tapAndHoldModalBackdrop';
 import styles from './TapAndHoldModalStyles';
 
 const TapAndHoldModal = (): JSX.Element => {

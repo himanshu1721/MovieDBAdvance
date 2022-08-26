@@ -1,13 +1,12 @@
 import React from 'react';
-import { ActivityIndicator, ScrollView, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import ContentListWithHeading from '../../components/ContentListWithHeading/ContentListWithHeading';
 import DrawerIconComponent from '../../components/DrawerIconComponent';
-import { HomeScreenShowSkeleton } from '../../components/ShowCardSkeleton';
 import { Strings } from '../../constants';
 import NavigationProp from '../../types/NavigationTypes';
 import CustomHeader from '../movieDetails/components/Header';
 import MovieList from './components/MovieList';
-import SectionTitle from './components/SectionTitle';
 import TapAndHoldModal from './components/tapAndHoldModal/TapAndHoldModal';
 import { useGetData } from './hooks/useGetData';
 import { useGetLoading } from './hooks/useGetLoading';
@@ -27,42 +26,21 @@ const HomeScreen = ({ navigation }: NavigationProp) => {
             }
           />
           <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={styles.sectionContainer}>
-              <View style={styles.sectionTitleContainer}>
-                <SectionTitle title={Strings.popularNow} />
-              </View>
-              {popularLoading ? (
-                <View style={styles.loadingContainer}>
-                  <HomeScreenShowSkeleton />
-                </View>
-              ) : (
-                <MovieList contentIndex={0} isTV={false} data={popularData} />
-              )}
-            </View>
-            <View style={styles.sectionContainer}>
-              <View style={styles.sectionTitleContainer}>
-                <SectionTitle title={Strings.popularTV} />
-              </View>
-              {popularTVLoading ? (
-                <View style={styles.loadingContainer}>
-                  <HomeScreenShowSkeleton />
-                </View>
-              ) : (
-                <MovieList contentIndex={1} isTV={true} data={popularTVData} />
-              )}
-            </View>
-            <View style={styles.sectionContainer}>
-              <View style={styles.sectionTitleContainer}>
-                <SectionTitle title={Strings.trending} />
-              </View>
-              {trendingLoading ? (
-                <View style={styles.loadingContainer}>
-                  <ActivityIndicator size={'large'} />
-                </View>
-              ) : (
-                <MovieList contentIndex={2} data={trendingData} />
-              )}
-            </View>
+            <ContentListWithHeading
+              heading={Strings.popularNow}
+              loading={popularLoading}>
+              <MovieList contentIndex={0} isTV={false} data={popularData} />
+            </ContentListWithHeading>
+            <ContentListWithHeading
+              heading={Strings.popularTV}
+              loading={popularTVLoading}>
+              <MovieList contentIndex={1} isTV={true} data={popularTVData} />
+            </ContentListWithHeading>
+            <ContentListWithHeading
+              heading={Strings.trending}
+              loading={trendingLoading}>
+              <MovieList contentIndex={2} data={trendingData} />
+            </ContentListWithHeading>
             <View style={styles.bottomFiller} />
           </ScrollView>
         </View>

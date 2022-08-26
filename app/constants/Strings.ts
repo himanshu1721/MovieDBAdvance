@@ -123,6 +123,10 @@ const strings = {
   invalidCode: 'Invalid code',
   enterPhoneNumber: 'Enter phone number',
   enterOTP: 'Enter OTP',
+  movieStars: 'Movie Stars',
+  male: 'Male',
+  female: 'Female',
+  seeFilmography: 'See filmography',
 
   //Screen Names
   loginScreen: 'LoginScreen',
@@ -134,6 +138,9 @@ const strings = {
   ratedByMe: 'Rated By Me',
   community: 'Community',
   genres: 'Genres',
+  peopleListScreen: 'PeopleList',
+  people: 'People',
+  celebrityDetailScreen: 'CelebrityDetailScreen',
 };
 
 export default strings;
