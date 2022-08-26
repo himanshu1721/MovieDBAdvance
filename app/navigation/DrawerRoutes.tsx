@@ -10,6 +10,7 @@ import RatedByMe from '../modules/ratedByMe/RatedByMe';
 import { Colors, moderateScale } from '../themes';
 import CommunityStack from './CommunityStack';
 import GenreStack from './GenreStack';
+import PeopleStack from './PeopleStack';
 import TabRoutes from './TabRoutes';
 
 const Drawer = createDrawerNavigator();
@@ -141,6 +142,18 @@ const DrawerRoutes = () => {
         }}
         name={Strings.genres}
         component={GenreStack}
+      />
+      <Drawer.Screen
+        options={{
+          drawerLabelStyle: {
+            fontWeight: '500',
+            letterSpacing: 0.2,
+            fontSize: moderateScale(15),
+            color: Colors.white,
+          },
+        }}
+        name={Strings.people}
+        component={PeopleStack}
       />
     </Drawer.Navigator>
   );
