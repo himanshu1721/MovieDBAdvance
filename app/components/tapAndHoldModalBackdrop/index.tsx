@@ -10,7 +10,7 @@ const TapAndHoldModalBackdrop = ({ onTap }: TapAndHoldModalBackdropProps) => {
       <BlurView
         style={StyleSheet.absoluteFill}
         blurType="dark"
-        blurAmount={12}
+        blurAmount={9}
       />
     </Pressable>
   );
