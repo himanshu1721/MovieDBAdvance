@@ -114,6 +114,11 @@ const CelebrityDetailScreen = ({ navigation, route }) => {
                   label={details.known_for_department}
                 />
                 <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate(Strings.filmography, {
+                      id: route?.params?.id,
+                    })
+                  }
                   activeOpacity={0.8}
                   style={styles.filmographyContainer}>
                   <Text style={styles.filmographyTextStyles}>

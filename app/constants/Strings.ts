@@ -141,6 +141,7 @@ const strings = {
   peopleListScreen: 'PeopleList',
   people: 'People',
   celebrityDetailScreen: 'CelebrityDetailScreen',
+  filmography: 'FilmographyScreen',
 };
 
 export default strings;
