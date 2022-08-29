@@ -123,6 +123,7 @@ const strings = {
   invalidCode: 'Invalid code',
   enterPhoneNumber: 'Enter phone number',
   enterOTP: 'Enter OTP',
+  movieStars: 'Movie Stars',
 
   //Screen Names
   loginScreen: 'LoginScreen',
@@ -134,6 +135,8 @@ const strings = {
   ratedByMe: 'Rated By Me',
   community: 'Community',
   genres: 'Genres',
+  peopleListScreen: 'PeopleList',
+  people: 'People',
 };
 
 export default strings;
