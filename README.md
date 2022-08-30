@@ -53,4 +53,4 @@ Currently MovieDB runs on iPhone, iPad, and Android.
 - [@react-native-community/blur](https://github.com/Kureev/react-native-blur) to blur the background of a View.
 - [react-native-ratings](https://github.com/Monte9/react-native-ratings) to rate something.
 - [react-native-google-signIn](https://github.com/react-native-google-signin/google-signin) for Google SignIn.
-
+- [@react-native-community/blur] (https://github.com/Kureev/react-native-blur) for adding blur background.

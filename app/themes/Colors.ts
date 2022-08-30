@@ -21,7 +21,6 @@ const colors = {
   grey: '#808080',
   limeGreen: '#1ED5A9',
   lightGreen: '#C0FED0',
-  back: '#000000',
   lightBlack: '#161616',
   cyan: '#45B9FF',
   natureGreen: '#0EAB50',
@@ -41,6 +40,8 @@ const colors = {
   jet: '#363636',
   raisinBlack: '#222',
   outerSpace: '#474747',
+  darkCerulean: '#154779',
+  carbonBlack: 'rgba(0,0,0,0.5)',
 };
 
 export default colors;

@@ -1,20 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
   Image,
+  Pressable,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import Modal from 'react-native-modal';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import Icons from '../../assets/images/index';
+import TapAndHoldModalBackdrop from '../../components/tapAndHoldModalBackdrop';
 import { Strings } from '../../constants';
 import AppConstants from '../../constants/AppConstants';
 import { fetchDetail, fetchImages } from '../../features/celebrity/services';
 import { refactorDate } from '../../services';
+import { Colors } from '../../themes';
 import HeaderComponent from '../movieDetails/components/Header';
 import styles from './styles/CelebrityDetailScreenStyles';
 import {
@@ -28,11 +32,18 @@ const CelebrityDetailScreen = ({ navigation, route }) => {
   const loadingDetail = useSelector(state => state.celebrity.loadingDetails);
   const loadingImages = useSelector(state => state.celebrity.loadingImages);
   const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [focusImage, setFocusImage] = useState<string>('');
 
   useEffect(() => {
     dispatch(fetchImages({ id: route.params.id }));
     dispatch(fetchDetail({ id: route.params.id }));
   }, []);
+
+  const onPressPoster = (file_path: string) => {
+    setFocusImage(`${AppConstants.API_IMAGE}${file_path}`);
+    setShowModal(true);
+  };
 
   const PersonalDetail = ({ image_path, label }: PersonalDetailsProps) => {
     return (
@@ -41,17 +52,6 @@ const CelebrityDetailScreen = ({ navigation, route }) => {
         <View style={styles.iconAndTextSeparator} />
         <Text style={styles.detailTextStyles}>{label}</Text>
       </View>
-    );
-  };
-
-  const renderItem = ({ item }: ProfileProps) => {
-    return (
-      <Image
-        style={styles.posterStyles}
-        source={{
-          uri: `${AppConstants.API_IMAGE}${item?.file_path}`,
-        }}
-      />
     );
   };
 
@@ -70,7 +70,21 @@ const CelebrityDetailScreen = ({ navigation, route }) => {
                 ItemSeparatorComponent={() => (
                   <View style={styles.imageSeparator} />
                 )}
-                renderItem={renderItem}
+                renderItem={({ item }: ProfileProps) => {
+                  return (
+                    <Pressable
+                      delayLongPress={100}
+                      onLongPress={() => onPressPoster(item?.file_path)}
+                      onPress={() => onPressPoster(item?.file_path)}>
+                      <Image
+                        style={styles.posterStyles}
+                        source={{
+                          uri: `${AppConstants.API_IMAGE}${item?.file_path}`,
+                        }}
+                      />
+                    </Pressable>
+                  );
+                }}
               />
             ) : (
               <View style={styles.activityIndicatorWrapper}>
@@ -118,6 +132,24 @@ const CelebrityDetailScreen = ({ navigation, route }) => {
             )}
           </View>
         </ScrollView>
+        <Modal
+          animationOut={'fadeOut'}
+          animationIn={'fadeIn'}
+          style={styles.modalStyles}
+          backdropColor={Colors.transparent}
+          backdropOpacity={1}
+          customBackdrop={
+            <TapAndHoldModalBackdrop onTap={() => setShowModal(false)} />
+          }
+          onBackdropPress={() => setShowModal(false)}
+          isVisible={showModal}>
+          <View style={styles.modalImageContainer}>
+            <Image
+              style={styles.modalImageStyles}
+              source={{ uri: focusImage }}
+            />
+          </View>
+        </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
   );

@@ -68,6 +68,23 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
     color: Colors.blue,
   },
+  modalStyles: {
+    shadowColor: Colors.carbonBlack,
+    shadowRadius: moderateScale(5),
+    shadowOffset: {
+      width: moderateScale(2),
+      height: moderateScale(2),
+    },
+    shadowOpacity: 0.6,
+  },
+  modalImageStyles: {
+    borderRadius: moderateScale(8),
+    width: '85%',
+    aspectRatio: 0.667,
+  },
+  modalImageContainer: {
+    alignSelf: 'center',
+  },
 });
 
 export default styles;

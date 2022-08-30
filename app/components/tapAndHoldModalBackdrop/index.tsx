@@ -1,11 +1,8 @@
 import { BlurView } from '@react-native-community/blur';
 import React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
-import styles from '../styles/TapAndHoldModalBackdropStyles';
-
-interface TapAndHoldModalBackdropProps {
-  onTap: () => void;
-}
+import styles from './styles';
+import { TapAndHoldModalBackdropProps } from './types';
 
 const TapAndHoldModalBackdrop = ({ onTap }: TapAndHoldModalBackdropProps) => {
   return (
@@ -13,7 +10,7 @@ const TapAndHoldModalBackdrop = ({ onTap }: TapAndHoldModalBackdropProps) => {
       <BlurView
         style={StyleSheet.absoluteFill}
         blurType="dark"
-        blurAmount={12}
+        blurAmount={9}
       />
     </Pressable>
   );

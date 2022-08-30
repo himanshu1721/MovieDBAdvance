@@ -19,7 +19,7 @@ const ActionTypeConstants = {
   fetchTopRatedGenre: 'genre/fetchTopRatedGenre',
   fetchPeople: 'people/fetchPeople',
   fetchPeopleImages: 'celebrity/fetchImages',
-  fetchPeopleDetails: 'celebrity/fetchDetail'
+  fetchPeopleDetails: 'celebrity/fetchDetail',
 };
 
 export default ActionTypeConstants;
