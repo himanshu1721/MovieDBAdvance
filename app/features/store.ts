@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import thunkMiddleware from 'redux-thunk';
 import authSlice from './auth/authSlice';
+import celebritySlice from './celebrity/celebrityDetailSlice';
 import popularSlice from './content/popularSlice';
 import popularTVSlice from './content/popularTVSlice';
 import trendingSlice from './content/trendingSlice';
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   genreTopRated: genreTopRatedSlice,
   genrePopular: genrePopularSlice,
   people: peopleSlice,
+  celebrity: celebritySlice,
 });
 
 const persistConfig = {
