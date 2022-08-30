@@ -21,6 +21,7 @@ const AppConstants = {
   POPULAR_PEOPLE: `person/popular?api_key=${API_KEY}&language=en-US&page=`,
   MOVIE: 'movie/',
   TV: 'tv/',
+  PERSON: 'person/',
   MOVIE_TRAILING_ENDPOINT: `?api_key=${API_KEY}&language=en-US`,
   MONETIZATION_FREE: '&with_watch_monetization_types=free',
   TOP_RATED_GENRE_ENDPOINT:
@@ -39,6 +40,7 @@ const AppConstants = {
   API: 'api_key',
   PAGE: '&page=',
   INCLUDE_ADULT: '&language=en-US&include_adult=',
+  PEOPLE_IMAGES: `/images?api_key=${API_KEY}`,
   nameLimit: 22,
   usernameLimit: 15,
   userAboutLimit: 180,

@@ -1,12 +1,20 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
+import { Strings } from '../../../constants';
 import AppConstants from '../../../constants/AppConstants';
 import styles from '../styles/MovieStarCardStyles';
 import { MovieStarCardProps } from '../types/MovieStarsTypes';
 
 const MovieStarCard = ({ item }: MovieStarCardProps) => {
+  const navigation = useNavigation();
+
   return (
-    <View style={styles.container}>
+    <Pressable
+      onPress={() =>
+        navigation.navigate(Strings.celebrityDetailScreen, { id: item?.id })
+      }
+      style={styles.container}>
       <Image
         style={styles.imageStyles}
         source={{
@@ -16,7 +24,7 @@ const MovieStarCard = ({ item }: MovieStarCardProps) => {
       <View style={styles.nameWrapper}>
         <Text style={styles.nameTextStyles}>{item?.name}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
