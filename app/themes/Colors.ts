@@ -41,6 +41,9 @@ const colors = {
   jet: '#363636',
   raisinBlack: '#222',
   outerSpace: '#474747',
+  darkSlateBlue: '#473496',
+  iris: '#634cc1',
+  chineseBlack: '#111',
 };
 
 export default colors;

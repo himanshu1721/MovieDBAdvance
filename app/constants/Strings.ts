@@ -128,6 +128,9 @@ const strings = {
   female: 'Female',
   seeFilmography: 'See filmography',
   celebrity: 'celebrity',
+  message: 'Message',
+  online: 'online',
+  lastSeen: 'last seen',
 
   //Screen Names
   loginScreen: 'LoginScreen',
@@ -142,6 +145,9 @@ const strings = {
   peopleListScreen: 'PeopleList',
   people: 'People',
   celebrityDetailScreen: 'CelebrityDetailScreen',
+  chatScreen: 'ChatScreen',
+  communityScreen: 'CommunityScreen',
+  otherProfile: 'OtherProfile',
 };
 
 export default strings;

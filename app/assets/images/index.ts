@@ -32,6 +32,7 @@ const images = {
   reel: require('./reel.png'),
   male: require('./male.png'),
   female: require('./female.png'),
+  send: require('./send.png'),
 };
 
 export default images;

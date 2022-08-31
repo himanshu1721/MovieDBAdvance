@@ -1,10 +1,12 @@
-import { useNavigation } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { SvgUri } from 'react-native-svg';
 import { useDispatch } from 'react-redux';
+import { Strings } from '../../constants';
 import { getOtherUserProfile } from '../../features/otherProfile/otherProfileSlice';
 import { moderateScale } from '../../themes';
 import HeaderComponent from '../movieDetails/components/Header';
@@ -12,9 +14,10 @@ import { useOtherUserDetails } from './hooks/useOtherUserDetails';
 import styles from './styles/OtherProfileStyles';
 
 const OtherProfile = ({ route }) => {
-  const { name, username, about, isOnline, uid } = useOtherUserDetails();
-  const [isUserOnline, setIsUserOnline] = useState(false);
-  const [lastSeen, setLastSeen] = useState('');
+  const dispatch = useDispatch();
+  const { name, username, about, uid } = useOtherUserDetails();
+  const [isUserOnline, setIsUserOnline] = useState<boolean>(false);
+  const [lastSeen, setLastSeen] = useState<string>('');
 
   useEffect(() => {
     const subscriber = firestore()
@@ -29,8 +32,6 @@ const OtherProfile = ({ route }) => {
     return () => subscriber();
   }, [uid]);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getOtherUserProfile({ id: route?.params?.uid }));
   }, [route?.params?.uid]);
@@ -44,7 +45,9 @@ const OtherProfile = ({ route }) => {
             <View style={styles.usernameAndLastSeenContainer}>
               <Text style={styles.usernameTextStyles}>@{username}</Text>
               <Text style={styles.lastSeenTextStyles}>
-                {isUserOnline ? 'online' : `last seen ${lastSeen}`}
+                {isUserOnline
+                  ? Strings.online
+                  : `${Strings.lastSeen} ${lastSeen}`}
               </Text>
             </View>
           }
@@ -72,6 +75,10 @@ const OtherProfile = ({ route }) => {
             <Text style={styles.aboutStyles}>{about}</Text>
           </View>
           <View style={styles.dpAndAboutSeparator} />
+          <TouchableOpacity
+            onPress={() => navigation.navigate(Strings.chatScreen)}>
+            <Text style={styles.messageTextStyles}>{Strings.message}</Text>
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
