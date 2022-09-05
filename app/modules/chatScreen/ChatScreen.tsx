@@ -1,6 +1,8 @@
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  Alert,
   FlatList,
   Image,
   KeyboardAvoidingView,
@@ -11,6 +13,11 @@ import {
   View,
 } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
+import {
+  ImageLibraryOptions,
+  launchImageLibrary,
+} from 'react-native-image-picker';
+import Modal from 'react-native-modal';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Icons from '../../assets/images';
 import { Strings } from '../../constants';
@@ -31,6 +38,8 @@ const ChatScreen = ({ navigation }) => {
   const [thread, setThread] = useState([]);
   const textInputRef = useRef(null);
   const { isUserOnline, lastSeen } = useChatDetails();
+  const [imageSelected, setImageSelected] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   useEffect(() => {
     const docid = returnConversationID({
@@ -49,6 +58,8 @@ const ChatScreen = ({ navigation }) => {
           createdAt: document.data().createdAt,
           senderUID: document.data().senderUID,
           messageTime: document.data().messageTime,
+          imageUrl: document.data().imageUrl,
+          type: document.data().type,
         }));
         setThread(messageData);
       });
@@ -65,6 +76,7 @@ const ChatScreen = ({ navigation }) => {
       .doc(`${docid}`)
       .collection('chatMessages')
       .add({
+        type: 0,
         text: textMessage,
         createdAt: firestore.FieldValue.serverTimestamp(),
         senderUID: currentUserUID,
@@ -75,14 +87,75 @@ const ChatScreen = ({ navigation }) => {
       });
   };
 
-  const renderItem = ({ item }: { item: TextMessageProps }) => {
-    return (
-      <ChatMessageCard
-        isMe={item?.senderUID === currentUserUID}
-        text={item?.text}
-        messageTime={item?.messageTime}
-      />
+  const selectPicture = async () => {
+    const imageLibraryOptions: ImageLibraryOptions = {
+      mediaType: 'photo',
+      quality: 0.9,
+    };
+    launchImageLibrary(
+      imageLibraryOptions,
+      async function (responseObject: any) {
+        if (responseObject && responseObject.assets) {
+          const picUri = responseObject.assets[0]?.uri;
+          setImageUrl(picUri);
+          setImageSelected(true);
+        }
+      },
     );
+  };
+
+  const onHitSendImage = async () => {
+    uploadImage();
+  };
+
+  const uploadImage = async () => {
+    storage()
+      .ref()
+      .child(`/chatPhotos/${Math.random()}`)
+      .putFile(imageUrl)
+      .on(
+        'state_changed',
+        snapshot => {
+          var progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          // if (progress === 100) Alert.alert('Image uploaded');
+          snapshot.ref.getDownloadURL().then(downloadURL => {
+            // setPictureUrl(downloadURL);
+            uploadImage2(downloadURL);
+          });
+        },
+        error => {
+          Alert.alert('error uploading image');
+        },
+      );
+  };
+
+  const uploadImage2 = async pic => {
+    const docid = returnConversationID({
+      senderUID: currentUserUID,
+      receiverUID: uid,
+    });
+    const media = {
+      type: 1,
+      imageUrl: pic,
+      text: null,
+      createdAt: firestore.FieldValue.serverTimestamp(),
+      senderUID: currentUserUID,
+      messageTime: new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    };
+    firestore()
+      .collection('messages')
+      .doc(`${docid}`)
+      .collection('chatMessages')
+      .add(media);
+    setImageSelected(false);
+  };
+
+  const renderItem = ({ item }: { item: TextMessageProps }) => {
+    return <ChatMessageCard item={item} />;
   };
 
   return (
@@ -115,7 +188,7 @@ const ChatScreen = ({ navigation }) => {
                 maxToRenderPerBatch={20}
                 data={thread}
                 initialNumToRender={15}
-                keyExtractor={item => String(item.createdAt)}
+                keyExtractor={item => `${Math.random()}${item?.createdAt}`}
                 renderItem={renderItem}
               />
             </View>
@@ -130,11 +203,18 @@ const ChatScreen = ({ navigation }) => {
             />
             <TouchableOpacity
               onPress={() => {
+                selectPicture();
+              }}
+              activeOpacity={0.8}
+              style={styles.sendIconWrapper}>
+              <Image style={styles.cameraIcon} source={Icons.camera} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
                 if (msg.trim()) {
                   sendMessage(msg.trim());
                 }
                 textInputRef?.current?.clear();
-                setMsg('');
               }}
               activeOpacity={0.8}
               style={styles.sendIconWrapper}>
@@ -142,6 +222,24 @@ const ChatScreen = ({ navigation }) => {
             </TouchableOpacity>
           </View>
         </KeyboardAvoidingView>
+        <Modal
+          onBackdropPress={() => setImageSelected(false)}
+          isVisible={imageSelected}>
+          <View>
+            <Image
+              style={{ width: 250, height: 300, alignSelf: 'center' }}
+              source={{ uri: imageUrl }}
+            />
+            <TouchableOpacity
+              onPress={() => {
+                onHitSendImage();
+              }}
+              activeOpacity={0.8}
+              style={{ alignSelf: 'center' }}>
+              <Image style={styles.sendIcon} source={Icons.send} />
+            </TouchableOpacity>
+          </View>
+        </Modal>
       </SafeAreaView>
     </SafeAreaProvider>
   );

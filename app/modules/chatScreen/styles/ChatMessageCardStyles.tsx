@@ -5,9 +5,9 @@ const styles = StyleSheet.create({
   cardStylesSenderMe: { borderTopLeftRadius: 0, alignSelf: 'flex-start' },
   cardStylesSenderNotMe: { borderBottomRightRadius: 0, alignSelf: 'flex-end' },
   cardStyles: {
-    padding: moderateScale(10),
+    paddingHorizontal: moderateScale(7),
     paddingVertical: verticalScale(7),
-    borderRadius: moderateScale(10),
+    borderRadius: moderateScale(5),
     width: '70%',
     marginBottom: verticalScale(10),
   },

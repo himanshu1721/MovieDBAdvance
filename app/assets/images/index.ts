@@ -33,6 +33,7 @@ const images = {
   male: require('./male.png'),
   female: require('./female.png'),
   send: require('./send.png'),
+  camera: require('./camera.png'),
 };
 
 export default images;
