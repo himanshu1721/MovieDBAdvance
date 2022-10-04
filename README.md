@@ -6,6 +6,9 @@
 MovieDB is an application that uses the MovieDB API and is built with React Native. Users get list of Popular Movies, popular TV shows and trending movies that get updated every hour. User can click on a show/Movie to get additional information.
 The users can login with an account and rate movies and add the movie to their watchList. The State management of the application is done using Redux-Toolkit, it is the future of State management in React Native. Get started here [Redux-Toolkit](https://redux-toolkit.js.org/)
 
+## Release APK
+https://github.com/himanshu1721/MovieDBAdvance/blob/feature/Generate_APK/android/app/release/MovieDB.apk
+
 ## ReactNative
 
 ReactNative is evolving everyday and It's the best tool to develop cross-platform Apps
