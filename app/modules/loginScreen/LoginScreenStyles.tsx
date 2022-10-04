@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     width: moderateScale(22),
   },
   passwordTextInput: {
+    color: Colors.black,
     letterSpacing: 1,
     paddingHorizontal: 10,
     fontSize: moderateScale(18, 0.4),
@@ -78,9 +79,9 @@ const styles = StyleSheet.create({
   },
 
   loginStyles: {
-    fontSize: moderateScale(20),
+    fontSize: moderateScale(18),
     color: Colors.white,
-    fontWeight: '600',
+    fontWeight: '500',
   },
   disabledLoginStyles: {
     opacity: 0.3,
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.natureGreen,
   },
   emailTextInputStyles: {
+    color: Colors.black,
     letterSpacing: 1,
     fontSize: moderateScale(18, 0.4),
     height: moderateScale(45),
@@ -120,6 +122,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.periwinkleGray,
   },
   emailTextInputStylesFocus: {
+    color: Colors.black,
     letterSpacing: 1,
     fontSize: moderateScale(18, 0.4),
     height: moderateScale(45),

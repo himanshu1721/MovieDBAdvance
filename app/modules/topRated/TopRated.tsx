@@ -57,7 +57,6 @@ const TopRated = ({ navigation }: NavigationProp) => {
               ItemSeparatorComponent={() => (
                 <View style={styles.itemSeparator} />
               )}
-              decelerationRate={2}
               keyExtractor={item => item?.id}
               showsVerticalScrollIndicator={false}
               data={topRatedMovies}

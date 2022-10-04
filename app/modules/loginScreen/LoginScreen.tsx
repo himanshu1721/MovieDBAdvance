@@ -150,7 +150,6 @@ const LoginScreen = () => {
             autoCorrect={false}
             onSubmitEditing={textInputSubmitEmail}
             returnKeyType="next"
-            keyboardType="email-address"
             placeholder={Strings.enterEmail}
             placeholderTextColor={Colors.scorpion}
             style={
@@ -236,14 +235,14 @@ const LoginScreen = () => {
               </Text>
             </TouchableOpacity>
           )}
-          <View style={styles.signInOptionsContainer}>
+          {/* <View style={styles.signInOptionsContainer}>
             <Pressable onPress={signInGoogle}>
               <Image source={Icons.google} style={styles.googleImageStyles} />
             </Pressable>
             <Pressable onPress={signInPhone}>
               <Image source={Icons.phone} style={styles.googleImageStyles} />
             </Pressable>
-          </View>
+          </View> */}
         </KeyboardAvoidingView>
         <View style={styles.dontHaveAccountContainer}>
           <Text style={styles.dontHaveAccountStyles}>

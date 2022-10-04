@@ -1,9 +1,7 @@
-//import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { Colors } from '../../../themes';
 
-// create a component
 const EditProfile = ({
   currentCount = 10,
   value,
@@ -46,7 +44,8 @@ const EditProfile = ({
         maxLength={maxCharactersAllowed}
         value={value}
         onChangeText={onEditField}
-        placeholder="enter you name"
+        placeholder="Write here..."
+        placeholderTextColor={'#aaaaaa'}
         style={{
           paddingVertical: 0,
           width: '100%',
@@ -60,7 +59,6 @@ const EditProfile = ({
   );
 };
 
-// define your styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
